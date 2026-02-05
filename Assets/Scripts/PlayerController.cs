@@ -35,8 +35,7 @@ public class PlayerController : MonoBehaviour
 
         m_StartingPosition = transform.position;
         m_StartingRotation = transform.rotation;
-
-        
+ 
     }
 
     void Update()

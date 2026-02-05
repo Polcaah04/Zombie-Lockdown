@@ -4,13 +4,13 @@ public class Zombie : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private int m_Life;
-    private int m_MaxLife = 100;
+    private float m_MaxLife = 100;
     private int m_Damage;
-    private int m_MaxDamage = 5;
+    private float m_MaxDamage = 5;
 
     public float m_Speed = 2f;
-    public float m_ViewDistance = 6f;
-    public float m_AttackDistance = 1.5f;
+    public float m_ViewDistance = 2f;
+    public float m_AttackDistance = 1f;
     public float m_AttackTime = 1f;
 
     public LayerMask m_PlayerLayer;
@@ -22,7 +22,7 @@ public class Zombie : MonoBehaviour
     private Vector2 m_PatrolTarget;
     private float m_AttackTimer;
 
-    private float m_IdleTime = 1.5f;
+    private float m_IdleTime = 1f;
     private float m_IdleTimer;
 
     enum TState
@@ -38,7 +38,9 @@ public class Zombie : MonoBehaviour
 
     void Start()
     {
-        m_Life = m_MaxLife;
+        m_MaxLife *= GameManager.GetGameManager().GetLifeMuliplier();
+        m_Life = (int)m_MaxLife;
+        m_Speed *= GameManager.GetGameManager().GetSpeedMultiplier();
         rb = GetComponent<Rigidbody2D>();
         l_Player = GameManager.GetGameManager().GetPlayer();
         if(l_Player == null)
@@ -52,7 +54,6 @@ public class Zombie : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_State);
         switch (m_State)
         {
             case TState.IDLE: UpdateIdleState();

@@ -19,9 +19,9 @@ public class GameManager : MonoBehaviour
     public float m_GameTime;
     int m_DifficultyChangeInterval = 60;
     int m_DifficultyFixChange = 60;
-    int m_Difficulty = 1;
+    float m_Difficulty = 0;
     int m_MaxDifficult = 10;
-    int m_DifficultyMultiplier = 1;
+    int m_BaseMultiplier = 1;
 
     public int m_Coins { get; private set; } = 0;
 
@@ -43,11 +43,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Mathf.Round(m_GameTime) > m_DifficultyChangeInterval && m_Difficulty < m_MaxDifficult)
+        m_GameTime = Time.time;
+        if (m_GameTime > m_DifficultyChangeInterval && m_Difficulty < m_MaxDifficult)
         {
             Debug.Log(m_GameTime);
             m_Difficulty++;
             m_DifficultyChangeInterval += m_DifficultyFixChange;
+            m_ZombieLifeMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
+            m_ZombieSpeedMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
         }
     }
 
@@ -69,5 +72,20 @@ public class GameManager : MonoBehaviour
     void AddCoins(int coinsCollected)
     {
         m_Coins += coinsCollected;
+    }
+
+    public float GetLifeMuliplier()
+    {
+        return m_ZombieLifeMultiplier;
+    }
+
+    public float GetSpeedMultiplier()
+    {
+        return m_ZombieSpeedMultiplier;
+    }
+
+    public float GetSpawnRateMultiplier()
+    {
+        return m_ZombieSpawnRateMultiplier;
     }
 }
