@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4757021334340996585}
   - component: {fileID: 8698993489713464853}
   - component: {fileID: 4145538521812897102}
-  - component: {fileID: 7138519563939008993}
   - component: {fileID: 5226845262566340912}
   - component: {fileID: 2928465878623289631}
+  - component: {fileID: -892437809551795064}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -92,28 +92,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7138519563939008993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8594345147568461736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 682abf6c2ff4bf74da229ef26e2c49e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Zombie
-  m_Speed: 0.5
-  m_ViewDistance: 2
-  m_AttackDistance: 1
-  m_AttackTime: 1
-  m_PlayerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ObstacleLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!50 &5226845262566340912
 Rigidbody2D:
   serializedVersion: 5
@@ -177,3 +155,26 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.49999997
+--- !u!114 &-892437809551795064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594345147568461736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682abf6c2ff4bf74da229ef26e2c49e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Zombie
+  m_Speed: 2
+  m_ViewDistance: 2
+  m_AttackDistance: 1
+  m_AttackTime: 1
+  m_PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ObstacleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  m_PatrolPoints: []

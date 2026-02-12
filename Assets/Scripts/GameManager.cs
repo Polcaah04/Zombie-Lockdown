@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Net.NetworkInformation;
 using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
     enum TState
     {
-        PLAYING = 0,
+        PLAYINGROUNDS = 0,
+        RESTING,
+        WIN,
         GAMEOVER
     }
 
@@ -17,8 +21,13 @@ public class GameManager : MonoBehaviour
     static GameManager m_GameManager;
     PlayerController m_Player;
     public float m_GameTime;
+    private float m_RoundsTime;
+    private float m_RestingTime;
+    int m_RestingChangeInterval = 30;
     int m_DifficultyChangeInterval = 60;
     int m_DifficultyFixChange = 60;
+    int m_RestingFixChange = 30;
+    float m_RestDisplayedTime;
     float m_Difficulty = 0;
     int m_MaxDifficult = 10;
     int m_BaseMultiplier = 1;
@@ -39,20 +48,53 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        m_State = TState.PLAYINGROUNDS;
+    }
+
 
 
     private void Update()
     {
         m_GameTime = Time.time;
-        if (m_GameTime > m_DifficultyChangeInterval && m_Difficulty < m_MaxDifficult)
+
+
+        if(m_State == TState.PLAYINGROUNDS)
         {
-            Debug.Log(m_GameTime);
-            m_Difficulty++;
-            m_DifficultyChangeInterval += m_DifficultyFixChange;
-            m_ZombieLifeMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
-            m_ZombieSpeedMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
+            m_RoundsTime = m_GameTime - m_RestingTime;
+            if (m_RoundsTime > m_DifficultyChangeInterval && m_Difficulty < m_MaxDifficult)
+            {
+                m_Difficulty++;
+                m_DifficultyChangeInterval += m_DifficultyFixChange;
+                m_ZombieLifeMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
+                m_ZombieSpeedMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
+                m_State = TState.RESTING;             
+            }
+        }
+        else if (m_State == TState.RESTING)
+        {
+            m_RestingTime = m_GameTime - m_RoundsTime;
+            m_RestDisplayedTime += Time.deltaTime;
+            if (m_RestingTime > m_RestingChangeInterval)
+            {
+                m_RestDisplayedTime = 0;
+                m_RestingChangeInterval += m_RestingFixChange;
+                m_State = TState.PLAYINGROUNDS;
+            }
+        }
+
+        if(m_State == TState.WIN)
+        {
+
+        }
+        else if (m_State == TState.GAMEOVER)
+        {
+
         }
     }
+
+
 
     public static GameManager GetGameManager()
     {

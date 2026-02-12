@@ -15,6 +15,8 @@ public class Zombie : MonoBehaviour
 
     public LayerMask m_PlayerLayer;
     public LayerMask m_ObstacleLayer;
+    [SerializeField] private GameObject[] m_PatrolPoints;
+    private int m_RandomPoint;
 
     private Rigidbody2D rb;
     PlayerController l_Player;
@@ -27,8 +29,8 @@ public class Zombie : MonoBehaviour
 
     enum TState
     {
-        IDLE = 0,
-        PATROL,
+        //IDLE = 0,
+        PATROL = 0,
         CHASE,
         ATTACK,
         DIE
@@ -47,8 +49,10 @@ public class Zombie : MonoBehaviour
             l_Player = FindFirstObjectByType<PlayerController>();
 
         m_PatrolTarget = (Vector2)transform.position + (Vector2)transform.up * 3f;
+        m_PatrolPoints = GameObject.FindGameObjectsWithTag("Point");
+        m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
         m_IdleTimer = 0f;
-        m_State = TState.IDLE;
+        m_State = TState.PATROL;
     }
 
     // Update is called once per frame
@@ -56,58 +60,15 @@ public class Zombie : MonoBehaviour
     {
         switch (m_State)
         {
-            case TState.IDLE: UpdateIdleState();
-                break;
-            case TState.PATROL: UpdatePatrolState();
-                break;
-            case TState.CHASE: UpdateChaseState();
-                break;
-            case TState.ATTACK: UpdateAttackState();
-                break;
-            case TState.DIE: UpdateDieState();
-                break;
+            //case TState.IDLE: UpdateIdleState(); break;
+            case TState.PATROL: UpdatePatrolState(); break;
+            case TState.CHASE: UpdateChaseState(); break;
+            case TState.ATTACK: UpdateAttackState(); break;
+            case TState.DIE: UpdateDieState(); break;
         }
     }
 
-    void SetPatrolState()
-    {
-        m_PatrolTarget = (Vector2)transform.position + (Vector2)transform.up * 3f;
-        m_State = TState.PATROL;
-    }
-
-    void UpdatePatrolState()
-    {
-        float l_DistanceToTarget = Vector2.Distance(transform.position, m_PatrolTarget);
-
-        if (l_DistanceToTarget < 0.2f)
-        {
-            float rnd = Random.value;
-            if (rnd < 0.4f)
-            {
-                SetIdleState();
-                return;
-            }
-            else if (rnd < 0.7f)
-            {
-                transform.Rotate(0, 0, -30f);
-            }
-            else
-            {
-                transform.Rotate(0, 0, 30f);
-            }
-            m_PatrolTarget = (Vector2)transform.position + (Vector2)transform.up * 3f;
-            return;
-        }
-        rb.linearVelocity = transform.up * m_Speed;
-
-        if (SeesPlayer())
-        {
-            SetChaseState();
-        }
-
-    }
-
-    void SetIdleState()
+    /*void SetIdleState()
     {
         Debug.Log("SET IDLE");
         m_IdleTimer = 0f;
@@ -133,7 +94,49 @@ public class Zombie : MonoBehaviour
         {
             SetPatrolState();
         }
+    }*/
+
+    void SetPatrolState()
+    {
+        Debug.Log("SET PATROL");
+        m_PatrolTarget = (Vector2)transform.position + (Vector2)transform.up * 3f;
+        m_State = TState.PATROL;
     }
+
+    void UpdatePatrolState()
+    {
+        Debug.Log("UPDATE PATROL");
+        float l_DistanceToTarget = Vector2.Distance(transform.position, m_PatrolTarget);
+
+        /*if (l_DistanceToTarget < 0.2f)
+        {
+            float rnd = Random.value;
+            if (rnd < 0.4f)
+            {
+                SetIdleState();
+                return;
+            }
+            else if (rnd < 0.7f)
+            {
+                transform.Rotate(0, 0, -30f);
+            }
+            else
+            {
+                transform.Rotate(0, 0, 30f);
+            }
+            m_PatrolTarget = (Vector2)transform.position + (Vector2)transform.up * 3f;
+            return;
+        }*/
+        Movement();
+
+
+        if (SeesPlayer())
+        {
+            SetChaseState();
+        }
+    }
+
+    
 
     void SetChaseState()
     {
@@ -202,5 +205,19 @@ public class Zombie : MonoBehaviour
         RaycastHit2D l_Hit = Physics2D.Raycast(transform.position, l_Direction.normalized, m_ViewDistance, m_ObstacleLayer | m_PlayerLayer);
 
         return l_Hit && l_Hit.collider.CompareTag("Player");
+    }
+
+    void Movement()
+    {
+        rb.linearVelocity = Vector2.MoveTowards(transform.position, m_PatrolPoints[m_RandomPoint].transform.position, m_Speed * Time.deltaTime);
+        if (Vector2.Distance(transform.position, m_PatrolPoints[m_RandomPoint].transform.position) < 0.25)
+        {
+            m_IdleTime = Time.deltaTime;
+        }
+        if (m_IdleTime >= m_IdleTimer)
+        {
+            m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
+            m_IdleTime = 0;
+        }
     }
 }
