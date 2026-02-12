@@ -128,6 +128,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -892437809551795064, guid: 72b4589770eccd74d80865fe5ed9e1f9, type: 3}
+      propertyPath: m_Speed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -892437809551795064, guid: 72b4589770eccd74d80865fe5ed9e1f9, type: 3}
       propertyPath: m_PatrolPoints.Array.size
       value: 0
       objectReference: {fileID: 0}
