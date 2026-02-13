@@ -196,8 +196,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b4c4138f32b4841b407f439a56a553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  m_Speed: 2
   m_Life: 100
+  m_Speed: 2
+  m_MaxAmmo: 30
+  m_CurrentAmmo: 0
+  m_MaxAmmoOnBack: 120
+  m_CurrentAmmoOnBack: 0
+  m_Weapon: {fileID: 1783205844988300226}
 --- !u!58 &5797561375362596300
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -5,25 +5,31 @@ using UnityEngine.UIElements;
 public class Zombie : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private int m_Life;
-    private float m_MaxLife = 100;
-    private int m_Damage = 5;
 
-    public float m_Speed = 2f;
-    public float m_ViewDistance = 2f;
-    public int m_MaxViewDistance = 6;
-    public float m_AttackDistance = 1f;
-    public float m_AttackTime = 1f;
+    [Header (" Basic Stats")]
+    private int m_CurrentLife;
+    [SerializeField] private float m_Life = 100;
 
-    public LayerMask m_PlayerLayer;
-    public LayerMask m_ObstacleLayer;
+    [SerializeField] private float m_Speed = 2f;
+
+    [Header ("Sight")]
+    [SerializeField] private float m_ViewDistance = 2f;
+    [SerializeField] private int m_MaxViewDistance = 6;
+
+    [Header("Attack")]
+    [SerializeField] private int m_Damage = 5;
+    [SerializeField] private float m_AttackDistance = 1f;
+    [SerializeField] private float m_AttackTime = 1f;
+
+    [SerializeField] private LayerMask m_PlayerLayer;
+    [SerializeField] private LayerMask m_ObstacleLayer;
     //[SerializeField] private GameObject[] m_PatrolPoints;
     //private int m_RandomPoint;
 
-    private Rigidbody2D rb;
+    Rigidbody2D rb;
     PlayerController l_Player;
 
-    private Vector2 m_PatrolTarget;
+    
     private float m_AttackTimer;
 
     private float m_IdleTime = 1f;
@@ -46,8 +52,8 @@ public class Zombie : MonoBehaviour
 
     void Start()
     {
-        m_MaxLife *= GameManager.GetGameManager().GetLifeMuliplier();
-        m_Life = (int)m_MaxLife;
+        m_Life *= GameManager.GetGameManager().GetLifeMuliplier();
+        m_CurrentLife = (int)m_Life;
         m_Speed *= GameManager.GetGameManager().GetSpeedMultiplier();
         rb = GetComponent<Rigidbody2D>();
         l_Player = GameManager.GetGameManager().GetPlayer();
@@ -120,7 +126,6 @@ public class Zombie : MonoBehaviour
         if (m_PatrolTimer >= m_PatrolTime)
         {
             SetIdleState();
-            m_PatrolTarget = (Vector2)transform.position + (Vector2)transform.up * 3f;
             return;
         }
 
@@ -237,8 +242,21 @@ public class Zombie : MonoBehaviour
             }
             l_TimeToRotate = Random.Range(1, 2);
             l_RotateTimer = 0;
+        }   
+    }
+
+    public void TakeDamage(int damage)
+    {
+        m_CurrentLife -= damage;
+
+        if (m_CurrentLife <= 0)
+        {
+            SetDieState();
         }
-        
+        else
+        {
+            //meter anim de daño si se quiere
+        }
     }
 
     /*void Movement()

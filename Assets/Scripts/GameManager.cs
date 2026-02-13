@@ -15,11 +15,15 @@ public class GameManager : MonoBehaviour
         WIN,
         GAMEOVER
     }
-
     private TState m_State;
 
+    //Objects
     static GameManager m_GameManager;
     PlayerController m_Player;
+    [SerializeField] private GameObject m_WinUI;
+    [SerializeField] private GameObject m_GameOverUI;
+
+    //Times
     public float m_GameTime;
     private float m_RoundsTime;
     private float m_RestingTime;
@@ -28,15 +32,17 @@ public class GameManager : MonoBehaviour
     int m_DifficultyFixChange = 60;
     int m_RestingFixChange = 30;
     float m_RestDisplayedTime;
+
+    //Difficulty
     float m_Difficulty = 0;
     int m_MaxDifficult = 10;
     int m_BaseMultiplier = 1;
 
     public int m_Coins { get; private set; } = 0;
 
-    public float m_ZombieLifeMultiplier { get; private set; } = 1;
-    public float m_ZombieSpeedMultiplier { get; private set; } = 1;
-    public float m_ZombieSpawnRateMultiplier { get; private set; } = 1;
+    private float m_ZombieLifeMultiplier = 1;
+    private float m_ZombieSpeedMultiplier = 1;
+    private float m_ZombieSpawnRateMultiplier = 1;
     void Awake()
     {
         if (m_GameManager != null)
@@ -51,6 +57,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         m_State = TState.PLAYINGROUNDS;
+        m_WinUI.gameObject.SetActive(false);
+        m_GameOverUI.gameObject.SetActive(false);
     }
 
 
@@ -58,7 +66,6 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         m_GameTime = Time.time;
-
 
         if(m_State == TState.PLAYINGROUNDS)
         {
@@ -86,22 +93,25 @@ public class GameManager : MonoBehaviour
 
         if(m_State == TState.WIN)
         {
-
+            m_WinUI.gameObject.SetActive(true);
+            m_Player.enabled = false;
         }
         else if (m_State == TState.GAMEOVER)
         {
-
+            m_GameOverUI.gameObject.SetActive(true);
+            m_Player.enabled = false;
         }
     }
 
 
-
+    // GAME MANAGER
     public static GameManager GetGameManager()
     {
         return m_GameManager;
     }
 
 
+    // PLAYER
     public PlayerController GetPlayer()
     {
         return m_Player;
@@ -111,11 +121,20 @@ public class GameManager : MonoBehaviour
         m_Player = Player;
     }
 
-    void AddCoins(int coinsCollected)
+
+    // COINS
+    public void AddCoins(int coinsCollected)
     {
         m_Coins += coinsCollected;
     }
 
+    public int GetCoins()
+    {
+        return m_Coins;
+    }
+
+
+    // MULTIPLIERS
     public float GetLifeMuliplier()
     {
         return m_ZombieLifeMultiplier;
@@ -129,5 +148,22 @@ public class GameManager : MonoBehaviour
     public float GetSpawnRateMultiplier()
     {
         return m_ZombieSpawnRateMultiplier;
+    }
+
+    // TIME
+
+    public float GetGameTime()
+    {
+        return m_GameTime;
+    }
+
+    public float GetRoundTime()
+    {
+        return m_RoundsTime;
+    }
+
+    public float GetCurrentRestTime()
+    {
+        return m_RestDisplayedTime;
     }
 }
