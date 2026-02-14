@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
         PLAYINGROUNDS = 0,
         RESTING,
         WIN,
-        GAMEOVER
+        GAMEOVER,
+        PAUSED
     }
     private TState m_State;
 
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     PlayerController m_Player;
     [SerializeField] private GameObject m_WinUI;
     [SerializeField] private GameObject m_GameOverUI;
+    [SerializeField] private GameObject m_PauseUI;
 
     //Times
     public float m_GameTime;
@@ -67,7 +69,12 @@ public class GameManager : MonoBehaviour
     {
         m_GameTime = Time.time;
 
-        if(m_State == TState.PLAYINGROUNDS)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+
+        if (m_State == TState.PLAYINGROUNDS)
         {
             m_RoundsTime = m_GameTime - m_RestingTime;
             if (m_RoundsTime > m_DifficultyChangeInterval && m_Difficulty < m_MaxDifficult)
@@ -108,6 +115,23 @@ public class GameManager : MonoBehaviour
     public static GameManager GetGameManager()
     {
         return m_GameManager;
+    }
+    void Pause()
+    {
+        if (m_State == TState.PAUSED)
+        {
+            m_State = TState.PLAYINGROUNDS;
+            Time.timeScale = 1f;
+            m_Player.enabled = true;
+            m_PauseUI.SetActive(false);
+        }
+        else if (m_State != TState.WIN && m_State != TState.GAMEOVER)
+        {
+            m_State = TState.PAUSED;
+            Time.timeScale = 0f;
+            m_Player.enabled = false;
+            m_PauseUI.SetActive(true);
+        }
     }
 
 
