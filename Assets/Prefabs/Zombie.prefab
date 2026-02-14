@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -892437809551795064}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,8 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682abf6c2ff4bf74da229ef26e2c49e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
+  m_Life: 100
   m_Speed: 2
   m_ViewDistance: 2
+  m_MaxViewDistance: 6
+  m_Damage: 5
   m_AttackDistance: 1
   m_AttackTime: 1
   m_PlayerLayer:
@@ -177,4 +180,3 @@ MonoBehaviour:
   m_ObstacleLayer:
     serializedVersion: 2
     m_Bits: 128
-  m_PatrolPoints: []

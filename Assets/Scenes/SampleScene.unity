@@ -371,6 +371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090efb61d99e8ce4ea44ed269ac0b577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  m_WinUI: {fileID: 0}
+  m_GameOverUI: {fileID: 0}
+  m_PauseUI: {fileID: 0}
   m_GameTime: 0
 --- !u!4 &324280772
 Transform:
@@ -1658,6 +1661,34 @@ PrefabInstance:
     - target: {fileID: 3624526784281743708, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_MaxAmmo
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_FireRate
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_Crosshair
+      value: 
+      objectReference: {fileID: 1439783868}
+    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_CurrentAmmo
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_MaxAmmoOnBack
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_CurrentAmmoOnBack
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_ShootLayerMask.m_Bits
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4151999981112881642, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
       propertyPath: m_LocalPosition.x

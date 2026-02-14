@@ -9,6 +9,17 @@ public class PlayerController : MonoBehaviour
     private int m_CurrentLife;
     [SerializeField] private float m_Speed = 2f;
 
+    [Header("Shoot")]
+    public Transform m_Crosshair;
+    public GameObject m_HitEffect;
+    public float m_ShootMaxDistance = 50.0f;
+    public LayerMask m_ShootLayerMask;
+    public GameObject m_ShootParticles;
+    public float m_CooldownBetweenShots = 0.2f;
+    private float m_ShootTimer = 0f;
+    public float m_ReloadTime = 2f;
+    private bool m_CanShoot = true;
+
     [Header ("Weapon")]
     [SerializeField] private int m_MaxAmmo = 30;
     [SerializeField] private int m_CurrentAmmo;
@@ -60,6 +71,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (m_ShootTimer > 0f)
+        {
+            m_ShootTimer -= Time.deltaTime;
+        }
+        else
+        {
+            m_CanShoot = true;
+        }
+
         Cursor.lockState = CursorLockMode.Confined;
         Vector3 l_MousePosition = Input.mousePosition;
         l_MousePosition.z = -Camera.main.transform.position.z;
@@ -97,17 +117,40 @@ public class PlayerController : MonoBehaviour
         m_RigidBody.MovePosition(m_RigidBody.position + m_Movement * Time.fixedDeltaTime);
     }
 
-
+    //SHOOT
     bool CanShoot()
     {
-        return m_IsReloading == false && m_CurrentAmmo > 0;
+        return m_IsReloading == false && m_CurrentAmmo > 0 && m_CanShoot;
     }
 
     void Shoot()
     {
         Debug.Log("Pium pium");
+        m_CanShoot = false;
+        m_ShootTimer = m_CooldownBetweenShots;
+        //SetShootAnimation();
+        if (m_CurrentAmmo > 0)
+        {
+            Vector2 direction = (m_Crosshair.position - transform.position).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, m_ShootMaxDistance, m_ShootLayerMask);
+            if (hit.collider != null)
+            {
+                if (hit.collider.CompareTag("Zombie"))
+                    hit.collider.GetComponent<Zombie>().TakeDamage(10);
+
+                CreateShootHitParticles(hit.point);
+            }
+            m_CurrentAmmo--;
+            //UpdateAmmoHUD();
+        }
+        else
+        {
+            Reload();
+        }
+        m_CanShoot = true;
     }
 
+    //RELOAD
     bool CanReload()
     {
         return m_CurrentAmmo < m_MaxAmmo && m_IsReloading == false && m_IsShooting == false && m_CurrentAmmoOnBack > 0;
@@ -141,6 +184,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
     }   
     
+    //DAMAGE
     public void TakeDamage (int damage)
     {
         m_CurrentLife -= damage;
@@ -155,13 +199,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //DIE
     void Die()
     {
         //meter animación de muerte
         Destroy(gameObject);
     }
 
-    
-
+    void CreateShootHitParticles(Vector2 position)
+    {
+        Instantiate(m_HitEffect, position, Quaternion.identity);
+    }
 }
-
