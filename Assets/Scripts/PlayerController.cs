@@ -118,8 +118,20 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Reloading");
         m_IsReloading = true;
         StartCoroutine(ReloadCoroutine());
-        
-        m_CurrentAmmo = m_MaxAmmo;
+
+        int l_AmmoNeeded = m_MaxAmmo - m_CurrentAmmo;
+
+        if (m_CurrentAmmoOnBack >= l_AmmoNeeded)
+        {
+            m_CurrentAmmo += l_AmmoNeeded;
+            m_CurrentAmmoOnBack -= l_AmmoNeeded;
+        }
+        else
+        {
+            m_CurrentAmmo += m_CurrentAmmoOnBack;
+            m_CurrentAmmoOnBack = 0;
+        }
+
         m_IsReloading = false;
     }
 
