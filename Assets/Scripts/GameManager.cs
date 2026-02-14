@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
-    enum TState
+    public enum TState
     {
         PLAYINGROUNDS = 0,
         RESTING,
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_PauseUI;
 
     //Times
-    public float m_GameTime;
+    private float m_GameTime;
     private float m_RoundsTime;
     private float m_RestingTime;
     int m_RestingChangeInterval = 30;
@@ -190,4 +190,11 @@ public class GameManager : MonoBehaviour
     {
         return m_RestDisplayedTime;
     }
+
+    public TState GetState()
+    {
+        return m_State;
+    }
+
+
 }
