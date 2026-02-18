@@ -146,6 +146,28 @@ public class GameManager : MonoBehaviour
     }
 
 
+    // ZOMBIES
+    private int m_CurrentZombies = 0;
+    [SerializeField] private int m_MaxZombies = 30;
+
+    public bool CanSpawnZombie()
+    {
+        return m_CurrentZombies < m_MaxZombies;
+    }
+
+    public void RegisterZombieSpawn()
+    {
+        m_CurrentZombies++;
+    }
+
+    public void RegisterZombieDeath()
+    {
+        m_CurrentZombies--;
+        if (m_CurrentZombies < 0)
+            m_CurrentZombies = 0;
+    }
+
+
     // COINS
     public void AddCoins(int coinsCollected)
     {

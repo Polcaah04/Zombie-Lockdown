@@ -206,7 +206,7 @@ public class Zombie : MonoBehaviour
     void UpdateDieState()
     {
         Debug.Log("DIE");
-        rb.linearVelocity = Vector2.zero;
+        GameManager.GetGameManager().RegisterZombieDeath();
         Destroy(gameObject);
     }
 
