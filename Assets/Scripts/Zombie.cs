@@ -13,7 +13,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] private float m_Speed = 2f;
 
     [Header ("Sight")]
-    [SerializeField] private float m_ViewDistance = 2f;
+    [SerializeField] private float m_ViewDistance = 4f;
     [SerializeField] private int m_MaxViewDistance = 6;
 
     [Header("Attack")]
@@ -64,7 +64,7 @@ public class Zombie : MonoBehaviour
         //m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
         m_IdleTimer = 0f;
         l_TimeToRotate = Random.Range(1, 4);
-        m_State = TState.PATROL;
+        SetPatrolState();
     }
 
     void Update()
@@ -89,20 +89,15 @@ public class Zombie : MonoBehaviour
 
     void UpdateIdleState()
     {
-        Debug.Log("UPDATE IDLE");
-
-        rb.linearVelocity = Vector2.zero;
         m_IdleTimer += Time.deltaTime;
-        StartCoroutine(Rotation());
+        Rotation();
+
         if (SeesPlayer())
         {
             SetChaseState();
             return;
         }
         
-        
-
-
         if (m_IdleTimer >= m_IdleTime)
         {
             SetPatrolState();
@@ -113,13 +108,12 @@ public class Zombie : MonoBehaviour
     {
         Debug.Log("SET PATROL");
         m_PatrolTimer = 0f;
+        m_PatrolTime = Random.Range(1, 3);
         m_State = TState.PATROL;
     }
 
     void UpdatePatrolState()
     {
-        Debug.Log("UPDATE PATROL");
-        m_PatrolTime = Random.Range(1, 3);
         m_PatrolTimer += Time.deltaTime;
         rb.linearVelocity = transform.up * m_Speed;
 
@@ -128,7 +122,6 @@ public class Zombie : MonoBehaviour
             SetIdleState();
             return;
         }
-
 
         if (SeesPlayer())
         {
@@ -145,7 +138,6 @@ public class Zombie : MonoBehaviour
 
     void UpdateChaseState()
     {
-        Debug.Log("UPDATE CHASE");
         Vector2 l_DirectionChase = l_Player.transform.position - rb.transform.position;
         if (m_MaxViewDistance > l_DirectionChase.magnitude)
         {           
@@ -200,12 +192,12 @@ public class Zombie : MonoBehaviour
 
     void SetDieState()
     {
+        Debug.Log("DIE");
         m_State = TState.DIE;
     }
 
     void UpdateDieState()
     {
-        Debug.Log("DIE");
         GameManager.GetGameManager().RegisterZombieDeath();
         Destroy(gameObject);
     }
@@ -221,29 +213,17 @@ public class Zombie : MonoBehaviour
         return l_Hit && l_Hit.collider.CompareTag("Player");
     }
 
-     IEnumerator Rotation()
-    {
-        
+     void Rotation()
+     {
         l_RotateTimer += Time.deltaTime;
-        if (l_RotateTimer < l_TimeToRotate)
+
+        if (l_RotateTimer >= l_TimeToRotate)
         {
-            yield return null;
-        }
-        else
-        {
-            float rnd = Random.value;
-            if (rnd < 0.5f)
-            {
-                rb.transform.Rotate(0, 0, -30f);
-            }
-            else
-            {
-                rb.transform.Rotate(0, 0, 30f);
-            }
-            l_TimeToRotate = Random.Range(1, 2);
+            transform.Rotate(0, 0, Random.Range(-60, 60));
+            l_TimeToRotate = Random.Range(1, 3);
             l_RotateTimer = 0;
-        }   
-    }
+        }
+     }
 
     public void TakeDamage(int damage)
     {
