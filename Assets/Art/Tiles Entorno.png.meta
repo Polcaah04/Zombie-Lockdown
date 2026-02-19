@@ -379,7 +379,7 @@ TextureImporter:
       name: Tiles Entorno_12
       rect:
         serializedVersion: 2
-        x: 256
+        x: 0
         y: 192
         width: 64
         height: 64
@@ -401,7 +401,7 @@ TextureImporter:
       name: Tiles Entorno_13
       rect:
         serializedVersion: 2
-        x: 320
+        x: 64
         y: 192
         width: 64
         height: 64
@@ -424,7 +424,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 128
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -445,8 +445,8 @@ TextureImporter:
       name: Tiles Entorno_15
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 192
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -467,8 +467,8 @@ TextureImporter:
       name: Tiles Entorno_16
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 256
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -489,8 +489,8 @@ TextureImporter:
       name: Tiles Entorno_17
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
+        x: 320
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -511,8 +511,8 @@ TextureImporter:
       name: Tiles Entorno_18
       rect:
         serializedVersion: 2
-        x: 256
-        y: 64
+        x: 0
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -533,8 +533,8 @@ TextureImporter:
       name: Tiles Entorno_19
       rect:
         serializedVersion: 2
-        x: 320
-        y: 64
+        x: 64
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -555,8 +555,8 @@ TextureImporter:
       name: Tiles Entorno_20
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 128
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -577,8 +577,8 @@ TextureImporter:
       name: Tiles Entorno_21
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
+        x: 192
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -599,8 +599,8 @@ TextureImporter:
       name: Tiles Entorno_22
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
+        x: 256
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -613,6 +613,292 @@ TextureImporter:
       bones: []
       spriteID: e139ed0430be1fc4792ec33d601093b1
       internalID: 1144043736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_23
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c983f589e69ff84eab6c3a69e3bdffd
+      internalID: -623735806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04f1d661f135d804c8bef2a69f27689c
+      internalID: 561847850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_25
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 932e60e0ed4c27e43a13cc4e5710cf65
+      internalID: 923485657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_26
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b784ac1d8f3ef84f8b7447ba7a1dbd1
+      internalID: -1764928695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_27
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 776e6c816a373344bb5d82951f8481d3
+      internalID: -994762949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_28
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a327d320cf751c540b4c3c1ea143e69e
+      internalID: 1610978900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_29
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5863759409d207f4891b2f2b662d50e1
+      internalID: 539155495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c072b25a4592b642b5c55d5bffa0547
+      internalID: 2082329782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_31
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bf97b30156b5e64a9317226266d15b8
+      internalID: 1709199846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_32
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0766f7024666bf4a8a813867b5ae80b
+      internalID: -88214864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_33
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fe07ac96e3f26a48bf6bf6bb0f73570
+      internalID: -1643148533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_34
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f233f07f3513a16468e660c865cf65f2
+      internalID: -133094744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles Entorno_35
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4466921a4999c844996f2e34b7e8f443
+      internalID: 1604334430
       vertices: []
       indices: 
       edges: []
@@ -649,7 +935,20 @@ TextureImporter:
       Tiles Entorno_20: 448051269
       Tiles Entorno_21: 680914368
       Tiles Entorno_22: 1144043736
+      Tiles Entorno_23: -623735806
+      Tiles Entorno_24: 561847850
+      Tiles Entorno_25: 923485657
+      Tiles Entorno_26: -1764928695
+      Tiles Entorno_27: -994762949
+      Tiles Entorno_28: 1610978900
+      Tiles Entorno_29: 539155495
       Tiles Entorno_3: -8563071238836255886
+      Tiles Entorno_30: 2082329782
+      Tiles Entorno_31: 1709199846
+      Tiles Entorno_32: -88214864
+      Tiles Entorno_33: -1643148533
+      Tiles Entorno_34: -133094744
+      Tiles Entorno_35: 1604334430
       Tiles Entorno_4: 8101200161827724603
       Tiles Entorno_5: -1633532186
       Tiles Entorno_6: -881946555

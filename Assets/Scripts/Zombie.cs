@@ -227,6 +227,7 @@ public class Zombie : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        Debug.Log("Zombie get damage");
         m_CurrentLife -= damage;
 
         if (m_CurrentLife <= 0)

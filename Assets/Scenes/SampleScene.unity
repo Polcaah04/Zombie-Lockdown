@@ -1585,6 +1585,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1094788071}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2066848139517930232
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 856512957146476043, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.972
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.474
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
 --- !u!1001 &6025565642723993705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1652,36 +1709,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3624526784281743708, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: PlayerProva
       objectReference: {fileID: 0}
-    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
-      propertyPath: m_MaxAmmo
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
-      propertyPath: m_FireRate
-      value: 0.3
+    - target: {fileID: 3624526784281743708, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
       propertyPath: m_Crosshair
       value: 
       objectReference: {fileID: 1439783868}
-    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
-      propertyPath: m_CurrentAmmo
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
-      propertyPath: m_MaxAmmoOnBack
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
-      propertyPath: m_CurrentAmmoOnBack
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 3719717561097455313, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
-      propertyPath: m_ShootLayerMask.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4151999981112881642, guid: 84b99be932a54644d93f2628a8e8ef4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.95
@@ -1739,3 +1776,4 @@ SceneRoots:
   - {fileID: 1439783868}
   - {fileID: 1094788071}
   - {fileID: 6025565642723993705}
+  - {fileID: 2066848139517930232}
