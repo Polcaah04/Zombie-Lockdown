@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject m_HitEffect;
     public float m_ShootMaxDistance = 50.0f;
     public LayerMask m_ShootLayerMask;
-    public GameObject m_ShootParticles;
+    public GameObject m_LineTracer;
     public float m_CooldownBetweenShots = 0.2f;
     private float m_ShootTimer = 0f;
     public float m_ReloadTime = 2f;
@@ -44,6 +44,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode m_LeftKey = KeyCode.A;
     [SerializeField] private KeyCode m_RightKey = KeyCode.D;
     [SerializeField] private KeyCode m_ReloadKey = KeyCode.R;
+    [SerializeField] private KeyCode m_SprintKey = KeyCode.LeftShift;
+
+    [Header("Sprint / Stamina")]
+    [SerializeField] private float m_SprintMultiplier = 1.5f; 
+    private bool m_IsSprinting = false;
 
 
     void Start()
@@ -97,9 +102,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(m_LeftKey))
             m_Movement.x -= m_Speed;
 
-        m_Movement.Normalize();
-        m_Movement *= m_Speed;
-        
+        Vector2 inputDir = m_Movement;
+        inputDir.Normalize();
+
+        // SPRINT
+        m_IsSprinting = Input.GetKey(m_SprintKey);
+        float speed = m_Speed;
+        if (m_IsSprinting)
+            speed *= m_SprintMultiplier;
+
+        m_Movement = inputDir * speed;
+
         transform.rotation = Quaternion.Euler(0, 0, angle);
         if (CanShoot() && Input.GetMouseButtonDown(0))
         {
@@ -127,22 +140,30 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Pium pium");
 
-        Vector2 origin = transform.position;
-        Vector2 direction = transform.right;
+        Vector2 origin = transform.position;    
+        Vector2 direction = transform.right; 
 
-        Debug.DrawRay(origin, direction * 10f, Color.red, 0.2f);
-
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 10f, m_ShootLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, m_ShootMaxDistance, m_ShootLayerMask);
+        Vector2 endPos = origin + direction * m_ShootMaxDistance;
 
         if (hit.collider != null)
         {
-            Debug.Log("Golpeó a Zombie");
-
             if (hit.collider.CompareTag("Zombie"))
-            {
                 hit.collider.GetComponent<Zombie>().TakeDamage(10);
-            }
+
+            endPos = hit.point; // rayo termina donde golpea
         }
+
+        // Tracer visual    
+        if (m_LineTracer != null)
+        {
+            GameObject tracer = Instantiate(m_LineTracer);
+            tracer.GetComponent<BulletTracer>().Init(origin, endPos);
+        }
+
+        // cooldown
+        m_CanShoot = false;
+        m_ShootTimer = m_CooldownBetweenShots;
         /*
         Debug.Log("Pium pium");
         m_CanShoot = false;
