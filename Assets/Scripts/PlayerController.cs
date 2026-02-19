@@ -126,13 +126,33 @@ public class PlayerController : MonoBehaviour
     void Shoot()
     {
         Debug.Log("Pium pium");
+
+        Vector2 origin = transform.position;
+        Vector2 direction = transform.right;
+
+        Debug.DrawRay(origin, direction * 10f, Color.red, 0.2f);
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 10f, m_ShootLayerMask);
+
+        if (hit.collider != null)
+        {
+            Debug.Log("Golpeó a Zombie");
+
+            if (hit.collider.CompareTag("Zombie"))
+            {
+                hit.collider.GetComponent<Zombie>().TakeDamage(10);
+            }
+        }
+        /*
+        Debug.Log("Pium pium");
         m_CanShoot = false;
         m_ShootTimer = m_CooldownBetweenShots;
-        //SetShootAnimation();
+        //SetShootAnimation();  
         if (m_CurrentAmmo > 0)
         {
             Vector2 direction = (m_Crosshair.position - transform.position).normalized;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, m_ShootMaxDistance, m_ShootLayerMask);
+            Debug.DrawRay(transform.position, direction * 10f, Color.red, 2f);
             if (hit.collider != null)
             {
                 if (hit.collider.CompareTag("Zombie"))
@@ -148,6 +168,7 @@ public class PlayerController : MonoBehaviour
             Reload();
         }
         m_CanShoot = true;
+        */
     }
 
     //RELOAD
