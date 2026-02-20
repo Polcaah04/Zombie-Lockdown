@@ -1,11 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UIElements;
 
 public class Zombie : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     [Header (" Basic Stats")]
     private int m_CurrentLife;
     [SerializeField] private float m_Life = 100;
@@ -15,6 +13,12 @@ public class Zombie : MonoBehaviour
     [Header ("Sight")]
     [SerializeField] private float m_ViewDistance = 4f;
     [SerializeField] private int m_MaxViewDistance = 6;
+
+    [Header("Waypoints")]
+    [SerializeField] private Transform m_LeftDoor;
+    [SerializeField] private Transform m_RightDoor;
+    private Transform m_TargetWaypoint;
+
 
     [Header("Attack")]
     [SerializeField] private int m_Damage = 5;
@@ -31,11 +35,6 @@ public class Zombie : MonoBehaviour
 
     
     private float m_AttackTimer;
-
-    private float m_IdleTime = 1f;
-    private float m_IdleTimer;
-    private float m_PatrolTime;
-    private float m_PatrolTimer;
     private float l_RotateTimer = 0;
     private float l_TimeToRotate;
 
@@ -62,70 +61,17 @@ public class Zombie : MonoBehaviour
 
         //m_PatrolPoints = GameObject.FindGameObjectsWithTag("Point");
         //m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
-        m_IdleTimer = 0f;
         l_TimeToRotate = Random.Range(1, 4);
-        SetPatrolState();
+        SetChaseState();
     }
 
     void Update()
     {
         switch (m_State)
         {
-            case TState.IDLE: UpdateIdleState(); break;
-            case TState.PATROL: UpdatePatrolState(); break;
             case TState.CHASE: UpdateChaseState(); break;
             case TState.ATTACK: UpdateAttackState(); break;
             case TState.DIE: UpdateDieState(); break;
-        }
-    }
-
-    void SetIdleState()
-    {
-        Debug.Log("SET IDLE");
-        m_IdleTimer = 0f;
-        rb.linearVelocity = Vector2.zero;
-        m_State = TState.IDLE;
-    }
-
-    void UpdateIdleState()
-    {
-        m_IdleTimer += Time.deltaTime;
-        Rotation();
-
-        if (SeesPlayer())
-        {
-            SetChaseState();
-            return;
-        }
-        
-        if (m_IdleTimer >= m_IdleTime)
-        {
-            SetPatrolState();
-        }
-    }
-
-    void SetPatrolState()
-    {
-        Debug.Log("SET PATROL");
-        m_PatrolTimer = 0f;
-        m_PatrolTime = Random.Range(1, 3);
-        m_State = TState.PATROL;
-    }
-
-    void UpdatePatrolState()
-    {
-        m_PatrolTimer += Time.deltaTime;
-        rb.linearVelocity = transform.up * m_Speed;
-
-        if (m_PatrolTimer >= m_PatrolTime)
-        {
-            SetIdleState();
-            return;
-        }
-
-        if (SeesPlayer())
-        {
-            SetChaseState();
         }
     }
 
@@ -135,29 +81,44 @@ public class Zombie : MonoBehaviour
         Debug.Log("SET CHASE");
         m_State = TState.CHASE;
     }
-
+    
     void UpdateChaseState()
     {
-        Vector2 l_DirectionChase = l_Player.transform.position - rb.transform.position;
-        if (m_MaxViewDistance > l_DirectionChase.magnitude)
-        {           
-            float l_Angle = Mathf.Atan2(l_DirectionChase.y, l_DirectionChase.x) * Mathf.Rad2Deg - 90f;
-            transform.rotation = Quaternion.Euler(0, 0, l_Angle);
+        if (l_Player == null) return;
 
-            rb.linearVelocity = transform.up * m_Speed;
+        Vector2 direction;
 
-            if (l_DirectionChase.magnitude <= m_AttackDistance)
-            {
-                rb.linearVelocity = Vector2.zero;
-                m_AttackTimer = 0f;
-                SetAttackState();
-            }
+        //Si tiene waypoint ir al waypoint primero
+        if (m_TargetWaypoint != null)
+        {
+            direction = (m_TargetWaypoint.position - transform.position).normalized;
+
+            //Llegó al waypoint ahora perseguir jugador
+            if (Vector2.Distance(transform.position, m_TargetWaypoint.position) < 0.2f)
+                m_TargetWaypoint = null;
         }
         else
         {
-            SetIdleState();
+            //Chase normal al player
+            direction = (l_Player.transform.position - transform.position).normalized;
+        }
+
+        //Rotar hacia donde va
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //Movimiento
+        rb.MovePosition(rb.position + direction * m_Speed * Time.deltaTime);
+
+        //Pasar a ATTACK si está cerca
+        float dist = Vector2.Distance(transform.position, l_Player.transform.position);
+        if (dist <= m_AttackDistance)
+        {
+            m_AttackTimer = 0f;
+            SetAttackState();
         }
     }
+
     void SetAttackState()
     {
         m_State = TState.ATTACK;
@@ -236,10 +197,35 @@ public class Zombie : MonoBehaviour
         }
         else
         {
-            //meter anim de da�o si se quiere
+            //meter anim de daño si se quiere
         }
     }
+    void Move(Vector2 direction)
+    {
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        Vector2 newPos = rb.position + direction * m_Speed * Time.fixedDeltaTime;
+        rb.MovePosition(newPos);
+    }
+
+    void ChooseWaypointIfNeeded()
+    {
+        if (l_Player == null) return;
+
+        bool playerLeft = l_Player.transform.position.x < 0;
+        bool zombieLeft = transform.position.x < 0;
+
+        // Si están en salas distintas → ir a la puerta correspondiente
+        if (playerLeft != zombieLeft)
+        {
+            m_TargetWaypoint = zombieLeft ? m_LeftDoor : m_RightDoor;
+        }
+        else
+        {
+            m_TargetWaypoint = null;
+        }
+    }
     /*void Movement()
     {
         rb.linearVelocity = Vector2.MoveTowards(transform.position, m_PatrolPoints[m_RandomPoint].transform.position, m_Speed * Time.deltaTime);

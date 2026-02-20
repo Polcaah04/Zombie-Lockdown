@@ -114,6 +114,8 @@ MonoBehaviour:
   m_Speed: 2
   m_ViewDistance: 2
   m_MaxViewDistance: 6
+  m_LeftDoor: {fileID: 0}
+  m_RightDoor: {fileID: 0}
   m_Damage: 5
   m_AttackDistance: 1
   m_AttackTime: 1
