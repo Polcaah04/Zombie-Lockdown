@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject m_HitEffect;
     public float m_ShootMaxDistance = 50.0f;
     public LayerMask m_ShootLayerMask;
-    public GameObject m_LineTracer;
+    public GameObject m_ShootParticles;
     public float m_CooldownBetweenShots = 0.2f;
     private float m_ShootTimer = 0f;
     public float m_ReloadTime = 2f;
@@ -38,17 +38,6 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D m_RigidBody;
     Vector2 m_Movement;
 
-    [Header("Inputs")]
-    [SerializeField] private KeyCode m_ForwardKey = KeyCode.W;
-    [SerializeField] private KeyCode m_BackWardKey = KeyCode.S;
-    [SerializeField] private KeyCode m_LeftKey = KeyCode.A;
-    [SerializeField] private KeyCode m_RightKey = KeyCode.D;
-    [SerializeField] private KeyCode m_ReloadKey = KeyCode.R;
-    [SerializeField] private KeyCode m_SprintKey = KeyCode.LeftShift;
-
-    [Header("Sprint / Stamina")]
-    [SerializeField] private float m_SprintMultiplier = 1.5f; 
-    private bool m_IsSprinting = false;
 
 
     void Start()
@@ -93,26 +82,18 @@ public class PlayerController : MonoBehaviour
         float angle = Mathf.Atan2(l_LookDirection.y, l_LookDirection.x) * Mathf.Rad2Deg;
         m_Movement = Vector2.zero;
 
-        if (Input.GetKey(m_ForwardKey))
+        if (Input.GetKey(Settings.m_ForwardKey))
             m_Movement.y += m_Speed;
-        if (Input.GetKey(m_BackWardKey))
+        if (Input.GetKey(Settings.m_BackwardKey))
             m_Movement.y -= m_Speed;
-        if (Input.GetKey(m_RightKey))
+        if (Input.GetKey(Settings.m_RightKey))
             m_Movement.x += m_Speed;
-        if (Input.GetKey(m_LeftKey))
+        if (Input.GetKey(Settings.m_LeftKey))
             m_Movement.x -= m_Speed;
 
-        Vector2 inputDir = m_Movement;
-        inputDir.Normalize();
-
-        // SPRINT
-        m_IsSprinting = Input.GetKey(m_SprintKey);
-        float speed = m_Speed;
-        if (m_IsSprinting)
-            speed *= m_SprintMultiplier;
-
-        m_Movement = inputDir * speed;
-
+        m_Movement.Normalize();
+        m_Movement *= m_Speed;
+        
         transform.rotation = Quaternion.Euler(0, 0, angle);
         if (CanShoot() && Input.GetMouseButtonDown(0))
         {
@@ -120,7 +101,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (CanReload() && Input.GetKeyDown(m_ReloadKey))
+        if (CanReload() && Input.GetKeyDown(Settings.m_ReloadKey))
         {
             Reload();
         }
@@ -140,30 +121,22 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Pium pium");
 
-        Vector2 origin = transform.position;    
-        Vector2 direction = transform.right; 
+        Vector2 origin = transform.position;
+        Vector2 direction = transform.right;
 
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, m_ShootMaxDistance, m_ShootLayerMask);
-        Vector2 endPos = origin + direction * m_ShootMaxDistance;
+        Debug.DrawRay(origin, direction * 10f, Color.red, 0.2f);
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 10f, m_ShootLayerMask);
 
         if (hit.collider != null)
         {
+            Debug.Log("Golpeó a Zombie");
+
             if (hit.collider.CompareTag("Zombie"))
+            {
                 hit.collider.GetComponent<Zombie>().TakeDamage(10);
-
-            endPos = hit.point; // rayo termina donde golpea
+            }
         }
-
-        // Tracer visual    
-        if (m_LineTracer != null)
-        {
-            GameObject tracer = Instantiate(m_LineTracer);
-            tracer.GetComponent<BulletTracer>().Init(origin, endPos);
-        }
-
-        // cooldown
-        m_CanShoot = false;
-        m_ShootTimer = m_CooldownBetweenShots;
         /*
         Debug.Log("Pium pium");
         m_CanShoot = false;
