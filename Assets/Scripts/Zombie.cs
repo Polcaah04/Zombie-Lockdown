@@ -119,7 +119,6 @@ public class Zombie : MonoBehaviour
     void UpdateAttackState()
     {
         Vector2 l_Direction = l_Player.transform.position - rb.transform.position;
-        Debug.Log(l_Direction);   
         if (m_AttackDistance > l_Direction.magnitude)
         {
             float l_Angle = Mathf.Atan2(l_Direction.y, l_Direction.x) * Mathf.Rad2Deg - 90f;

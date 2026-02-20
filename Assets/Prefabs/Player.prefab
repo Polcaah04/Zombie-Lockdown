@@ -91,7 +91,7 @@ MonoBehaviour:
   m_ShootMaxDistance: 50
   m_ShootLayerMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 385
   m_LineTracer: {fileID: 6797339335776976767}
   m_CooldownBetweenShots: 0.2
   m_ReloadTime: 2
@@ -101,11 +101,7 @@ MonoBehaviour:
   m_CurrentAmmoOnBack: 40
   m_FireRate: 0.3
   m_Weapon: {fileID: 7578417859262515014}
-  m_ForwardKey: 119
-  m_BackWardKey: 115
-  m_LeftKey: 97
-  m_RightKey: 100
-  m_ReloadKey: 114
+  m_SprintMultiplier: 1.5
 --- !u!50 &7636842907295548629
 Rigidbody2D:
   serializedVersion: 5

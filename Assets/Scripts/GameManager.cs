@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
     {
         m_GameTime = Time.time;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(Settings.m_PauseKey))
         {
             Pause();
         }

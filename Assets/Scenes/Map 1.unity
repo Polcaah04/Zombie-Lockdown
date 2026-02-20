@@ -7994,6 +7994,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2256964315535293336, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.007
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256964315535293336, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.659
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256964315535293336, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.11598599
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256964315535293336, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.99325085
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256964315535293336, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 166.679
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534510962213000186, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 5534510962213000186, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534510962213000186, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.10943061
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712635524454911635, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: duration
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.6736352
