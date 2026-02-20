@@ -14,12 +14,6 @@ public class Zombie : MonoBehaviour
     [SerializeField] private float m_ViewDistance = 4f;
     [SerializeField] private int m_MaxViewDistance = 6;
 
-    [Header("Waypoints")]
-    [SerializeField] private Transform m_LeftDoor;
-    [SerializeField] private Transform m_RightDoor;
-    private Transform m_TargetWaypoint;
-
-
     [Header("Attack")]
     [SerializeField] private int m_Damage = 5;
     [SerializeField] private float m_AttackDistance = 1f;
@@ -86,34 +80,32 @@ public class Zombie : MonoBehaviour
     {
         if (l_Player == null) return;
 
-        Vector2 direction;
+        Vector2 l_DirectionChase = (l_Player.transform.position - rb.transform.position).normalized;
 
-        //Si tiene waypoint ir al waypoint primero
-        if (m_TargetWaypoint != null)
-        {
-            direction = (m_TargetWaypoint.position - transform.position).normalized;
-
-            //Llegó al waypoint ahora perseguir jugador
-            if (Vector2.Distance(transform.position, m_TargetWaypoint.position) < 0.2f)
-                m_TargetWaypoint = null;
-        }
+        RaycastHit2D sight = Physics2D.Raycast(transform.position, l_DirectionChase, l_DirectionChase.magnitude, m_ObstacleLayer); //Ve directamente al player?
+        if (sight.collider == null)
+            Move(l_DirectionChase);
         else
         {
-            //Chase normal al player
-            direction = (l_Player.transform.position - transform.position).normalized;
+            // probar izquierda
+            Vector2 left = Quaternion.Euler(0, 0, 90) * l_DirectionChase;
+            RaycastHit2D leftHit = Physics2D.Raycast(transform.position, left, 0.7f, m_ObstacleLayer);
+
+            if (leftHit.collider == null)
+            {
+                Move(left);
+            }
+            else
+            {
+                // probar derecha
+                Vector2 right = Quaternion.Euler(0, 0, -90) * l_DirectionChase;
+                Move(right);
+            }
         }
 
-        //Rotar hacia donde va
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        //Movimiento
-        rb.MovePosition(rb.position + direction * m_Speed * Time.deltaTime);
-
-        //Pasar a ATTACK si está cerca
-        float dist = Vector2.Distance(transform.position, l_Player.transform.position);
-        if (dist <= m_AttackDistance)
+        if (l_DirectionChase.magnitude <= m_AttackDistance)
         {
+            rb.linearVelocity = Vector2.zero;
             m_AttackTimer = 0f;
             SetAttackState();
         }
@@ -209,23 +201,6 @@ public class Zombie : MonoBehaviour
         rb.MovePosition(newPos);
     }
 
-    void ChooseWaypointIfNeeded()
-    {
-        if (l_Player == null) return;
-
-        bool playerLeft = l_Player.transform.position.x < 0;
-        bool zombieLeft = transform.position.x < 0;
-
-        // Si están en salas distintas → ir a la puerta correspondiente
-        if (playerLeft != zombieLeft)
-        {
-            m_TargetWaypoint = zombieLeft ? m_LeftDoor : m_RightDoor;
-        }
-        else
-        {
-            m_TargetWaypoint = null;
-        }
-    }
     /*void Movement()
     {
         rb.linearVelocity = Vector2.MoveTowards(transform.position, m_PatrolPoints[m_RandomPoint].transform.position, m_Speed * Time.deltaTime);
