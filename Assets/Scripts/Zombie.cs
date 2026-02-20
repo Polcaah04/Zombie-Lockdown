@@ -140,7 +140,6 @@ public class Zombie : MonoBehaviour
             m_AttackTimer = 0f;
             SetChaseState();
         }
-        
     }
 
     void SetDieState()
