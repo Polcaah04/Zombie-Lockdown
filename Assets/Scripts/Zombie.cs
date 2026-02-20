@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UIElements;
 
 public class Zombie : MonoBehaviour
 {
@@ -10,9 +8,9 @@ public class Zombie : MonoBehaviour
 
     [SerializeField] private float m_Speed = 2f;
 
-    [Header ("Sight")]
+    /*[Header ("Sight")]
     [SerializeField] private float m_ViewDistance = 4f;
-    [SerializeField] private int m_MaxViewDistance = 6;
+    [SerializeField] private int m_MaxViewDistance = 6;*/
 
     [Header("Attack")]
     [SerializeField] private int m_Damage = 5;
@@ -29,7 +27,7 @@ public class Zombie : MonoBehaviour
 
     
     private float m_AttackTimer;
-    private float l_RotateTimer = 0;
+    //private float l_RotateTimer = 0;
     private float l_TimeToRotate;
 
     enum TState
@@ -153,7 +151,7 @@ public class Zombie : MonoBehaviour
         Destroy(gameObject);
     }
 
-    bool SeesPlayer()
+    /*bool SeesPlayer()
     {
         Vector2 l_Direction = l_Player.transform.position - rb.transform.position;
         if (l_Direction.magnitude > m_ViewDistance)
@@ -174,7 +172,7 @@ public class Zombie : MonoBehaviour
             l_TimeToRotate = Random.Range(1, 3);
             l_RotateTimer = 0;
         }
-     }
+     }*/
 
     public void TakeDamage(int damage)
     {

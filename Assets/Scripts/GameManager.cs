@@ -1,10 +1,4 @@
-using System;
-using System.Collections;
-using System.Net.NetworkInformation;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
