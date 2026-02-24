@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: d65bfb83cbd824b408ae27649288a4c0
+guid: 527e2e035baf4e94680e5b00e6871057
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5653878121705019575
-    second: PlayerSpritesheet_0
+      213: -8900466672808593219
+    second: spritesheet_zombie_morado_0
   - first:
-      213: 1335251186984836748
-    second: PlayerSpritesheet_1
+      213: -8496322811264965309
+    second: spritesheet_zombie_morado_1
   - first:
-      213: 3843040423100834259
-    second: PlayerSpritesheet_2
+      213: -54392070172520897
+    second: spritesheet_zombie_morado_2
   - first:
-      213: 385077577419708428
-    second: PlayerSpritesheet_3
+      213: -875116519998492250
+    second: spritesheet_zombie_morado_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -60,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -109,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerSpritesheet_0
+      name: spritesheet_zombie_morado_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 16
-        width: 47
-        height: 33
+        x: 10
+        y: 8
+        width: 42
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9476b68cdc36981b0800000000000000
-      internalID: -5653878121705019575
+      spriteID: db87a00c7b03b7480800000000000000
+      internalID: -8900466672808593219
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerSpritesheet_1
+      name: spritesheet_zombie_morado_1
       rect:
         serializedVersion: 2
-        x: 72
-        y: 13
-        width: 47
-        height: 39
+        x: 74
+        y: 8
+        width: 42
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8e562e41e3c78210800000000000000
-      internalID: 1335251186984836748
+      spriteID: 345e0892b6ff61a80800000000000000
+      internalID: -8496322811264965309
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerSpritesheet_2
+      name: spritesheet_zombie_morado_2
       rect:
         serializedVersion: 2
-        x: 136
-        y: 16
-        width: 47
-        height: 33
+        x: 138
+        y: 8
+        width: 42
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3d1646c47e8355530800000000000000
-      internalID: 3843040423100834259
+      spriteID: f3ec4ca43b2ce3ff0800000000000000
+      internalID: -54392070172520897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerSpritesheet_3
+      name: spritesheet_zombie_morado_3
       rect:
         serializedVersion: 2
-        x: 200
-        y: 13
-        width: 47
-        height: 39
+        x: 202
+        y: 8
+        width: 42
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,8 +190,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c08d1153402185500800000000000000
-      internalID: 385077577419708428
+      spriteID: 6a1f9606926fad3f0800000000000000
+      internalID: -875116519998492250
       vertices: []
       indices: 
       edges: []
@@ -210,10 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PlayerSpritesheet_0: -5653878121705019575
-      PlayerSpritesheet_1: 1335251186984836748
-      PlayerSpritesheet_2: 3843040423100834259
-      PlayerSpritesheet_3: 385077577419708428
+      spritesheet_zombie_morado_0: -8900466672808593219
+      spritesheet_zombie_morado_1: -8496322811264965309
+      spritesheet_zombie_morado_2: -54392070172520897
+      spritesheet_zombie_morado_3: -875116519998492250
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
