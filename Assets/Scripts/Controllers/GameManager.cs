@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
     private float m_ZombieLifeMultiplier = 1;
     private float m_ZombieSpeedMultiplier = 1;
     private float m_ZombieSpawnRateMultiplier = 1;
+    public event Action<PlayerController> OnPlayerReady;
+    public event Action<int> OnCoinsChanged;
     void Awake()
     {
         if (m_GameManager != null)
@@ -50,6 +53,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         m_State = TState.PLAYINGROUNDS;
+<<<<<<< Updated upstream
+=======
+        m_PauseUI.gameObject.SetActive(false);
+        m_WinUI.gameObject.SetActive(false);
+        m_GameOverUI.gameObject.SetActive(false);
+>>>>>>> Stashed changes
     }
 
 
@@ -126,6 +135,7 @@ public class GameManager : MonoBehaviour
     public void SetPlayer(PlayerController Player)
     {
         m_Player = Player;
+        OnPlayerReady?.Invoke(m_Player);
     }
 
 
@@ -153,6 +163,7 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int coinsCollected)
     {
         m_Coins += coinsCollected;
+        OnCoinsChanged?.Invoke(m_Coins);
     }
     public int GetCoins()
     {
@@ -192,4 +203,16 @@ public class GameManager : MonoBehaviour
     {
         return m_State;
     }
+<<<<<<< Updated upstream
+=======
+
+    public void SetState(TState state)
+    {
+        m_State = state;
+    }
+
+
+
+
+>>>>>>> Stashed changes
 }

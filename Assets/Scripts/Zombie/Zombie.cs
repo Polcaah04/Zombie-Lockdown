@@ -22,6 +22,11 @@ public class Zombie : MonoBehaviour
     //[SerializeField] private GameObject[] m_PatrolPoints;
     //private int m_RandomPoint;
 
+    [Header ("Drop")]
+    [SerializeField] private int m_MinCoins = 5;
+    [SerializeField] private int m_MaxCoins = 12;
+    [SerializeField] private GameObject m_CoinPrefab;
+
     Rigidbody2D rb;
     PlayerController l_Player;
 
@@ -147,6 +152,7 @@ public class Zombie : MonoBehaviour
 
     void UpdateDieState()
     {
+        DropLoot();
         GameManager.GetGameManager().RegisterZombieDeath();
         Destroy(gameObject);
     }
@@ -195,6 +201,12 @@ public class Zombie : MonoBehaviour
 
         Vector2 newPos = rb.position + direction * m_Speed * Time.fixedDeltaTime;
         rb.MovePosition(newPos);
+    }
+
+    void DropLoot()
+    {
+        //por ahora solo añadira dinero
+        GameManager.GetGameManager().AddCoins(Random.Range(5, 12));
     }
 
     /*void Movement()

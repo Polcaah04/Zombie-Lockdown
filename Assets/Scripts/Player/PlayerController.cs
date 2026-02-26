@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [Header ("Basic Stats")]
-    [SerializeField] private int m_Life = 100;
-    private int m_CurrentLife;
+    [SerializeField] public int m_Life = 100;
+    public int m_CurrentLife;
     [SerializeField] private float m_Speed = 2f;
 
     [Header("Shoot")]
@@ -15,17 +16,15 @@ public class PlayerController : MonoBehaviour
     public LayerMask m_ShootLayerMask;
     //public GameObject m_ShootParticles;
     public GameObject m_LineTracer;
-    public float m_CooldownBetweenShots = 0.2f;
-    private float m_ShootTimer = 0f;
+    public float m_NextFire = 0;
     public float m_ReloadTime = 2f;
-    private bool m_CanShoot = true;
 
     [Header ("Weapon")]
     [SerializeField] private int m_MaxAmmo = 30;
-    [SerializeField] private int m_CurrentAmmo;
+    [SerializeField] public int m_CurrentAmmo;
     [SerializeField] private int m_MaxAmmoOnBack = 120;
-    [SerializeField] private int m_CurrentAmmoOnBack;
-    [SerializeField] private float m_FireRate;
+    [SerializeField] public int m_CurrentAmmoOnBack;
+    [SerializeField] public float m_FireRate = 0.2f;
     private bool m_IsShooting = false;
     private bool m_IsReloading = false;
     
@@ -37,6 +36,9 @@ public class PlayerController : MonoBehaviour
     Quaternion m_StartingRotation;
     Rigidbody2D m_RigidBody;
     Vector2 m_Movement;
+
+    public event Action<int, int> OnLifeChanged;
+    public event Action<int, int> OnAmmoChanged;
 
     [Header("Sprint / Stamina")]
     [SerializeField] private float m_SprintMultiplier = 1.5f;
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+<<<<<<< Updated upstream
         if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
             return;
 
@@ -78,6 +81,8 @@ public class PlayerController : MonoBehaviour
         {
             m_CanShoot = true;
         }
+=======
+>>>>>>> Stashed changes
 
         Cursor.lockState = CursorLockMode.Confined;
         Vector3 l_MousePosition = Input.mousePosition;
@@ -108,7 +113,7 @@ public class PlayerController : MonoBehaviour
         m_Movement = inputDir * speed;
 
         transform.rotation = Quaternion.Euler(0, 0, angle);
-        if (CanShoot() && Input.GetMouseButtonDown(0))
+        if (CanShoot() && Input.GetMouseButtonDown(0) && Time.time >= m_NextFire)
         {
             Shoot();
         }
@@ -127,7 +132,7 @@ public class PlayerController : MonoBehaviour
     //SHOOT
     bool CanShoot()
     {
-        return m_IsReloading == false && m_CurrentAmmo > 0 && m_CanShoot;
+        return m_IsReloading == false && m_CurrentAmmo > 0;
     }
 
     void Shoot()
@@ -156,11 +161,16 @@ public class PlayerController : MonoBehaviour
             GameObject tracer = Instantiate(m_LineTracer);
             tracer.GetComponent<BulletTracer>().Init(origin, endPos);
         }
+<<<<<<< Updated upstream
 
         m_CurrentAmmo--;
 
         m_CanShoot = false;
         m_ShootTimer = m_CooldownBetweenShots;
+=======
+        SetAmmo(m_CurrentAmmo - 1, m_CurrentAmmoOnBack);
+        m_NextFire = Time.time + m_FireRate;
+>>>>>>> Stashed changes
     }
 
     //RELOAD
@@ -174,27 +184,25 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Reloading");
         m_IsReloading = true;
         StartCoroutine(ReloadCoroutine());
+    }
 
-        int l_AmmoNeeded = m_MaxAmmo - m_CurrentAmmo;
 
-        if (m_CurrentAmmoOnBack >= l_AmmoNeeded)
-        {
-            m_CurrentAmmo += l_AmmoNeeded;
-            m_CurrentAmmoOnBack -= l_AmmoNeeded;
-        }
-        else
-        {
-            m_CurrentAmmo += m_CurrentAmmoOnBack;
-            m_CurrentAmmoOnBack = 0;
-        }
 
-        m_IsReloading = false;
+    void SetAmmo(int onLoad, int back)
+    {
+        m_CurrentAmmo = Mathf.Clamp(onLoad, 0, m_MaxAmmo);
+        m_CurrentAmmoOnBack = Mathf.Max(back, 0);
+        OnAmmoChanged?.Invoke(m_CurrentAmmo, m_CurrentAmmoOnBack);
     }
 
     IEnumerator ReloadCoroutine()
     {
 
         yield return new WaitForSeconds(2.5f);
+        int neededAmmo = m_MaxAmmo - m_CurrentAmmo;
+        int ammoToLoad = Mathf.Min(neededAmmo, m_CurrentAmmoOnBack);
+        SetAmmo(m_CurrentAmmo + ammoToLoad, m_CurrentAmmoOnBack - ammoToLoad);
+        m_IsReloading = false;
     }   
     
     //DAMAGE
@@ -202,6 +210,7 @@ public class PlayerController : MonoBehaviour
     {
         m_CurrentLife -= damage;
         Debug.Log(m_CurrentLife);
+        OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
         if (m_CurrentLife <= 0)
         {
             Die();
@@ -215,7 +224,9 @@ public class PlayerController : MonoBehaviour
     //DIE
     void Die()
     {
+        GameManager.GetGameManager().SetState(GameManager.TState.GAMEOVER);
         //meter animación de muerte
+
         Destroy(gameObject);
     }
 
@@ -224,6 +235,7 @@ public class PlayerController : MonoBehaviour
         Instantiate(m_HitEffect, position, Quaternion.identity);
     }
 
+<<<<<<< Updated upstream
     //GETTERS
     public int GetAmmo()
     {
@@ -244,5 +256,16 @@ public class PlayerController : MonoBehaviour
     public int GetMaxLife()
     {
         return m_Life;
+=======
+    public void AddMaxLife()
+    {
+        m_Life = (int)(m_Life * 1.2f);
+
+    }
+
+    public void SwitchMiniGun()
+    {
+        m_FireRate /= 2;
+>>>>>>> Stashed changes
     }
 }
