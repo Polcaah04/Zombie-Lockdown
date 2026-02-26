@@ -67,6 +67,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
+            return;
+
         if (m_ShootTimer > 0f)
         {
             m_ShootTimer -= Time.deltaTime;
@@ -154,6 +157,8 @@ public class PlayerController : MonoBehaviour
             tracer.GetComponent<BulletTracer>().Init(origin, endPos);
         }
 
+        m_CurrentAmmo--;
+
         m_CanShoot = false;
         m_ShootTimer = m_CooldownBetweenShots;
     }
@@ -217,5 +222,27 @@ public class PlayerController : MonoBehaviour
     void CreateShootHitParticles(Vector2 position)
     {
         Instantiate(m_HitEffect, position, Quaternion.identity);
+    }
+
+    //GETTERS
+    public int GetAmmo()
+    {
+        return m_CurrentAmmo;
+    }
+    public int GetMaxAmmo()
+    {
+        return m_MaxAmmo;
+    }
+    public int GetAmmoOnBack()
+    {
+        return m_CurrentAmmoOnBack;
+    }
+    public int GetCurrentLife()
+    {
+        return m_CurrentLife;
+    }
+    public int GetMaxLife()
+    {
+        return m_Life;
     }
 }

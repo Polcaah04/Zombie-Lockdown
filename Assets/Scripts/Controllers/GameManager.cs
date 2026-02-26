@@ -15,9 +15,6 @@ public class GameManager : MonoBehaviour
     //Objects
     static GameManager m_GameManager;
     PlayerController m_Player;
-    [SerializeField] private GameObject m_WinUI;
-    [SerializeField] private GameObject m_GameOverUI;
-    [SerializeField] private GameObject m_PauseUI;
 
     //Times
     private float m_GameTime;
@@ -53,8 +50,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         m_State = TState.PLAYINGROUNDS;
-        m_WinUI.gameObject.SetActive(false);
-        m_GameOverUI.gameObject.SetActive(false);
     }
 
 
@@ -94,12 +89,10 @@ public class GameManager : MonoBehaviour
 
         if(m_State == TState.WIN)
         {
-            m_WinUI.gameObject.SetActive(true);
             m_Player.enabled = false;
         }
         else if (m_State == TState.GAMEOVER)
         {
-            m_GameOverUI.gameObject.SetActive(true);
             m_Player.enabled = false;
         }
     }
@@ -116,15 +109,11 @@ public class GameManager : MonoBehaviour
         {
             m_State = TState.PLAYINGROUNDS;
             Time.timeScale = 1f;
-            m_Player.enabled = true;
-            m_PauseUI.SetActive(false);
         }
         else if (m_State != TState.WIN && m_State != TState.GAMEOVER)
         {
             m_State = TState.PAUSED;
             Time.timeScale = 0f;
-            m_Player.enabled = false;
-            m_PauseUI.SetActive(true);
         }
     }
 
@@ -148,12 +137,10 @@ public class GameManager : MonoBehaviour
     {
         return m_CurrentZombies < m_MaxZombies;
     }
-
     public void RegisterZombieSpawn()
     {
         m_CurrentZombies++;
     }
-
     public void RegisterZombieDeath()
     {
         m_CurrentZombies--;
@@ -167,7 +154,6 @@ public class GameManager : MonoBehaviour
     {
         m_Coins += coinsCollected;
     }
-
     public int GetCoins()
     {
         return m_Coins;
@@ -179,12 +165,10 @@ public class GameManager : MonoBehaviour
     {
         return m_ZombieLifeMultiplier;
     }
-
     public float GetSpeedMultiplier()
     {
         return m_ZombieSpeedMultiplier;
     }
-
     public float GetSpawnRateMultiplier()
     {
         return m_ZombieSpawnRateMultiplier;
@@ -196,17 +180,14 @@ public class GameManager : MonoBehaviour
     {
         return m_GameTime;
     }
-
     public float GetRoundTime()
     {
         return m_RoundsTime;
     }
-
     public float GetCurrentRestTime()
     {
         return m_RestDisplayedTime;
     }
-
     public TState GetState()
     {
         return m_State;
