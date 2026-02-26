@@ -211,6 +211,4 @@ public class GameManager : MonoBehaviour
     {
         return m_State;
     }
-
-
 }
