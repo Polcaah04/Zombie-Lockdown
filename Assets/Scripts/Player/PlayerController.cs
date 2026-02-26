@@ -69,20 +69,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-<<<<<<< Updated upstream
         if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
             return;
-
-        if (m_ShootTimer > 0f)
-        {
-            m_ShootTimer -= Time.deltaTime;
-        }
-        else
-        {
-            m_CanShoot = true;
-        }
-=======
->>>>>>> Stashed changes
 
         Cursor.lockState = CursorLockMode.Confined;
         Vector3 l_MousePosition = Input.mousePosition;
@@ -160,17 +148,9 @@ public class PlayerController : MonoBehaviour
         {
             GameObject tracer = Instantiate(m_LineTracer);
             tracer.GetComponent<BulletTracer>().Init(origin, endPos);
-        }
-<<<<<<< Updated upstream
-
-        m_CurrentAmmo--;
-
-        m_CanShoot = false;
-        m_ShootTimer = m_CooldownBetweenShots;
-=======
+        }    
         SetAmmo(m_CurrentAmmo - 1, m_CurrentAmmoOnBack);
         m_NextFire = Time.time + m_FireRate;
->>>>>>> Stashed changes
     }
 
     //RELOAD
@@ -234,29 +214,6 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(m_HitEffect, position, Quaternion.identity);
     }
-
-<<<<<<< Updated upstream
-    //GETTERS
-    public int GetAmmo()
-    {
-        return m_CurrentAmmo;
-    }
-    public int GetMaxAmmo()
-    {
-        return m_MaxAmmo;
-    }
-    public int GetAmmoOnBack()
-    {
-        return m_CurrentAmmoOnBack;
-    }
-    public int GetCurrentLife()
-    {
-        return m_CurrentLife;
-    }
-    public int GetMaxLife()
-    {
-        return m_Life;
-=======
     public void AddMaxLife()
     {
         m_Life = (int)(m_Life * 1.2f);
@@ -266,6 +223,5 @@ public class PlayerController : MonoBehaviour
     public void SwitchMiniGun()
     {
         m_FireRate /= 2;
->>>>>>> Stashed changes
     }
 }

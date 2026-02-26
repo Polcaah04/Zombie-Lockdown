@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     //Objects
     static GameManager m_GameManager;
     PlayerController m_Player;
+    [SerializeField] private GameObject m_WinUI;
+    [SerializeField] private GameObject m_GameOverUI;
+    [SerializeField] private GameObject m_PauseUI;
 
     //Times
     private float m_GameTime;
@@ -53,12 +56,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         m_State = TState.PLAYINGROUNDS;
-<<<<<<< Updated upstream
-=======
         m_PauseUI.gameObject.SetActive(false);
         m_WinUI.gameObject.SetActive(false);
         m_GameOverUI.gameObject.SetActive(false);
->>>>>>> Stashed changes
+
     }
 
 
@@ -203,16 +204,10 @@ public class GameManager : MonoBehaviour
     {
         return m_State;
     }
-<<<<<<< Updated upstream
-=======
 
     public void SetState(TState state)
     {
         m_State = state;
     }
 
-
-
-
->>>>>>> Stashed changes
 }
