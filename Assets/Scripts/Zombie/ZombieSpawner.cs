@@ -25,13 +25,12 @@ public class ZombieSpawner : MonoBehaviour
             {
                 if (GameManager.GetGameManager().CanSpawnZombie())
                 {
+                    GameManager.GetGameManager().RegisterZombieSpawn();
                     yield return new WaitForSeconds(Random.Range(1f, 5f));
 
                     Vector2 spawnPos = m_SpawnPositionsList[Random.Range(0, m_SpawnPositionsList.Length)];
 
                     Instantiate(m_Zombie, spawnPos, Quaternion.identity);
-
-                    GameManager.GetGameManager().RegisterZombieSpawn();
                 }
                 else
                 {

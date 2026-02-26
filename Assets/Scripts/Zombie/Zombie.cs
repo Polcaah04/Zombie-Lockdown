@@ -75,7 +75,6 @@ public class Zombie : MonoBehaviour
 
     void SetChaseState()
     {
-        Debug.Log("SET CHASE");
         m_State = TState.CHASE;
     }
     
@@ -146,7 +145,6 @@ public class Zombie : MonoBehaviour
 
     void SetDieState()
     {
-        Debug.Log("DIE");
         m_State = TState.DIE;
     }
 
@@ -182,7 +180,6 @@ public class Zombie : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("Zombie get damage");
         m_CurrentLife -= damage;
 
         if (m_CurrentLife <= 0)
@@ -206,7 +203,7 @@ public class Zombie : MonoBehaviour
     void DropLoot()
     {
         //por ahora solo añadira dinero
-        GameManager.GetGameManager().AddCoins(Random.Range(5, 12));
+        GameManager.GetGameManager().AddCoins(Random.Range(m_MinCoins, m_MaxCoins));
     }
 
     /*void Movement()

@@ -110,12 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682abf6c2ff4bf74da229ef26e2c49e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
-  m_Life: 100
-  m_Speed: 2
-  m_ViewDistance: 2
-  m_MaxViewDistance: 6
-  m_LeftDoor: {fileID: 0}
-  m_RightDoor: {fileID: 0}
+  m_Life: 20
+  m_Speed: 1
   m_Damage: 5
   m_AttackDistance: 1
   m_AttackTime: 1
@@ -125,6 +121,9 @@ MonoBehaviour:
   m_ObstacleLayer:
     serializedVersion: 2
     m_Bits: 128
+  m_MinCoins: 5
+  m_MaxCoins: 12
+  m_CoinPrefab: {fileID: 0}
 --- !u!212 &-6655813470452654748
 SpriteRenderer:
   m_ObjectHideFlags: 0

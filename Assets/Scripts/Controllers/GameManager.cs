@@ -35,6 +35,11 @@ public class GameManager : MonoBehaviour
     int m_MaxDifficult = 10;
     int m_BaseMultiplier = 1;
 
+    // ZOMBIES
+    private int m_CurrentZombies = 0;
+    [SerializeField] private int m_MaxZombies = 30;
+    private int m_ZombiesPerRound;
+
     public int m_Coins { get; private set; } = 0;
 
     private float m_ZombieLifeMultiplier = 1;
@@ -42,6 +47,7 @@ public class GameManager : MonoBehaviour
     private float m_ZombieSpawnRateMultiplier = 1;
     public event Action<PlayerController> OnPlayerReady;
     public event Action<int> OnCoinsChanged;
+    public event Action<int> OnTimeChanged;
     void Awake()
     {
         if (m_GameManager != null)
@@ -56,6 +62,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         m_State = TState.PLAYINGROUNDS;
+        m_ZombiesPerRound = 6;
         m_PauseUI.gameObject.SetActive(false);
         m_WinUI.gameObject.SetActive(false);
         m_GameOverUI.gameObject.SetActive(false);
@@ -76,12 +83,22 @@ public class GameManager : MonoBehaviour
         if (m_State == TState.PLAYINGROUNDS)
         {
             m_RoundsTime = m_GameTime - m_RestingTime;
+            OnTimeChanged?.Invoke((int)m_RoundsTime);
             if (m_RoundsTime > m_DifficultyChangeInterval && m_Difficulty < m_MaxDifficult)
             {
                 m_Difficulty++;
                 m_DifficultyChangeInterval += m_DifficultyFixChange;
                 m_ZombieLifeMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
                 m_ZombieSpeedMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
+                if (m_ZombiesPerRound < m_MaxZombies)
+                {
+                    m_ZombiesPerRound += (int)(m_BaseMultiplier + (m_Difficulty / 2));
+                    if (m_ZombiesPerRound > m_MaxZombies)
+                    {
+                        m_ZombiesPerRound = m_MaxZombies;
+                    }
+                }
+               
                 m_State = TState.RESTING;             
             }
         }
@@ -140,13 +157,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // ZOMBIES
-    private int m_CurrentZombies = 0;
-    [SerializeField] private int m_MaxZombies = 30;
-
+    //ZOMBIE
     public bool CanSpawnZombie()
     {
-        return m_CurrentZombies < m_MaxZombies;
+        return m_CurrentZombies < m_ZombiesPerRound;
     }
     public void RegisterZombieSpawn()
     {

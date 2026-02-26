@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public GameObject m_LineTracer;
     public float m_NextFire = 0;
     public float m_ReloadTime = 2f;
-
+    [SerializeField] private int m_Damage = 10;
     [Header ("Weapon")]
     [SerializeField] private int m_MaxAmmo = 30;
     [SerializeField] public int m_CurrentAmmo;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Objects")]
     [SerializeField] private GameObject m_Weapon;
-    PlayerController l_Player;
+
     Vector3 m_StartingPosition;
     Quaternion m_StartingRotation;
     Rigidbody2D m_RigidBody;
@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
 
         m_StartingPosition = transform.position;
         m_StartingRotation = transform.rotation;
- 
     }
 
     void Update()
@@ -125,7 +124,6 @@ public class PlayerController : MonoBehaviour
 
     void Shoot()
     {
-        Debug.Log("Pium pium");
 
         Vector2 origin = m_Weapon.transform.position;
         Vector2 direction = transform.right;
@@ -135,11 +133,10 @@ public class PlayerController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Golpeó a Zombie");
 
             if (hit.collider.CompareTag("Zombie"))
             {
-                hit.collider.GetComponent<Zombie>().TakeDamage(10);
+                hit.collider.GetComponent<Zombie>().TakeDamage(m_Damage);
             }
             endPos = hit.point;
         }
@@ -161,7 +158,6 @@ public class PlayerController : MonoBehaviour
 
     void Reload()
     {
-        Debug.Log("Reloading");
         m_IsReloading = true;
         StartCoroutine(ReloadCoroutine());
     }
@@ -189,7 +185,6 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage (int damage)
     {
         m_CurrentLife -= damage;
-        Debug.Log(m_CurrentLife);
         OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
         if (m_CurrentLife <= 0)
         {
@@ -222,6 +217,7 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchMiniGun()
     {
-        m_FireRate /= 2;
+        m_FireRate = 0.1f;
+        m_Damage = 20;
     }
 }
