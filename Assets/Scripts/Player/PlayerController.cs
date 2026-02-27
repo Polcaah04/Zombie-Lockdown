@@ -166,8 +166,10 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ReloadCoroutine());
     }
 
-
-
+    public void AddAmmo(int ammo)
+    {
+        m_CurrentAmmoOnBack += ammo;
+    }
     void SetAmmo(int onLoad, int back)
     {
         m_CurrentAmmo = Mathf.Clamp(onLoad, 0, m_MaxAmmo);
@@ -265,7 +267,17 @@ public class PlayerController : MonoBehaviour
         m_Speed /= value;
     }
 
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Item"))
+        {
+            Item item = other.GetComponent<Item>();
+            if (item != null)
+            {
+                item.Pick(this);
+            }
+        }
+    }
 
 
 
