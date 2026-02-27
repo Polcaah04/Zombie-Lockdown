@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public int m_Life = 100;
     public int m_CurrentLife;
     [SerializeField] private float m_Speed = 2f;
+    private bool m_IsInvincible = false;
 
     [Header("Shoot")]
     public Transform m_Crosshair;
@@ -184,8 +185,12 @@ public class PlayerController : MonoBehaviour
     //DAMAGE
     public void TakeDamage (int damage)
     {
-        m_CurrentLife -= damage;
-        OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
+        if (m_IsInvincible == false)
+        {
+            m_CurrentLife -= damage;
+            OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
+        }
+        
         if (m_CurrentLife <= 0)
         {
             Die();
@@ -209,15 +214,46 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(m_HitEffect, position, Quaternion.identity);
     }
-    public void AddMaxLife()
+    public void AddMaxLife(float multiplier)
     {
-        m_Life = (int)(m_Life * 1.2f);
+        m_Life = (int)(m_Life * multiplier);
 
     }
 
-    public void SwitchMiniGun()
+    public void SwitchMiniGun(float fireRateValue, int damageValue)
     {
-        m_FireRate = 0.1f;
-        m_Damage = 20;
+        m_FireRate = fireRateValue;
+        m_Damage = damageValue;
     }
+
+    public void BuffDamage(int value)
+    {
+        m_Damage += value;
+    }
+
+    public void MakeInvincible()
+    {
+        m_IsInvincible = true;
+    }
+
+    public void SecondChance()
+    {
+
+    }
+
+    public void NerfMaxAmmo(int value)
+    {
+        m_MaxAmmo /= value;
+        m_MaxAmmoOnBack /= value;
+    }
+
+    public void NerfSpeed(float value)
+    {
+        m_Speed /= value;
+    }
+
+
+
+
+
 }
