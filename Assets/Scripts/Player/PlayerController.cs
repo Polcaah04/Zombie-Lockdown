@@ -28,7 +28,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float m_FireRate = 0.2f;
     private bool m_IsShooting = false;
     private bool m_IsReloading = false;
-    
+
+    [Header("Animations")]
+    public Animator m_Animation;
 
     [Header("Objects")]
     [SerializeField] private GameObject m_Weapon;
@@ -125,7 +127,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot()
     {
-
+        SetShootAnimation();
         Vector2 origin = m_Weapon.transform.position;
         Vector2 direction = transform.right;
 
@@ -160,6 +162,7 @@ public class PlayerController : MonoBehaviour
     void Reload()
     {
         m_IsReloading = true;
+        SetReloadAnimation();
         StartCoroutine(ReloadCoroutine());
     }
 
@@ -208,6 +211,16 @@ public class PlayerController : MonoBehaviour
         //meter animación de muerte
 
         Destroy(gameObject);
+    }
+
+    //ANIMATIONS
+    void SetReloadAnimation()
+    {
+        m_Animation.SetTrigger("reload");
+    }
+    void SetShootAnimation()
+    {
+        m_Animation.SetTrigger("shoot");
     }
 
     void CreateShootHitParticles(Vector2 position)
