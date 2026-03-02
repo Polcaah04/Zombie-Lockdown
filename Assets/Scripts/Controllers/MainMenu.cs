@@ -56,6 +56,7 @@ public class MainMenu : MonoBehaviour
     void OnStartGame()
     {
         m_MainMenu.SetActive(false);
+        GameManager.GetGameManager().ResetGame();
         SceneManager.LoadScene("Map 1");
     }
     void OnOpenSettings()

@@ -209,9 +209,8 @@ public class PlayerController : MonoBehaviour
     //DIE
     void Die()
     {
-        GameManager.GetGameManager().SetState(GameManager.TState.GAMEOVER);
-        //meter animación de muerte
-
+        GameManager.GetGameManager().GameOver();
+        //meter animacion de muerte
         Destroy(gameObject);
     }
 

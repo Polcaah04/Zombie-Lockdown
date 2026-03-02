@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     //Times
     private float m_GameTime;
+    private float m_GameStartTime;
     private float m_RoundsTime;
     private float m_RestingTime;
     int m_RestingChangeInterval = 30;
@@ -69,11 +72,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     private void Update()
     {
-        m_GameTime = Time.time;
+        m_GameTime = Time.time - m_GameStartTime;
 
         if (Input.GetKeyDown(Settings.m_PauseKey))
         {
@@ -144,6 +145,60 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void GameOver()
+    {
+        m_State = TState.GAMEOVER;
+
+        Time.timeScale = 0f;
+
+        if (m_GameOverUI != null)
+            m_GameOverUI.SetActive(true);
+
+        StartCoroutine(ReturnToMenuAfterSeconds(3f));
+    }
+
+    public void WinGame()
+    {
+        m_State = TState.WIN;
+
+        Time.timeScale = 0f;
+
+        if (m_WinUI != null)
+            m_WinUI.SetActive(true);
+
+        StartCoroutine(ReturnToMenuAfterSeconds(4f));
+    }
+
+    IEnumerator ReturnToMenuAfterSeconds(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void ResetGame()
+    {
+        Time.timeScale = 1f;
+        m_GameStartTime = Time.time;
+
+        m_State = TState.PLAYINGROUNDS;
+
+        m_Coins = 0;
+        m_CurrentZombies = 0;
+        m_Difficulty = 0;
+
+        m_GameTime = 0;
+        m_RoundsTime = 0;
+        m_RestingTime = 0;
+        m_RestDisplayedTime = 0;
+
+        m_ZombiesPerRound = 6;
+
+        if (m_Player != null)
+        {
+            Destroy(m_Player.gameObject);
+            m_Player = null;
+        }
+    }
 
     // PLAYER
     public PlayerController GetPlayer()
