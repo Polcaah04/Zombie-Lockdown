@@ -124,6 +124,7 @@ MonoBehaviour:
   m_MinCoins: 5
   m_MaxCoins: 12
   m_CoinPrefab: {fileID: 0}
+  m_AmmoItemPrefab: {fileID: 7720497664166880994, guid: be5595df44d33644f9fbef928334bb9b, type: 3}
 --- !u!212 &-6655813470452654748
 SpriteRenderer:
   m_ObjectHideFlags: 0

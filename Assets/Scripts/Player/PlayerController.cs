@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_SprintMultiplier = 1.5f;
     private bool m_IsSprinting = false;
 
+
+
     void Start()
     {
         m_CurrentAmmo = m_MaxAmmo;
@@ -71,6 +74,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
+
         if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
             return;
 
@@ -169,6 +174,9 @@ public class PlayerController : MonoBehaviour
     public void AddAmmo(int ammo)
     {
         m_CurrentAmmoOnBack += ammo;
+        if(m_CurrentAmmoOnBack > m_MaxAmmoOnBack)
+            m_CurrentAmmoOnBack = m_MaxAmmoOnBack;
+        OnAmmoChanged?.Invoke(m_CurrentAmmo, m_CurrentAmmoOnBack);
     }
     void SetAmmo(int onLoad, int back)
     {
@@ -266,7 +274,7 @@ public class PlayerController : MonoBehaviour
         m_Speed /= value;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Item"))
         {
@@ -277,7 +285,4 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-
-
 }

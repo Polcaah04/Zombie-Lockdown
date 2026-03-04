@@ -26,6 +26,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] private int m_MinCoins = 5;
     [SerializeField] private int m_MaxCoins = 12;
     [SerializeField] private GameObject m_CoinPrefab;
+    [SerializeField] private GameObject m_AmmoItemPrefab;
 
     Rigidbody2D rb;
     PlayerController l_Player;
@@ -204,6 +205,7 @@ public class Zombie : MonoBehaviour
     {
         //por ahora solo añadira dinero
         GameManager.GetGameManager().AddCoins(Random.Range(m_MinCoins, m_MaxCoins));
+        Instantiate(m_AmmoItemPrefab, transform.position, Quaternion.identity);
     }
 
     /*void Movement()

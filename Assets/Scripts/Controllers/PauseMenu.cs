@@ -1,34 +1,33 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static GameManager;
 
-public class MainMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
-    [Header("Main Menu Buttons")]
-    [SerializeField] private Button m_StartButton;
-    [SerializeField] private Button m_OptionsButton;
-    [SerializeField] private Button m_LeaveButton;
+    private bool m_Paused = false;
+    private bool m_IsOptions = false;
+    private bool m_IsConfirmingExit = false;
 
-    //[Header("Config Play Buttons")]
-    //[SerializeField] private Button m_CreatePlayButton;
-    //[SerializeField] private Button m_LeaveConfigPlayButton;
-
-    [Header("Options Menu UI")]
-    [SerializeField] private Button m_ControlsButton;
-    [SerializeField] private Button m_SoundButton;
-    //[SerializeField] private Button m_GraphicsButton;
-    [SerializeField] private Button m_SaveSettingsButton;
-    [SerializeField] private Button m_LeaveSettingsButton;
 
     [Header("Panels")]
-    [SerializeField] private GameObject m_MainMenu; //not a panel
-    //[SerializeField] private GameObject m_CreatePanel;
-    [SerializeField] private GameObject m_OptionsMenu; //not a panel
-    [SerializeField] private GameObject m_ControlsPanel;
-    [SerializeField] private GameObject m_SoundsPanel;
-    //[SerializeField] private GameObject m_GraphicsPanel;
+    public GameObject m_PausePanel;
+    public GameObject m_OptionsPanel;
+    public GameObject m_ControlsPanel;
+    public GameObject m_SoundsPanel;
+    public GameObject m_ConfirmExitPanel;
+
+    [Header("Buttons")]
+    public Button m_Leave;
+    public Button m_Options;
+    public Button m_LeaveSettingsButton;
+    public Button m_ControlsButton;
+    public Button m_SoundButton;
+    public Button m_SaveSettingsButton;
+    public Button m_Quit;
+    public Button m_NegateQuit;
 
     //to bind new key controls correctly
     Button m_CurrentBindingButton = null;
@@ -39,16 +38,20 @@ public class MainMenu : MonoBehaviour
     List<RectTransform> inputList = new List<RectTransform>();
 
 
+
     void Start()
     {
-        m_MainMenu.SetActive(true);
-        //m_CreatePanel.SetActive(false);
-        m_OptionsMenu.SetActive(false);
-        m_ControlsPanel.SetActive(false);
-        m_SoundsPanel.SetActive(false);
-        //m_GraphicsPanel.SetActive(false);
-
-        AddListeners();
+        m_Quit.onClick.AddListener(ConfirmExit);
+        m_NegateQuit.onClick.AddListener(NegateExit);
+        m_Leave.onClick.AddListener(OnLeave);
+        m_Options.onClick.AddListener(OnOptions);
+        m_LeaveSettingsButton.onClick.AddListener(ReturnToPauseMenu);
+        if (GameManager.GetGameManager().GetPlayer() != null)
+        {
+            m_PausePanel.SetActive(false);
+            m_OptionsPanel.SetActive(false);
+            m_ConfirmExitPanel.SetActive(false);
+        }
 
         foreach (Transform child in m_ControlsPanel.transform)
         {
@@ -77,65 +80,119 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    //Main Menu Functions
-    void OnStartGame()
+    void Update()
     {
-        m_MainMenu.SetActive(false);
-        SceneManager.LoadScene("Map 1");
-    }
-    void OnOpenSettings()
-    {
-        m_MainMenu.SetActive(false);
-        m_OptionsMenu.SetActive(true);
-        m_ControlsPanel.SetActive(true);
-    }
-    void OnLeaveGame()
-    {
-        Application.Quit();
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        //MODIFICAR MUCHISIMO ESTO POR FAVOOOR
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        if (Input.GetKeyDown(Settings.m_PauseKey))
+        {
+            Debug.Log("Paused");
+            Pause();
+            if (!m_Paused && !m_IsOptions && !m_IsConfirmingExit)
+            {
+                ShowPanels(m_PausePanel, true);
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+            else if (m_Paused && !m_IsOptions && !m_IsConfirmingExit)
+            {
+                ShowPanels(m_PausePanel, false);
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else if (!m_Paused && m_IsOptions && !m_IsConfirmingExit)
+            {
+                ShowPanels(m_OptionsPanel, false);
+                ShowPanels(m_PausePanel, true);
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+            else if (m_Paused && !m_IsOptions && m_IsConfirmingExit)
+            {
+                ShowPanels(m_ConfirmExitPanel, false);
+                ShowPanels(m_PausePanel, true);
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+        }
+        //
+        //
+        //
+        //
     }
 
-    // Create Game Menu Functions
-    /*void OnCreate()
+    void Pause()
     {
-        SceneManager.LoadScene("Prologue");
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        Debug.Log("Function");
+        if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
+        {
+            Debug.Log("State playing");
+            GameManager.GetGameManager().SetState(GameManager.TState.PLAYINGROUNDS);
+            Time.timeScale = 1f;
+        }
+        else if (GameManager.GetGameManager().GetState() != TState.WIN && GameManager.GetGameManager().GetState() != TState.GAMEOVER)
+        {
+            Debug.Log("State paused");
+            GameManager.GetGameManager().SetState(GameManager.TState.PAUSED);
+            Time.timeScale = 0f;
+        }
     }
-    void OnLeaveConfigPlay()
-    {
-        m_MainMenu.SetActive(true);
-        //m_CreatePanel.SetActive(false);
-    }*/
 
-    // Settings Menu Functions
-    void OnOpenControls()
+    void ShowPanels(GameObject panel, bool updated)
     {
+        if (panel.name == "PauseMenuPanel")
+        {
+            m_Paused = updated;
+        }
+        else if (panel.name == "OptionsPanel")
+        {
+            m_IsOptions = updated;
+        }
+        else if (panel.name == "ConfirmExitPanel")
+            m_IsConfirmingExit = updated;
+        panel.SetActive(updated);
+    }
 
-        m_ControlsPanel.SetActive(true);
-        m_SoundsPanel.SetActive(false);
-        //m_GraphicsPanel.SetActive(false);
-    }
-    void OnOpenSound()
+    void OnLeave()
     {
-        m_ControlsPanel.SetActive(false);
-        m_SoundsPanel.SetActive(true);
-        //m_GraphicsPanel.SetActive(false);
+        ShowPanels(m_ConfirmExitPanel, true);
+        ShowPanels(m_PausePanel, true);
+        Cursor.lockState = CursorLockMode.Confined;
     }
-    void OnOpenGraphics()
+
+    void ConfirmExit()
     {
-        m_ControlsPanel.SetActive(false);
-        m_SoundsPanel.SetActive(false);
-        //m_GraphicsPanel.SetActive(true);
+        SceneManager.LoadScene("MainMenu");
     }
-    void OnLeaveSettings()
+
+    void NegateExit()
     {
-        m_MainMenu.SetActive(true);
-        m_OptionsMenu.SetActive(false);
+        ShowPanels(m_ConfirmExitPanel, false);
+        ShowPanels(m_PausePanel, true);
+        Cursor.lockState = CursorLockMode.Confined;
     }
-    void OnSaveSettings()
+
+    void OnOptions()
     {
-        Settings.Save();
+        ShowPanels(m_PausePanel, false);
+        ShowPanels(m_OptionsPanel, true);
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    void ReturnToPauseMenu()
+    {
+        ShowPanels(m_OptionsPanel, false);
+        ShowPanels(m_PausePanel, true);
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void OnButtonKeyBind()
@@ -219,25 +276,4 @@ public class MainMenu : MonoBehaviour
         }
         return KeyCode.None;
     }
-
-    private void AddListeners()
-    {
-        //MainMenu Listeners
-        m_StartButton.onClick.AddListener(OnStartGame);
-        m_OptionsButton.onClick.AddListener(OnOpenSettings);
-        m_LeaveButton.onClick.AddListener(OnLeaveGame);
-
-        //Create Game Menu Listeners
-        //m_CreatePlayButton.onClick.AddListener(OnCreate);
-        //m_LeaveConfigPlayButton.onClick.AddListener(OnLeaveConfigPlay);
-
-        //Settings Menu Listeners
-        m_ControlsButton.onClick.AddListener(OnOpenControls);
-        m_SoundButton.onClick.AddListener(OnOpenSound);
-        //m_GraphicsButton.onClick.AddListener(OnOpenGraphics);
-        m_LeaveSettingsButton.onClick.AddListener(OnLeaveSettings);
-        m_SaveSettingsButton.onClick.AddListener(OnSaveSettings);
-    }
-
-    
 }

@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     PlayerController m_Player;
     [SerializeField] private GameObject m_WinUI;
     [SerializeField] private GameObject m_GameOverUI;
-    [SerializeField] private GameObject m_PauseUI;
+    //[SerializeField] private GameObject m_PauseUI;
 
     //Times
     private float m_GameTime;
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         m_State = TState.PLAYINGROUNDS;
         m_ZombiesPerRound = 6;
-        m_PauseUI.gameObject.SetActive(false);
+        //m_PauseUI.gameObject.SetActive(false);
         m_WinUI.gameObject.SetActive(false);
         m_GameOverUI.gameObject.SetActive(false);
 
@@ -76,10 +76,6 @@ public class GameManager : MonoBehaviour
     {
         m_GameTime = Time.time - m_GameStartTime;
 
-        if (Input.GetKeyDown(Settings.m_PauseKey))
-        {
-            Pause();
-        }
 
         if (m_State == TState.PLAYINGROUNDS)
         {
@@ -130,19 +126,6 @@ public class GameManager : MonoBehaviour
     public static GameManager GetGameManager()
     {
         return m_GameManager;
-    }
-    void Pause()
-    {
-        if (m_State == TState.PAUSED)
-        {
-            m_State = TState.PLAYINGROUNDS;
-            Time.timeScale = 1f;
-        }
-        else if (m_State != TState.WIN && m_State != TState.GAMEOVER)
-        {
-            m_State = TState.PAUSED;
-            Time.timeScale = 0f;
-        }
     }
 
     public void GameOver()
