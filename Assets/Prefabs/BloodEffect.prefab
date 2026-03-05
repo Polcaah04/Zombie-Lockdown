@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 497665730721219604}
   - component: {fileID: 2914702745384755157}
   m_Layer: 0
-  m_Name: ZombieHitEffect
+  m_Name: BloodEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

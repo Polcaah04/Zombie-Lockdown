@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class PlayerController : MonoBehaviour
     public GameObject m_HitEffect;
     public float m_ShootMaxDistance = 50.0f;
     public LayerMask m_ShootLayerMask;
-    public GameObject m_ShootParticles;
     public GameObject m_LineTracer;
     public float m_NextFire = 0;
     public float m_ReloadTime = 2f;
@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float m_FireRate = 0.2f;
     private bool m_IsShooting = false;
     private bool m_IsReloading = false;
+
+    [Header("Particles")]
+    [SerializeField] private GameObject m_HitBloodEffect;
 
     [Header("Animations")]
     public Animator m_Animation;
@@ -49,7 +52,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_SprintMultiplier = 1.5f;
     private bool m_IsSprinting = false;
 
-
+    [Header("UI Damage")]
+    [SerializeField] private Image m_DamageOverlay;
+    [SerializeField] private float m_DamageFlashTime = 0.2f;
 
     void Start()
     {
@@ -212,6 +217,14 @@ public class PlayerController : MonoBehaviour
         {
             m_CurrentLife -= damage;
             OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
+
+            if (m_HitBloodEffect != null)
+            {
+                Vector3 spawnPos = transform.position + transform.up * 0.1f;
+                Instantiate(m_HitBloodEffect, spawnPos, Quaternion.identity);
+            }
+                
+            ShowDamageOverlay();
         }
         
         if (m_CurrentLife <= 0)
@@ -245,6 +258,27 @@ public class PlayerController : MonoBehaviour
     void CreateShootHitParticles(Vector2 position)
     {
         Instantiate(m_HitEffect, position, Quaternion.identity);
+    }
+
+    //UI DAMAGE
+    private void ShowDamageOverlay()
+    {
+        if (m_DamageOverlay == null) return;
+
+        StopAllCoroutines(); 
+        StartCoroutine(DamageFlashCoroutine());
+    }
+
+    private IEnumerator DamageFlashCoroutine()
+    {
+        Color c = m_DamageOverlay.color;
+        c.a = 0.2f; 
+        m_DamageOverlay.color = c;
+
+        yield return new WaitForSeconds(m_DamageFlashTime);
+
+        c.a = 0f; 
+        m_DamageOverlay.color = c;
     }
     public void AddMaxLife(float multiplier)
     {
