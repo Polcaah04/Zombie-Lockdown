@@ -187,7 +187,7 @@ public class ZombieTest : MonoBehaviour
             l_Player = GameManager.GetGameManager().GetPlayer();
             if (l_Player != null)
             {
-                l_Player.TakeDamage(m_Damage);
+                l_Player.PlayerTakeDamage(m_Damage);
             }
 
             Debug.DrawRay(m_AttackPoint.position, direction * m_AttackDistance, Color.red, 0.2f);

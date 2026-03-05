@@ -121,6 +121,7 @@ MonoBehaviour:
   m_ObstacleLayer:
     serializedVersion: 2
     m_Bits: 128
+  m_HitBloodEffect: {fileID: 8006062907716545557, guid: 974d3b9569d18a94abd57c0e5dc2b4e1, type: 3}
   m_MinCoins: 5
   m_MaxCoins: 12
   m_CoinPrefab: {fileID: 0}

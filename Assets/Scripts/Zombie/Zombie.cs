@@ -22,6 +22,9 @@ public class Zombie : MonoBehaviour
     //[SerializeField] private GameObject[] m_PatrolPoints;
     //private int m_RandomPoint;
 
+    [Header("Particles")]
+    [SerializeField] private GameObject m_HitBloodEffect;
+
     [Header ("Drop")]
     [SerializeField] private int m_MinCoins = 5;
     [SerializeField] private int m_MaxCoins = 12;
@@ -133,7 +136,7 @@ public class Zombie : MonoBehaviour
 
             if (m_AttackTimer >= m_AttackTime)
             {
-                l_Player.TakeDamage(m_Damage);
+                l_Player.PlayerTakeDamage(m_Damage);
                 m_AttackTimer = 0f;
             }
         }
@@ -179,9 +182,14 @@ public class Zombie : MonoBehaviour
         }
      }*/
 
-    public void TakeDamage(int damage)
+    public void ZombieTakeDamage(int damage, Vector2 hitPoint)
     {
         m_CurrentLife -= damage;
+
+        if (m_HitBloodEffect != null)
+        {
+            Instantiate(m_HitBloodEffect, hitPoint, Quaternion.identity);
+        }
 
         if (m_CurrentLife <= 0)
         {

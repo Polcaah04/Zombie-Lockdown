@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public GameObject m_HitEffect;
     public float m_ShootMaxDistance = 50.0f;
     public LayerMask m_ShootLayerMask;
-    //public GameObject m_ShootParticles;
+    public GameObject m_ShootParticles;
     public GameObject m_LineTracer;
     public float m_NextFire = 0;
     public float m_ReloadTime = 2f;
@@ -147,9 +147,16 @@ public class PlayerController : MonoBehaviour
 
             if (hit.collider.CompareTag("Zombie"))
             {
-                hit.collider.GetComponent<Zombie>().TakeDamage(m_Damage);
+                Zombie z = hit.collider.GetComponent<Zombie>();
+                z.ZombieTakeDamage(m_Damage, hit.point);
             }
+
             endPos = hit.point;
+
+            if (m_HitEffect != null)
+            {
+                CreateShootHitParticles(hit.point);
+            }
         }
 
         if (m_LineTracer != null)
@@ -199,7 +206,7 @@ public class PlayerController : MonoBehaviour
     }   
     
     //DAMAGE
-    public void TakeDamage (int damage)
+    public void PlayerTakeDamage (int damage)
     {
         if (m_IsInvincible == false)
         {
