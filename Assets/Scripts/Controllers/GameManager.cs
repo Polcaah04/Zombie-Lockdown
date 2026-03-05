@@ -14,12 +14,13 @@ public class GameManager : MonoBehaviour
         PAUSED
     }
     private TState m_State;
+    private TState m_LastState;
 
     //Objects
     static GameManager m_GameManager;
     PlayerController m_Player;
-    [SerializeField] private GameObject m_WinUI;
-    [SerializeField] private GameObject m_GameOverUI;
+    //[SerializeField] private GameObject m_WinUI;
+    //[SerializeField] private GameObject m_GameOverUI;
     //[SerializeField] private GameObject m_PauseUI;
 
     //Times
@@ -67,8 +68,8 @@ public class GameManager : MonoBehaviour
         m_State = TState.PLAYINGROUNDS;
         m_ZombiesPerRound = 6;
         //m_PauseUI.gameObject.SetActive(false);
-        m_WinUI.gameObject.SetActive(false);
-        m_GameOverUI.gameObject.SetActive(false);
+        //m_WinUI.gameObject.SetActive(false);
+        //m_GameOverUI.gameObject.SetActive(false);
 
     }
 
@@ -95,7 +96,7 @@ public class GameManager : MonoBehaviour
                         m_ZombiesPerRound = m_MaxZombies;
                     }
                 }
-               
+                m_LastState = m_State;
                 m_State = TState.RESTING;             
             }
         }
@@ -107,17 +108,20 @@ public class GameManager : MonoBehaviour
             {
                 m_RestDisplayedTime = 0;
                 m_RestingChangeInterval += m_RestingFixChange;
+                m_LastState = m_State;
                 m_State = TState.PLAYINGROUNDS;
             }
         }
 
         if(m_State == TState.WIN)
         {
-            m_Player.enabled = false;
+            ResetGame();
+            SceneManager.LoadScene("Win");
         }
         else if (m_State == TState.GAMEOVER)
         {
-            m_Player.enabled = false;
+            ResetGame();
+            SceneManager.LoadScene("GameOver");
         }
     }
 
@@ -128,7 +132,7 @@ public class GameManager : MonoBehaviour
         return m_GameManager;
     }
 
-    public void GameOver()
+    /*public void GameOver()
     {
         m_State = TState.GAMEOVER;
 
@@ -157,9 +161,14 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(seconds);
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
-    }
+    }*/
     public void ResetGame()
     {
+        if (m_Player != null)
+        {
+            Destroy(m_Player.gameObject);
+            m_Player = null;
+        }
         Time.timeScale = 1f;
         m_GameStartTime = Time.time;
 
@@ -176,11 +185,7 @@ public class GameManager : MonoBehaviour
 
         m_ZombiesPerRound = 6;
 
-        if (m_Player != null)
-        {
-            Destroy(m_Player.gameObject);
-            m_Player = null;
-        }
+
     }
 
     // PLAYER

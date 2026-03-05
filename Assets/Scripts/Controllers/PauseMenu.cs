@@ -13,21 +13,22 @@ public class PauseMenu : MonoBehaviour
 
 
     [Header("Panels")]
-    public GameObject m_PausePanel;
-    public GameObject m_OptionsPanel;
-    public GameObject m_ControlsPanel;
-    public GameObject m_SoundsPanel;
-    public GameObject m_ConfirmExitPanel;
+    [SerializeField] private GameObject m_PausePanel;
+    [SerializeField] private GameObject m_OptionsPanel;
+    [SerializeField] private GameObject m_ControlsPanel;
+    [SerializeField] private GameObject m_SoundsPanel;
+    [SerializeField] private GameObject m_ConfirmExitPanel;
 
     [Header("Buttons")]
-    public Button m_Leave;
-    public Button m_Options;
-    public Button m_LeaveSettingsButton;
-    public Button m_ControlsButton;
-    public Button m_SoundButton;
-    public Button m_SaveSettingsButton;
-    public Button m_Quit;
-    public Button m_NegateQuit;
+    [SerializeField] private Button m_Resume;
+    [SerializeField] private Button m_Leave;
+    [SerializeField] private Button m_Options;
+    [SerializeField] private Button m_LeaveSettingsButton;
+    [SerializeField] private Button m_ControlsButton;
+    [SerializeField] private Button m_SoundButton;
+    [SerializeField] private Button m_SaveSettingsButton;
+    [SerializeField] private Button m_Quit;
+    [SerializeField] private Button m_NegateQuit;
 
     //to bind new key controls correctly
     Button m_CurrentBindingButton = null;
@@ -41,11 +42,14 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
+        m_Resume.onClick.AddListener(Resume);
         m_Quit.onClick.AddListener(ConfirmExit);
         m_NegateQuit.onClick.AddListener(NegateExit);
         m_Leave.onClick.AddListener(OnLeave);
         m_Options.onClick.AddListener(OnOptions);
         m_LeaveSettingsButton.onClick.AddListener(ReturnToPauseMenu);
+        m_ControlsButton.onClick.AddListener(ControlsPanel);
+        m_SoundButton.onClick.AddListener(SoundsPanel);
         if (GameManager.GetGameManager().GetPlayer() != null)
         {
             m_PausePanel.SetActive(false);
@@ -82,27 +86,19 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        //MODIFICAR MUCHISIMO ESTO POR FAVOOOR
-        //
-        //
-        //
-        //
-        //
-        //
-        //
         if (Input.GetKeyDown(Settings.m_PauseKey))
-        {
-            Debug.Log("Paused");
-            Pause();
+        {       
             if (!m_Paused && !m_IsOptions && !m_IsConfirmingExit)
             {
                 ShowPanels(m_PausePanel, true);
                 Cursor.lockState = CursorLockMode.Confined;
+                Pause();
             }
             else if (m_Paused && !m_IsOptions && !m_IsConfirmingExit)
             {
                 ShowPanels(m_PausePanel, false);
                 Cursor.lockState = CursorLockMode.Locked;
+                Pause();
             }
             else if (!m_Paused && m_IsOptions && !m_IsConfirmingExit)
             {
@@ -117,31 +113,17 @@ public class PauseMenu : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Confined;
             }
         }
-        //
-        //
-        //
-        //
     }
 
     void Pause()
     {
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        Debug.Log("Function");
         if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
         {
-            Debug.Log("State playing");
             GameManager.GetGameManager().SetState(GameManager.TState.PLAYINGROUNDS);
             Time.timeScale = 1f;
         }
         else if (GameManager.GetGameManager().GetState() != TState.WIN && GameManager.GetGameManager().GetState() != TState.GAMEOVER)
         {
-            Debug.Log("State paused");
             GameManager.GetGameManager().SetState(GameManager.TState.PAUSED);
             Time.timeScale = 0f;
         }
@@ -149,17 +131,26 @@ public class PauseMenu : MonoBehaviour
 
     void ShowPanels(GameObject panel, bool updated)
     {
-        if (panel.name == "PauseMenuPanel")
+        if (panel.name == "Pause_Panel")
         {
             m_Paused = updated;
         }
-        else if (panel.name == "OptionsPanel")
+        else if (panel.name == "Options_Panel")
         {
             m_IsOptions = updated;
         }
-        else if (panel.name == "ConfirmExitPanel")
+        else if (panel.name == "ConfirmExit_Panel")
             m_IsConfirmingExit = updated;
         panel.SetActive(updated);
+    }
+
+    void Resume()
+    {
+        ShowPanels(m_PausePanel, false);
+        ShowPanels(m_OptionsPanel,false);
+        ShowPanels(m_ConfirmExitPanel, false);
+        Pause();
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void OnLeave()
@@ -171,6 +162,7 @@ public class PauseMenu : MonoBehaviour
 
     void ConfirmExit()
     {
+        GameManager.GetGameManager().ResetGame();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -193,6 +185,18 @@ public class PauseMenu : MonoBehaviour
         ShowPanels(m_OptionsPanel, false);
         ShowPanels(m_PausePanel, true);
         Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    void ControlsPanel()
+    {
+        m_ControlsPanel.SetActive(true);
+        m_SoundsPanel.SetActive(false);
+    }
+
+    void SoundsPanel()
+    {
+        m_ControlsPanel.SetActive(false);
+        m_SoundsPanel.SetActive(true);
     }
 
     void OnButtonKeyBind()

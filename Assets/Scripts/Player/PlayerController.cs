@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_Speed = 2f;
     private bool m_IsInvincible = false;
 
+    [Header("Life Regen")]
+    [SerializeField] private float m_RegenDelay = 5f;
+    [SerializeField] private int m_RegenAmount = 5; 
+    [SerializeField] private float m_RegenRate = 3f;
+    private Coroutine m_RegenCoroutine;
+
     [Header("Shoot")]
     public Transform m_Crosshair;
     public GameObject m_HitEffect;
@@ -225,6 +231,7 @@ public class PlayerController : MonoBehaviour
             }
                 
             ShowDamageOverlay();
+            StartLifeRegen();
         }
         
         if (m_CurrentLife <= 0)
@@ -237,12 +244,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void StartLifeRegen()
+    {
+        if (m_RegenCoroutine != null)
+            StopCoroutine(m_RegenCoroutine);
+
+        m_RegenCoroutine = StartCoroutine(LifeRegenCoroutine());
+    }
+
+    IEnumerator LifeRegenCoroutine()
+    {
+        yield return new WaitForSeconds(m_RegenDelay);
+
+        while (m_CurrentLife < m_Life)
+        {
+            m_CurrentLife += m_RegenAmount;
+            m_CurrentLife = Mathf.Clamp(m_CurrentLife, 0, m_Life);
+
+            OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
+
+            yield return new WaitForSeconds(m_RegenRate);
+        }
+    }
+
     //DIE
     void Die()
     {
-        GameManager.GetGameManager().GameOver();
+
         //meter animacion de muerte
-        Destroy(gameObject);
+        GameManager.GetGameManager().SetState(GameManager.TState.GAMEOVER);
+        Destroy(this.gameObject);
     }
 
     //ANIMATIONS
@@ -283,7 +314,6 @@ public class PlayerController : MonoBehaviour
     public void AddMaxLife(float multiplier)
     {
         m_Life = (int)(m_Life * multiplier);
-
     }
 
     public void SwitchMiniGun(float fireRateValue, int damageValue)
