@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Animations")]
     public Animator m_Animation;
+    private Animator animator;
 
     [Header("Objects")]
     [SerializeField] private GameObject m_Weapon;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
         m_CurrentAmmoOnBack = m_MaxAmmoOnBack / 2;
         m_CurrentLife = m_Life;
         m_RigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         PlayerController l_Player = GameManager.GetGameManager().GetPlayer();
         if (l_Player != null)
@@ -106,6 +108,7 @@ public class PlayerController : MonoBehaviour
             speed *= m_SprintMultiplier;
 
         m_Movement = inputDir * speed;
+        animator.SetFloat("speed", m_Movement.magnitude);
 
         transform.rotation = Quaternion.Euler(0, 0, angle);
         if (CanShoot() && Input.GetMouseButtonDown(0) && Time.time >= m_NextFire)
