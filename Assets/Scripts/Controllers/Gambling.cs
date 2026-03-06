@@ -66,7 +66,7 @@ public class Gambling : MonoBehaviour
     void RandomizeItem()
     {
         float l_RandomValue = Random.value;
-
+        Debug.Log("Value: " + l_RandomValue);
         if (l_RandomValue < 0.18)
         {
             GameManager.GetGameManager().GetPlayer().AddMaxLife(m_LifeMultiplier);

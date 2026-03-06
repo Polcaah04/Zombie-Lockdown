@@ -88,12 +88,15 @@ MonoBehaviour:
   m_Life: 100
   m_CurrentLife: 0
   m_Speed: 4
+  m_RegenDelay: 5
+  m_RegenAmount: 5
+  m_RegenRate: 3
   m_Crosshair: {fileID: 0}
   m_HitEffect: {fileID: 836092534237966687, guid: c7c4362b504d7e5419565b4685a8bcba, type: 3}
   m_ShootMaxDistance: 50
   m_ShootLayerMask:
     serializedVersion: 2
-    m_Bits: 385
+    m_Bits: 384
   m_LineTracer: {fileID: 6797339335776976767}
   m_NextFire: 0
   m_ReloadTime: 2
