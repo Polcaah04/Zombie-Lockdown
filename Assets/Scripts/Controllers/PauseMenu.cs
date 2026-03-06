@@ -119,11 +119,13 @@ public class PauseMenu : MonoBehaviour
     {
         if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
         {
-            GameManager.GetGameManager().SetState(GameManager.TState.PLAYINGROUNDS);
+            GameManager.GetGameManager().SetState(GameManager.GetGameManager().GetPreviousState());
             Time.timeScale = 1f;
         }
         else if (GameManager.GetGameManager().GetState() != TState.WIN && GameManager.GetGameManager().GetState() != TState.GAMEOVER)
         {
+            GameManager.GetGameManager().SetPreviousState(GameManager.GetGameManager().GetState());
+            Debug.Log(GameManager.GetGameManager().GetPreviousState());
             GameManager.GetGameManager().SetState(GameManager.TState.PAUSED);
             Time.timeScale = 0f;
         }

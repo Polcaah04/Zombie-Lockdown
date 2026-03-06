@@ -14,11 +14,13 @@ public class UIGameOver : MonoBehaviour
 
     void Retry()
     {
+        GameManager.GetGameManager().ResetGame();
         SceneManager.LoadScene("Map 1");
     }
 
     void ReturnMainMenu()
     {
+        GameManager.GetGameManager().ResetGame();
         SceneManager.LoadScene("MainMenu");
     }
 

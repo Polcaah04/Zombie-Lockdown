@@ -25,15 +25,11 @@ public class GameManager : MonoBehaviour
     //[SerializeField] private GameObject m_PauseUI;
 
     //Times
-    private float m_GameTime;
-    private float m_GameStartTime;
-    private float m_RoundsTime;
-    private float m_RestingTime;
-    int m_RestingChangeInterval = 30;
-    int m_DifficultyChangeInterval = 60;
-    int m_DifficultyFixChange = 60;
-    int m_RestingFixChange = 30;
+    float m_RoundsDisplayedTime;
     float m_RestDisplayedTime;
+    [SerializeField] float roundDuration = 60f;
+    [SerializeField] float restDuration = 30f;
+    float m_StateTimer = 0f;
 
     //Difficulty
     float m_Difficulty = 0;
@@ -54,6 +50,10 @@ public class GameManager : MonoBehaviour
     public event Action<PlayerController> OnPlayerReady;
     public event Action<int> OnCoinsChanged;
     public event Action<int> OnTimeChanged;
+
+
+
+
     void Awake()
     {
         if (m_GameManager != null)
@@ -77,53 +77,83 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        m_GameTime = Time.time - m_GameStartTime;
+        m_StateTimer += Time.deltaTime;
 
+        switch (m_State)
+        {
+            case TState.PLAYINGROUNDS:
+                UpdateRound();
+                break;
 
-        if (m_State == TState.PLAYINGROUNDS)
-        {
-            m_RoundsTime = m_GameTime - m_RestingTime;
-            OnTimeChanged?.Invoke((int)m_RoundsTime);
-            if (m_RoundsTime > m_DifficultyChangeInterval && m_Difficulty < m_MaxDifficult)
-            {
-                m_Difficulty++;
-                m_DifficultyChangeInterval += m_DifficultyFixChange;
-                m_ZombieLifeMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
-                m_ZombieSpeedMultiplier = m_BaseMultiplier + (m_Difficulty / 10);
-                if (m_ZombiesPerRound < m_MaxZombies)
-                {
-                    m_ZombiesPerRound += (int)(m_BaseMultiplier + (m_Difficulty / 2));
-                    if (m_ZombiesPerRound > m_MaxZombies)
-                    {
-                        m_ZombiesPerRound = m_MaxZombies;
-                    }
-                }
-                m_LastState = m_State;
-                m_State = TState.RESTING;             
-            }
-        }
-        else if (m_State == TState.RESTING)
-        {
-            m_RestingTime = m_GameTime - m_RoundsTime;
-            m_RestDisplayedTime += Time.deltaTime;
-            if (m_RestingTime > m_RestingChangeInterval)
-            {
-                m_RestDisplayedTime = 0;
-                m_RestingChangeInterval += m_RestingFixChange;
-                m_LastState = m_State;
-                m_State = TState.PLAYINGROUNDS;
-            }
-        }
+            case TState.RESTING:
+                UpdateRest();
+                break;
 
-        if(m_State == TState.WIN)
-        {
-            ResetGame();
-            SceneManager.LoadScene("Win");
+            case TState.WIN:
+                SceneManager.LoadScene("Win");
+                break;
+
+            case TState.GAMEOVER:
+                SceneManager.LoadScene("GameOver");
+                break;
         }
-        else if (m_State == TState.GAMEOVER)
+    }
+
+    void UpdateRound()
+    {
+        OnTimeChanged?.Invoke((int)m_StateTimer);
+
+        if (m_StateTimer >= roundDuration)
         {
-            ResetGame();
-            SceneManager.LoadScene("GameOver");
+            ChangeState(TState.RESTING);
+        }
+    }
+
+    void UpdateRest()
+    {
+        if (m_CurrentZombies > 0)
+        {
+            m_StateTimer = 0f;
+            return;
+        }
+            
+
+        OnTimeChanged?.Invoke((int)m_StateTimer);
+
+        if (m_StateTimer >= restDuration)
+        {
+            StartNewRound();
+        }
+    }
+
+    void ChangeState(TState newState)
+    {
+        m_State = newState;
+        m_StateTimer = 0f;
+    }
+
+    void StartNewRound()
+    {
+        IncreaseDifficulty();
+        ChangeState(TState.PLAYINGROUNDS);
+    }
+
+    void IncreaseDifficulty()
+    {
+        if (m_Difficulty >= m_MaxDifficult)
+            return;
+
+        m_Difficulty++;
+
+        m_ZombieLifeMultiplier = m_BaseMultiplier + (m_Difficulty / 10f);
+        m_ZombieSpeedMultiplier = m_BaseMultiplier + (m_Difficulty / 10f);
+
+        if (m_ZombiesPerRound < m_MaxZombies)
+        {
+            m_ZombiesPerRound += (int)(m_BaseMultiplier + (m_Difficulty / 2f));
+
+            if (m_ZombiesPerRound > m_MaxZombies)
+                m_ZombiesPerRound = m_MaxZombies;
         }
     }
 
@@ -172,7 +202,6 @@ public class GameManager : MonoBehaviour
             m_Player = null;
         }
         Time.timeScale = 1f;
-        m_GameStartTime = Time.time;
 
         m_State = TState.PLAYINGROUNDS;
 
@@ -180,15 +209,14 @@ public class GameManager : MonoBehaviour
         m_CurrentZombies = 0;
         m_Difficulty = 0;
 
-        m_GameTime = 0;
-        m_RoundsTime = 0;
-        m_RestingTime = 0;
         m_RestDisplayedTime = 0;
-
         m_ZombiesPerRound = 6;
+        m_ZombieLifeMultiplier = 1;
+        m_ZombieSpeedMultiplier = 1;
+        m_ZombieSpawnRateMultiplier = 1;
 
 
-    }
+}
 
     // PLAYER
     public PlayerController GetPlayer()
@@ -247,18 +275,17 @@ public class GameManager : MonoBehaviour
 
     // TIME
 
-    public float GetGameTime()
-    {
-        return m_GameTime;
-    }
     public float GetRoundTime()
     {
-        return m_RoundsTime;
+        return m_RoundsDisplayedTime;
     }
     public float GetCurrentRestTime()
     {
         return m_RestDisplayedTime;
     }
+
+    //STATES 
+
     public TState GetState()
     {
         return m_State;
@@ -268,6 +295,18 @@ public class GameManager : MonoBehaviour
     {
         m_State = state;
     }
+
+    public TState GetPreviousState()
+    {
+        return m_LastState;
+    }
+
+    public void SetPreviousState(TState state)
+    {
+        m_LastState = state; 
+    }
+
+
 
     public float GetBuffedZombieSpeed()
     {

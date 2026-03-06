@@ -14,11 +14,13 @@ public class UIWin : MonoBehaviour
 
     void PlayAgain()
     {
+        GameManager.GetGameManager().ResetGame();
         SceneManager.LoadScene("Map 1");
     }
 
     void ReturnToMainMenu()
     {
+        GameManager.GetGameManager().ResetGame();
         SceneManager.LoadScene("MainMenu");
     }
 }
