@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
     private float m_ZombieLifeMultiplier = 1;
     private float m_ZombieSpeedMultiplier = 1;
     private float m_ZombieSpawnRateMultiplier = 1;
+    private float m_ZombieBuffedSpeedMultiplier = 1.1f;
     public event Action<PlayerController> OnPlayerReady;
     public event Action<int> OnCoinsChanged;
     public event Action<int> OnTimeChanged;
@@ -267,4 +269,8 @@ public class GameManager : MonoBehaviour
         m_State = state;
     }
 
+    public float GetBuffedZombieSpeed()
+    {
+        return m_ZombieBuffedSpeedMultiplier;
+    }
 }

@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public int m_CurrentLife;
     [SerializeField] private float m_Speed = 2f;
     private bool m_IsInvincible = false;
+    private bool m_HasSecondChance = false;
+    private float m_SecondLifeHp;
 
     [Header("Life Regen")]
     [SerializeField] private float m_RegenDelay = 5f;
@@ -236,7 +238,15 @@ public class PlayerController : MonoBehaviour
         
         if (m_CurrentLife <= 0)
         {
-            Die();
+            if (m_HasSecondChance == false)
+            {
+                Die();
+            }
+            else if (m_HasSecondChance == true)
+            {
+                m_CurrentLife = (int)(m_Life * m_SecondLifeHp);
+            }
+            
         }
         else
         {
@@ -311,12 +321,19 @@ public class PlayerController : MonoBehaviour
         c.a = 0f; 
         m_DamageOverlay.color = c;
     }
+
+    public void BuffHealthRegen(float regenDelayRatio, float regenRateRatio)
+    {
+        m_RegenDelay *= regenDelayRatio;
+        m_RegenRate *= regenRateRatio;
+    }
+
     public void AddMaxLife(float multiplier)
     {
         m_Life = (int)(m_Life * multiplier);
     }
 
-    public void SwitchMiniGun(float fireRateValue, int damageValue)
+    public void InfiniteAmmo(float fireRateValue, int damageValue)
     {
         m_FireRate = fireRateValue;
         m_Damage = damageValue;
@@ -327,14 +344,15 @@ public class PlayerController : MonoBehaviour
         m_Damage += value;
     }
 
-    public void MakeInvincible()
+    public void MakeInvincible(bool value)
     {
-        m_IsInvincible = true;
+        m_IsInvincible = value;
     }
 
-    public void SecondChance()
+    public void SecondChance(bool value, float lifeSet)
     {
-
+        m_HasSecondChance = value;
+        m_SecondLifeHp = lifeSet;        
     }
 
     public void NerfMaxAmmo(int value)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Zombie : MonoBehaviour
 {
@@ -213,8 +214,20 @@ public class Zombie : MonoBehaviour
     {
         //por ahora solo añadira dinero
         GameManager.GetGameManager().AddCoins(Random.Range(m_MinCoins, m_MaxCoins));
-        Instantiate(m_AmmoItemPrefab, transform.position, Quaternion.identity);
+        float rnd = Random.value;
+        if (rnd < 0.3f)
+        {
+            Instantiate(m_AmmoItemPrefab, transform.position, Quaternion.identity);
+        }
     }
+
+    public void BuffSpeed()
+    {
+        m_Speed *= GameManager.GetGameManager().GetBuffedZombieSpeed();
+    }
+
+
+
 
     /*void Movement()
     {
