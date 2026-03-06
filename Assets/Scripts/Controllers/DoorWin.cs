@@ -18,7 +18,7 @@ public class DoorWin : MonoBehaviour
     {
         if (GameManager.GetGameManager().GetCoins() >= m_Price)
         {
-            GameManager.GetGameManager().SetState(GameManager.TState.WIN);
+            GameManager.GetGameManager().WinGame();
         }
         else
         {

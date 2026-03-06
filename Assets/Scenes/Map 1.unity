@@ -148,6 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090efb61d99e8ce4ea44ed269ac0b577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  roundDuration: 60
+  restDuration: 30
   m_MaxZombies: 30
 --- !u!4 &12975247
 Transform:
@@ -12584,7 +12586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380565ac87bef2047a4e3c7354ff17d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorWin
-  m_Price: 10
+  m_Price: 0
 --- !u!4 &1349633807
 Transform:
   m_ObjectHideFlags: 0

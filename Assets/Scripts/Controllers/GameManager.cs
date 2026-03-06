@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -78,25 +76,26 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         m_StateTimer += Time.deltaTime;
-
-        switch (m_State)
+        if (m_State == TState.PLAYINGROUNDS)
         {
-            case TState.PLAYINGROUNDS:
-                UpdateRound();
-                break;
-
-            case TState.RESTING:
-                UpdateRest();
-                break;
-
-            case TState.WIN:
-                SceneManager.LoadScene("Win");
-                break;
-
-            case TState.GAMEOVER:
-                SceneManager.LoadScene("GameOver");
-                break;
+            UpdateRound();
         }
+        else if (m_State == TState.RESTING)
+        {
+            UpdateRest();
+        }
+    }
+
+    public void WinGame()
+    {
+        m_State = TState.WIN;
+        SceneManager.LoadScene("Win");
+    }
+
+    public void GameOver()
+    {
+        m_State = TState.GAMEOVER;
+        SceneManager.LoadScene("GameOver");
     }
 
     void UpdateRound()
@@ -108,6 +107,8 @@ public class GameManager : MonoBehaviour
             ChangeState(TState.RESTING);
         }
     }
+
+
 
     void UpdateRest()
     {
@@ -128,6 +129,7 @@ public class GameManager : MonoBehaviour
 
     void ChangeState(TState newState)
     {
+        m_LastState = m_State;
         m_State = newState;
         m_StateTimer = 0f;
     }

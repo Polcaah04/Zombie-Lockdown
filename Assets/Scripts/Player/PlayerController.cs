@@ -282,8 +282,9 @@ public class PlayerController : MonoBehaviour
     {
 
         //meter animacion de muerte
-        GameManager.GetGameManager().SetState(GameManager.TState.GAMEOVER);
         Destroy(this.gameObject);
+        GameManager.GetGameManager().GameOver();
+        
     }
 
     //ANIMATIONS
@@ -304,9 +305,7 @@ public class PlayerController : MonoBehaviour
     //UI DAMAGE
     private void ShowDamageOverlay()
     {
-        if (m_DamageOverlay == null) return;
-
-        StopAllCoroutines(); 
+        if (m_DamageOverlay == null) return; 
         StartCoroutine(DamageFlashCoroutine());
     }
 
