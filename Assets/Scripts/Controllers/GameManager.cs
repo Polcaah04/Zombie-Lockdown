@@ -26,27 +26,27 @@ public class GameManager : MonoBehaviour
     //[SerializeField] private GameObject m_PauseUI;
 
     //Times
-    float m_RoundsDisplayedTime;
-    float m_RestDisplayedTime;
-    [SerializeField] float roundDuration = 60f;
-    [SerializeField] float restDuration = 30f;
-    float m_StateTimer = 0f;
+    private float m_RoundsDisplayedTime;
+    private float m_RestDisplayedTime;
+    [SerializeField] private float roundDuration = 60f;
+    [SerializeField] private float restDuration = 30f;
+    private float m_StateTimer = 0f;
 
     //BuffCoroutine
     public IEnumerator[] m_BuffList;
     private bool m_Buffing = false;
 
     //Difficulty
-    float m_Difficulty = 0;
-    int m_MaxDifficult = 10;
-    int m_BaseMultiplier = 1;
+    private float m_Difficulty = 0;
+    private int m_MaxDifficult = 10;
+    private int m_BaseMultiplier = 1;
 
     // ZOMBIES
     private int m_CurrentZombies = 0;
     [SerializeField] private int m_MaxZombies = 30;
     private int m_ZombiesPerRound;
 
-    public int m_Coins { get; private set; } = 0;
+    [HideInInspector] public int m_Coins { get; private set; } = 0;
 
     private float m_ZombieLifeMultiplier = 1;
     private float m_ZombieSpeedMultiplier = 1;

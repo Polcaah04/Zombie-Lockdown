@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [Header ("Basic Stats")]
-    [SerializeField] public int m_Life = 100;
+    public int m_Life = 100;
     public int m_CurrentLife;
     [SerializeField] private float m_Speed = 2f;
     private bool m_IsInvincible = false;
@@ -21,13 +21,12 @@ public class PlayerController : MonoBehaviour
     private Coroutine m_RegenCoroutine;
 
     [Header("Shoot")]
-    public Transform m_Crosshair;
-    public GameObject m_HitEffect;
-    public float m_ShootMaxDistance = 50.0f;
-    public LayerMask m_ShootLayerMask;
-    public GameObject m_LineTracer;
-    public float m_NextFire = 0;
-    public float m_ReloadTime = 2f;
+    [SerializeField] private Transform m_Crosshair;
+    [SerializeField] private GameObject m_HitEffect;
+    [SerializeField] private float m_ShootMaxDistance = 50.0f;
+    [SerializeField] private LayerMask m_ShootLayerMask;
+    [SerializeField] private GameObject m_LineTracer;
+    private float m_NextFire = 0;
     [SerializeField] private int m_Damage = 10;
     [Header ("Weapon")]
     [SerializeField] private int m_MaxAmmo = 30;
@@ -42,8 +41,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_HitBloodEffect;
 
     [Header("Animations")]
-    public Animator m_Animation;
-    private Animator animator;
+    public Animator m_WeaponAnimator;
+    private Animator m_Animator;
+
 
     [Header("Objects")]
     [SerializeField] private GameObject m_Weapon;
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         m_CurrentAmmoOnBack = m_MaxAmmoOnBack / 2;
         m_CurrentLife = m_Life;
         m_RigidBody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        m_Animator = GetComponent<Animator>();
 
         PlayerController l_Player = GameManager.GetGameManager().GetPlayer();
         if (l_Player != null)
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
             speed *= m_SprintMultiplier;
 
         m_Movement = inputDir * speed;
-        animator.SetFloat("speed", m_Movement.magnitude);
+        m_Animator.SetFloat("speed", m_Movement.magnitude);
 
         transform.rotation = Quaternion.Euler(0, 0, angle);
         if (CanShoot() && Input.GetMouseButtonDown(0) && Time.time >= m_NextFire)
@@ -210,8 +210,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator ReloadCoroutine()
     {
-
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.3f);
         int neededAmmo = m_MaxAmmo - m_CurrentAmmo;
         int ammoToLoad = Mathf.Min(neededAmmo, m_CurrentAmmoOnBack);
         SetAmmo(m_CurrentAmmo + ammoToLoad, m_CurrentAmmoOnBack - ammoToLoad);
@@ -290,11 +289,11 @@ public class PlayerController : MonoBehaviour
     //ANIMATIONS
     void SetReloadAnimation()
     {
-        m_Animation.SetTrigger("reload");
+        m_WeaponAnimator.SetTrigger("reload");
     }
     void SetShootAnimation()
     {
-        m_Animation.SetTrigger("shoot");
+        m_WeaponAnimator.SetTrigger("shoot");
     }
 
     void CreateShootHitParticles(Vector2 position)

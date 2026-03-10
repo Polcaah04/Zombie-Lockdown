@@ -79,7 +79,7 @@ public class Gambling : MonoBehaviour
             if (l_RandomValue < 0.26)
             {
                 GameManager.GetGameManager().GetPlayer().BuffHealthRegen(m_RegenDelayRatio, m_RegenRateRatio);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(30f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(30f, 1));
             }
             else if (l_RandomValue < 0.46)
             {
@@ -88,33 +88,33 @@ public class Gambling : MonoBehaviour
             else if (l_RandomValue < 0.62)
             {
                 GameManager.GetGameManager().GetPlayer().BuffDamage(m_DamageAdded);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 3));
 
             }
             else if (l_RandomValue < 68)
             {
                 GameManager.GetGameManager().GetPlayer().BuffFireRate(m_FireRateReduction);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 4));
             }
             else if (l_RandomValue < 72)
             {
                 GameManager.GetGameManager().GetPlayer().BuffSpeed(m_BuffSpeed);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 5));
             }
             else if (l_RandomValue < 0.76)
             {
                 GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_InfiniteFireRateValue, m_MiniGunDamage);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(15f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(15f, 6));
             }
             else if (l_RandomValue < 0.88)
             {
                 GameManager.GetGameManager().GetPlayer().MakeInvincible(true);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(4f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(4f, 7));
             }
             else if (l_RandomValue < 1)
             {
                 GameManager.GetGameManager().GetPlayer().SecondChance(true, m_SecondChanceLife);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(30f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(30f, 8));
             }
         }
         else if (l_RandomBuffOrDebuff < 1)
@@ -123,27 +123,27 @@ public class Gambling : MonoBehaviour
             if (l_RandomValue < 0.2)
             {
                 GameManager.GetGameManager().GetPlayer().NerfMaxAmmo(m_NerfAmmo);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 9));
             }
             else if (l_RandomValue < 0.4)
             {
                 GameManager.GetGameManager().GetPlayer().NerfSpeed(m_NerfSpeed);
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 10));
             }
             else if (l_RandomValue < 0.6)
             {
                 //Zombies mas rapidos 10% (implementar en zombie)
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 11));
             }
             else if (l_RandomValue < 0.8)
             {
                 GameManager.GetGameManager().GetCamera().ReduceFOV();
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 12));
             }
             else if (l_RandomValue < 1)
             {
                 //Spawnrate de zombis aumentado (a 30 segundos?)
-                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 13));
             }
         }
         
@@ -154,7 +154,7 @@ public class Gambling : MonoBehaviour
         
     }
 
-    IEnumerator TimeCoroutine(float activeTime)
+    IEnumerator TimeCoroutine(float activeTime, int coroutineValue)
     {      
         while (activeTime > 0)
         {
@@ -166,5 +166,51 @@ public class Gambling : MonoBehaviour
             }   
             yield return null;
         }
+
+        switch (coroutineValue)
+        {
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+             case 5:
+
+                break;
+            case 6:
+
+                break;
+            case 7:
+
+                break;
+            case 8:
+
+                break;
+            case 9:
+
+                break;
+            case 10:
+
+                break;
+            case 11:
+
+                break;
+            case 12:
+
+                break;
+            case 13:
+
+                break;
+        }
+
+
+
     }
 }

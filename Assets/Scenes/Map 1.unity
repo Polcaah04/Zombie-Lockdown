@@ -12233,6 +12233,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3928155480578527781, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7743474553563249649, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -12281,11 +12285,24 @@ PrefabInstance:
       propertyPath: m_DamageOverlay
       value: 
       objectReference: {fileID: 1858761151}
+    - target: {fileID: 9097333420742211568, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_WeaponAnimator
+      value: 
+      objectReference: {fileID: 1294375220}
+    - target: {fileID: 9097333420742211568, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+      propertyPath: m_WeaponAnimatior
+      value: 
+      objectReference: {fileID: 1294375220}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+--- !u!95 &1294375220 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3928155480578527781, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
+  m_PrefabInstance: {fileID: 1276946423}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1316170053
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ using UnityEngine;
 public class ZombieSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject m_Zombie;
+    [HideInInspector] public float m_MaxSpawnRateTime = 5f;
+    
 
     private Vector2[] m_SpawnPositionsList = new Vector2[4];
 
@@ -26,7 +28,7 @@ public class ZombieSpawner : MonoBehaviour
                 if (GameManager.GetGameManager().CanSpawnZombie())
                 {
                     GameManager.GetGameManager().RegisterZombieSpawn();
-                    yield return new WaitForSeconds(Random.Range(1f, 5f));
+                    yield return new WaitForSeconds(Random.Range(1f, m_MaxSpawnRateTime));
 
                     Vector2 spawnPos = m_SpawnPositionsList[Random.Range(0, m_SpawnPositionsList.Length)];
 
@@ -42,5 +44,10 @@ public class ZombieSpawner : MonoBehaviour
                 yield return null;
             }
         }
+    }
+
+    public void IncreaseSpawnRate(float value)
+    {
+        m_MaxSpawnRateTime = value;
     }
 }
