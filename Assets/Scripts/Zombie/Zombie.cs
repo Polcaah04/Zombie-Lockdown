@@ -27,8 +27,6 @@ public class Zombie : MonoBehaviour
     [SerializeField] private GameObject m_HitBloodEffect;
 
     [Header ("Drop")]
-    [SerializeField] private int m_MinCoins = 5;
-    [SerializeField] private int m_MaxCoins = 12;
     [SerializeField] private GameObject m_CoinPrefab;
     [SerializeField] private GameObject m_AmmoItemPrefab;
 
@@ -213,7 +211,7 @@ public class Zombie : MonoBehaviour
     void DropLoot()
     {
         //por ahora solo añadira dinero
-        GameManager.GetGameManager().AddCoins(Random.Range(m_MinCoins, m_MaxCoins));
+        Instantiate(m_CoinPrefab, transform.position, Quaternion.identity);
         float rnd = Random.value;
         if (rnd < 0.3f)
         {
