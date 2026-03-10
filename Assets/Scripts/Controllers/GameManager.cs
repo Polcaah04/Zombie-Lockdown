@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
     //Objects
     static GameManager m_GameManager;
     PlayerController m_Player;
+    CameraController m_Camera;
     //[SerializeField] private GameObject m_WinUI;
     //[SerializeField] private GameObject m_GameOverUI;
     //[SerializeField] private GameObject m_PauseUI;
@@ -28,6 +31,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] float roundDuration = 60f;
     [SerializeField] float restDuration = 30f;
     float m_StateTimer = 0f;
+
+    //BuffCoroutine
+    public IEnumerator[] m_BuffList;
+    private bool m_Buffing = false;
 
     //Difficulty
     float m_Difficulty = 0;
@@ -45,6 +52,8 @@ public class GameManager : MonoBehaviour
     private float m_ZombieSpeedMultiplier = 1;
     private float m_ZombieSpawnRateMultiplier = 1;
     private float m_ZombieBuffedSpeedMultiplier = 1.1f;
+
+
     public event Action<PlayerController> OnPlayerReady;
     public event Action<int> OnCoinsChanged;
     public event Action<int> OnTimeChanged;
@@ -100,6 +109,15 @@ public class GameManager : MonoBehaviour
 
     void UpdateRound()
     {
+        if (m_Buffing == true)
+        {
+            foreach (IEnumerator l_Coroutine in m_BuffList)
+            {
+                StartCoroutine(l_Coroutine);
+            }
+            m_Buffing = false;
+        }
+
         OnTimeChanged?.Invoke((int)m_StateTimer);
 
         if (m_StateTimer >= roundDuration)
@@ -112,6 +130,11 @@ public class GameManager : MonoBehaviour
 
     void UpdateRest()
     {
+        if (m_Buffing == false)
+        {
+            m_Buffing = true;
+        }
+        
         if (m_CurrentZombies > 0)
         {
             m_StateTimer = 0f;
@@ -229,6 +252,18 @@ public class GameManager : MonoBehaviour
     {
         m_Player = Player;
         OnPlayerReady?.Invoke(m_Player);
+    }
+
+    // CAMERA
+
+    public CameraController GetCamera()
+    {
+        return m_Camera;
+    }
+
+    public void SetCamera(CameraController Camera)
+    {
+        m_Camera = Camera;
     }
 
 

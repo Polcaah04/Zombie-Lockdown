@@ -1,4 +1,6 @@
 using System.Collections;
+using TMPro.Examples;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,16 +14,18 @@ public class Gambling : MonoBehaviour
 
     [SerializeField] private float m_LifeMultiplier = 1.2f;
     [SerializeField] private int m_DamageAdded = 5;
-    [SerializeField] private float m_DivideSpeedPerThis = 1.25f;
+    [SerializeField] private float m_BuffSpeed = 1.15f;
+    [SerializeField] private float m_NerfSpeed = 1.25f;
     [SerializeField] private float m_RegenDelayRatio = 0.5f;
     [SerializeField] private float m_RegenRateRatio = 0.6f;
     [SerializeField] private float m_SecondChanceLife = 0.65f;
 
-    [Header ("Gun Modifiers")]
+    [Header("Gun Modifiers")]
 
-    [SerializeField] private float m_FireRateValue = 0.1f;
+    [SerializeField] private float m_FireRateReduction = 0.2f;
+    [SerializeField] private float m_InfiniteFireRateValue = 0.1f;
     [SerializeField] private int m_MiniGunDamage = 20;
-    [SerializeField] private int m_DivideAmmoPerThis = 3;
+    [SerializeField] private int m_NerfAmmo = 2;
 
     [Header("Zombie Modifiers")]
     [SerializeField] private float m_ZombieSpeedMultiplier = 1.1f;
@@ -75,32 +79,42 @@ public class Gambling : MonoBehaviour
             if (l_RandomValue < 0.26)
             {
                 GameManager.GetGameManager().GetPlayer().BuffHealthRegen(m_RegenDelayRatio, m_RegenRateRatio);
-                StartCoroutine(TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(30f));
             }
             else if (l_RandomValue < 0.46)
             {
                 GameManager.GetGameManager().GetPlayer().AddMaxLife(m_LifeMultiplier);
-                StartCoroutine(TimeCoroutine(60f));
             }
             else if (l_RandomValue < 0.62)
             {
-                GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_FireRateValue, m_MiniGunDamage);
-                StartCoroutine(TimeCoroutine(60f));
+                GameManager.GetGameManager().GetPlayer().BuffDamage(m_DamageAdded);
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+
+            }
+            else if (l_RandomValue < 68)
+            {
+                GameManager.GetGameManager().GetPlayer().BuffFireRate(m_FireRateReduction);
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
+            }
+            else if (l_RandomValue < 72)
+            {
+                GameManager.GetGameManager().GetPlayer().BuffSpeed(m_BuffSpeed);
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
             }
             else if (l_RandomValue < 0.76)
             {
-                GameManager.GetGameManager().GetPlayer().BuffDamage(m_DamageAdded);
-                StartCoroutine(TimeCoroutine(60f));
+                GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_InfiniteFireRateValue, m_MiniGunDamage);
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(15f));
             }
             else if (l_RandomValue < 0.88)
             {
                 GameManager.GetGameManager().GetPlayer().MakeInvincible(true);
-                StartCoroutine(TimeCoroutine(4f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(4f));
             }
             else if (l_RandomValue < 1)
             {
                 GameManager.GetGameManager().GetPlayer().SecondChance(true, m_SecondChanceLife);
-                StartCoroutine(TimeCoroutine(30f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(30f));
             }
         }
         else if (l_RandomBuffOrDebuff < 1)
@@ -108,26 +122,28 @@ public class Gambling : MonoBehaviour
             Debug.Log("Chose debuff.");
             if (l_RandomValue < 0.2)
             {
-                GameManager.GetGameManager().GetPlayer().NerfMaxAmmo(m_DivideAmmoPerThis);
+                GameManager.GetGameManager().GetPlayer().NerfMaxAmmo(m_NerfAmmo);
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
             }
             else if (l_RandomValue < 0.4)
             {
-                GameManager.GetGameManager().GetPlayer().NerfSpeed(m_DivideSpeedPerThis);
+                GameManager.GetGameManager().GetPlayer().NerfSpeed(m_NerfSpeed);
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
             }
             else if (l_RandomValue < 0.6)
             {
                 //Zombies mas rapidos 10% (implementar en zombie)
-                StartCoroutine(TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
             }
             else if (l_RandomValue < 0.8)
             {
-                //FOV reducido a un 70% (implementar en cam)
-                StartCoroutine(TimeCoroutine(60f));
+                GameManager.GetGameManager().GetCamera().ReduceFOV();
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
             }
             else if (l_RandomValue < 1)
             {
                 //Spawnrate de zombis aumentado (a 30 segundos?)
-                StartCoroutine(TimeCoroutine(60f));
+                GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f));
             }
         }
         
@@ -144,9 +160,10 @@ public class Gambling : MonoBehaviour
         {
             while (GameManager.GetGameManager().GetState() == GameManager.TState.PLAYINGROUNDS)
             {
+                Debug.Log(activeTime);
+                activeTime -= Time.deltaTime;
                 yield return null;
-            }
-            activeTime -= Time.deltaTime;
+            }   
             yield return null;
         }
     }

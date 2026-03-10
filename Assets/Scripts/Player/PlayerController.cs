@@ -330,11 +330,26 @@ public class PlayerController : MonoBehaviour
     public void AddMaxLife(float multiplier)
     {
         m_Life = (int)(m_Life * multiplier);
+        StartLifeRegen();
+    }
+
+    public void BuffSpeed(float multiplier)
+    {
+        m_Speed *= multiplier;
+    }
+
+    public void BuffFireRate(float value)
+    {
+        m_FireRate -= value;
     }
 
     public void InfiniteAmmo(float fireRateValue, int damageValue)
     {
         m_FireRate = fireRateValue;
+        if (m_FireRate <= 0f)
+        {
+            m_FireRate = 0.1f;
+        }
         m_Damage = damageValue;
     }
 
