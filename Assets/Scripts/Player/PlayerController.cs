@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image m_DamageOverlay;
     [SerializeField] private float m_DamageFlashTime = 0.2f;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip m_shoot;
+
     void Start()
     {
         m_CurrentAmmo = m_MaxAmmo;
@@ -148,6 +151,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot()
     {
+        AudioSource.PlayClipAtPoint(m_shoot, transform.position);
         SetShootAnimation();
         Vector2 origin = m_Weapon.transform.position;
         Vector2 direction = transform.right;

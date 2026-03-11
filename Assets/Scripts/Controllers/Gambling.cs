@@ -8,7 +8,9 @@ public class Gambling : MonoBehaviour
 {
 
     [SerializeField] private int m_Cost = 300;
-    private float m_DistanceToInteract = 2.5f;  
+    private float m_DistanceToInteract = 2.5f;
+    [SerializeField] private AudioClip m_audio;
+
 
     [Header("Player Basic Modifiers")]
 
@@ -48,6 +50,7 @@ public class Gambling : MonoBehaviour
         if (GameManager.GetGameManager().GetCoins() > m_Cost)
         {
             GameManager.GetGameManager().AddCoins(-m_Cost);
+            AudioSource.PlayClipAtPoint(m_audio, transform.position);
             RandomizeItem();
             
         }
