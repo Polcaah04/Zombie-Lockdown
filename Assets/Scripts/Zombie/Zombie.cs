@@ -57,13 +57,14 @@ public class Zombie : MonoBehaviour
 
     void Start()
     {
+        GameManager.GetGameManager().RegisterZombie(this);
         m_Life *= GameManager.GetGameManager().GetLifeMuliplier();
         m_CurrentLife = (int)m_Life;
         m_Speed *= GameManager.GetGameManager().GetSpeedMultiplier();
         rb = GetComponent<Rigidbody2D>();
         l_Player = GameManager.GetGameManager().GetPlayer();
-        if(l_Player == null)
-            l_Player = FindFirstObjectByType<PlayerController>();
+        if (l_Player == null)
+            l_Player = GameManager.GetGameManager().GetPlayer();
 
         //m_PatrolPoints = GameObject.FindGameObjectsWithTag("Point");
         //m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
@@ -162,6 +163,7 @@ public class Zombie : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(m_zombieDie, transform.position);
         DropLoot();
+        GameManager.GetGameManager().UnregisterZombie(this);
         GameManager.GetGameManager().RegisterZombieDeath();
         Destroy(gameObject);
     }
@@ -228,9 +230,9 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    public void BuffSpeed()
+    public void BuffSpeed(float value)
     {
-        m_Speed *= GameManager.GetGameManager().GetBuffedZombieSpeed();
+        m_Speed *= value;
     }
 
 

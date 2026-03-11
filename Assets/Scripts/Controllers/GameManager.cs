@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
-using TMPro.Examples;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -43,10 +42,12 @@ public class GameManager : MonoBehaviour
     private int m_BaseMultiplier = 1;
 
     // ZOMBIES
-    [HideInInspector] public GameObject[] m_SpawnerList;
     private int m_CurrentZombies = 0;
     [SerializeField] private int m_MaxZombies = 30;
     private int m_ZombiesPerRound;
+
+    private List<Zombie> m_Zombies = new List<Zombie>(); //Only for buffs
+    private List<ZombieSpawner> m_Spawners = new List<ZombieSpawner>(); //Only for buffs
 
     [HideInInspector] public int m_Coins { get; private set; } = 0;
 
@@ -59,9 +60,6 @@ public class GameManager : MonoBehaviour
     public event Action<PlayerController> OnPlayerReady;
     public event Action<int> OnCoinsChanged;
     public event Action<int> OnTimeChanged;
-
-
-
 
     void Awake()
     {
@@ -76,13 +74,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        m_SpawnerList = new GameObject[6];
         m_State = TState.PLAYINGROUNDS;
         m_ZombiesPerRound = 6;
-        for (int i = 0;i < m_SpawnerList.Length; i++)
-        {
-            
-        }
+
         //m_PauseUI.gameObject.SetActive(false);
         //m_WinUI.gameObject.SetActive(false);
         //m_GameOverUI.gameObject.SetActive(false);
@@ -133,8 +127,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
     void UpdateRest()
     {
         if (m_Buffing == false)
@@ -146,8 +138,7 @@ public class GameManager : MonoBehaviour
         {
             m_StateTimer = 0f;
             return;
-        }
-            
+        }          
 
         OnTimeChanged?.Invoke((int)m_StateTimer);
 
@@ -189,43 +180,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     // GAME MANAGER
     public static GameManager GetGameManager()
     {
         return m_GameManager;
     }
 
-    /*public void GameOver()
-    {
-        m_State = TState.GAMEOVER;
-
-        Time.timeScale = 0f;
-
-        if (m_GameOverUI != null)
-            m_GameOverUI.SetActive(true);
-
-        StartCoroutine(ReturnToMenuAfterSeconds(3f));
-    }
-
-    public void WinGame()
-    {
-        m_State = TState.WIN;
-
-        Time.timeScale = 0f;
-
-        if (m_WinUI != null)
-            m_WinUI.SetActive(true);
-
-        StartCoroutine(ReturnToMenuAfterSeconds(4f));
-    }
-
-    IEnumerator ReturnToMenuAfterSeconds(float seconds)
-    {
-        yield return new WaitForSecondsRealtime(seconds);
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
-    }*/
     public void ResetGame()
     {
         if (m_Player != null)
@@ -246,9 +206,7 @@ public class GameManager : MonoBehaviour
         m_ZombieLifeMultiplier = 1;
         m_ZombieSpeedMultiplier = 1;
         m_ZombieSpawnRateMultiplier = 1;
-
-
-}
+    }
 
     // PLAYER
     public PlayerController GetPlayer()
@@ -262,7 +220,6 @@ public class GameManager : MonoBehaviour
     }
 
     // CAMERA
-
     public CameraController GetCamera()
     {
         return m_Camera;
@@ -275,12 +232,33 @@ public class GameManager : MonoBehaviour
 
     // SPAWNERS
 
-    public GameObject[] GetSpawners()
+    public void RegisterSpawner(ZombieSpawner spawner)
     {
-        return m_SpawnerList;
+        if (!m_Spawners.Contains(spawner))
+            m_Spawners.Add(spawner);
     }
 
-    //ZOMBIE
+    public List<ZombieSpawner> GetSpawners()
+    {
+        return m_Spawners;
+    }
+
+    // ZOMBIES
+
+    public void RegisterZombie(Zombie zombie)
+    {
+        m_Zombies.Add(zombie);
+    }
+
+    public void UnregisterZombie(Zombie zombie)
+    {
+        m_Zombies.Remove(zombie);
+    }
+
+    public List<Zombie> GetZombies()
+    {
+        return m_Zombies;
+    }
 
     public bool CanSpawnZombie()
     {
@@ -297,7 +275,6 @@ public class GameManager : MonoBehaviour
             m_CurrentZombies = 0;
     }
 
-
     // COINS
     public void AddCoins(int coinsCollected)
     {
@@ -308,7 +285,6 @@ public class GameManager : MonoBehaviour
     {
         return m_Coins;
     }
-
 
     // MULTIPLIERS
     public float GetLifeMuliplier()
@@ -355,10 +331,5 @@ public class GameManager : MonoBehaviour
     public void SetPreviousState(TState state)
     {
         m_LastState = state; 
-    }
-
-    public float GetBuffedZombieSpeed()
-    {
-        return m_ZombieBuffedSpeedMultiplier;
     }
 }

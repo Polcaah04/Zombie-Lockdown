@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ZombieSpawner : MonoBehaviour
@@ -12,6 +11,8 @@ public class ZombieSpawner : MonoBehaviour
 
     void Start()
     {
+        GameManager.GetGameManager().RegisterSpawner(this);
+
         m_SpawnPositionsList[0] = new Vector2(transform.position.x + 1, transform.position.y + 1);
         m_SpawnPositionsList[1] = new Vector2(transform.position.x - 1, transform.position.y - 1);
         m_SpawnPositionsList[2] = new Vector2(transform.position.x + 1, transform.position.y - 1);
@@ -49,7 +50,7 @@ public class ZombieSpawner : MonoBehaviour
 
     public void IncreaseSpawnRate(float value)
     {
-        m_MaxSpawnRateTime = value;
+        m_MaxSpawnRateTime *= value;
     }
 
     public GameObject AddSpawnerToList()

@@ -1,8 +1,6 @@
 using System.Collections;
-using TMPro.Examples;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Gambling : MonoBehaviour
 {
@@ -30,11 +28,7 @@ public class Gambling : MonoBehaviour
 
     [Header("Zombie Modifiers")]
     [SerializeField] private float m_ZombieSpeedMultiplier = 1.1f;
-    void Start()
-    {
-        
-    }
-
+    [SerializeField] private float m_BuffZombieSpawnRate = 0.6f;
     
     void Update()
     {       
@@ -73,8 +67,6 @@ public class Gambling : MonoBehaviour
     {
         float l_RandomBuffOrDebuff = Random.value;
         float l_RandomValue = Random.value;
-        Debug.Log("Buff/Debuff value: " + l_RandomBuffOrDebuff);
-        Debug.Log("Value: " + l_RandomValue);
         if (l_RandomBuffOrDebuff < 0.6)
         {
             Debug.Log("Chose buff.");
@@ -134,7 +126,10 @@ public class Gambling : MonoBehaviour
             }
             else if (l_RandomValue < 0.6)
             {
-                //Zombies mas rapidos 10% (implementar en zombie)
+                foreach (Zombie zombie in GameManager.GetGameManager().GetZombies())
+                {
+                    zombie.BuffSpeed(m_ZombieSpeedMultiplier);
+                }
                 GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 11));
             }
             else if (l_RandomValue < 0.8)
@@ -144,16 +139,13 @@ public class Gambling : MonoBehaviour
             }
             else if (l_RandomValue < 1)
             {
-                //Spawnrate de zombis aumentado (a 30 segundos?)
+                foreach (ZombieSpawner spawner in GameManager.GetGameManager().GetSpawners())
+                {
+                    spawner.IncreaseSpawnRate(m_BuffZombieSpawnRate);
+                }
                 GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(60f, 13));
             }
-        }
-        
-        
-
-        
-        
-        
+        }          
     }
 
     IEnumerator TimeCoroutine(float activeTime, int coroutineValue)
@@ -201,13 +193,19 @@ public class Gambling : MonoBehaviour
                 GameManager.GetGameManager().GetPlayer().NerfSpeed(1 / m_NerfSpeed);
                 break;
             case 11:
-                //GameManager.GetGameManager()
+                foreach (Zombie zombie in GameManager.GetGameManager().GetZombies())
+                {
+                    zombie.BuffSpeed(1/m_ZombieSpeedMultiplier);
+                }
                 break;
             case 12:
                 GameManager.GetGameManager().GetCamera().IncreaseFOV();
                 break;
             case 13:
-                //GameManager.GetGameManager().
+                foreach (ZombieSpawner spawner in GameManager.GetGameManager().GetSpawners())
+                {
+                    spawner.IncreaseSpawnRate(1/m_BuffZombieSpawnRate);
+                }
                 break;
         }
 
