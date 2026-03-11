@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] private AudioClip m_shoot;
+    [SerializeField] private AudioClip m_reload;
 
     void Start()
     {
@@ -193,6 +194,7 @@ public class PlayerController : MonoBehaviour
 
     void Reload()
     {
+        AudioSource.PlayClipAtPoint(m_reload, transform.position);
         m_IsReloading = true;
         SetReloadAnimation();
         StartCoroutine(ReloadCoroutine());
