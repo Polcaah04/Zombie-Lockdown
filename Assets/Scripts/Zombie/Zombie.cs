@@ -60,7 +60,7 @@ public class Zombie : MonoBehaviour
         GameManager.GetGameManager().RegisterZombie(this);
         m_Life *= GameManager.GetGameManager().GetLifeMuliplier();
         m_CurrentLife = (int)m_Life;
-        m_Speed *= GameManager.GetGameManager().GetSpeedMultiplier();
+        m_Speed *= GameManager.GetGameManager().GetSpeedMultiplier() * GameManager.GetGameManager().GetZombieSpeedBuff();
         rb = GetComponent<Rigidbody2D>();
         l_Player = GameManager.GetGameManager().GetPlayer();
         if (l_Player == null)
@@ -234,21 +234,4 @@ public class Zombie : MonoBehaviour
     {
         m_Speed *= value;
     }
-
-
-
-
-    /*void Movement()
-    {
-        rb.linearVelocity = Vector2.MoveTowards(transform.position, m_PatrolPoints[m_RandomPoint].transform.position, m_Speed * Time.deltaTime);
-        if (Vector2.Distance(transform.position, m_PatrolPoints[m_RandomPoint].transform.position) < 0.25)
-        {
-            m_IdleTime = Time.deltaTime;
-        }
-        if (m_IdleTime >= m_IdleTimer)
-        {
-            m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
-            m_IdleTime = 0;
-        }
-    }*/
 }

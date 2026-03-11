@@ -8,6 +8,5 @@ public class AmmoItem : Item
     {
         base.Pick(player);
         player.AddAmmo(m_AddAmmoCount);
-
     }
 }

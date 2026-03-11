@@ -33,8 +33,7 @@ public class GameManager : MonoBehaviour
     private float m_StateTimer = 0f;
 
     //BuffCoroutine
-    public IEnumerator[] m_BuffList;
-    private bool m_Buffing = false;
+    public List<IEnumerator> m_BuffList = new List<IEnumerator>();
 
     //Difficulty
     private float m_Difficulty = 0;
@@ -45,16 +44,15 @@ public class GameManager : MonoBehaviour
     private int m_CurrentZombies = 0;
     [SerializeField] private int m_MaxZombies = 30;
     private int m_ZombiesPerRound;
-
+    private float m_ZombieSpeedBuffMultiplier = 1f;
     private List<Zombie> m_Zombies = new List<Zombie>(); //Only for buffs
     private List<ZombieSpawner> m_Spawners = new List<ZombieSpawner>(); //Only for buffs
 
-    [HideInInspector] public int m_Coins { get; private set; } = 0;
+    [HideInInspector] public int m_Coins { get; private set; } = 10;
 
     private float m_ZombieLifeMultiplier = 1;
     private float m_ZombieSpeedMultiplier = 1;
     private float m_ZombieSpawnRateMultiplier = 1;
-    private float m_ZombieBuffedSpeedMultiplier = 1.1f;
 
 
     public event Action<PlayerController> OnPlayerReady;
@@ -110,14 +108,11 @@ public class GameManager : MonoBehaviour
 
     void UpdateRound()
     {
-        if (m_Buffing == true)
+        foreach (IEnumerator l_Coroutine in m_BuffList)
         {
-            foreach (IEnumerator l_Coroutine in m_BuffList)
-            {
-                StartCoroutine(l_Coroutine);
-            }
-            m_Buffing = false;
+            StartCoroutine(l_Coroutine);
         }
+        m_BuffList.Clear();
 
         OnTimeChanged?.Invoke((int)m_StateTimer);
 
@@ -129,10 +124,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateRest()
     {
-        if (m_Buffing == false)
-        {
-            m_Buffing = true;
-        }
         
         if (m_CurrentZombies > 0)
         {
@@ -273,6 +264,24 @@ public class GameManager : MonoBehaviour
         m_CurrentZombies--;
         if (m_CurrentZombies < 0)
             m_CurrentZombies = 0;
+    }
+    public void BuffZombieSpeed(float multiplier)
+    {
+        m_ZombieSpeedBuffMultiplier = multiplier;
+    }
+
+    public float GetZombieSpeedBuff()
+    {
+        return m_ZombieSpeedBuffMultiplier;
+    }
+
+    public void BuffAllZombieSpeed(float multiplier)
+    {
+        m_ZombieSpeedBuffMultiplier = multiplier;
+        foreach (Zombie zombie in m_Zombies)
+        {
+            zombie.BuffSpeed(multiplier);
+        }
     }
 
     // COINS
