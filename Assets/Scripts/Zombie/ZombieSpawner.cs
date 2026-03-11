@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ZombieSpawner : MonoBehaviour
@@ -50,4 +51,10 @@ public class ZombieSpawner : MonoBehaviour
     {
         m_MaxSpawnRateTime = value;
     }
+
+    public GameObject AddSpawnerToList()
+    {
+        return this.gameObject;
+    }
+
 }

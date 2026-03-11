@@ -27,4 +27,9 @@ public class CameraController : MonoBehaviour
     {
         m_Camera.orthographicSize = 5;
     }
+
+    public void IncreaseFOV()
+    {
+        m_Camera.orthographicSize = 7;
+    }
 }

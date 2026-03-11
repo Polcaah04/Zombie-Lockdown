@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro.Examples;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
     private int m_BaseMultiplier = 1;
 
     // ZOMBIES
+    [HideInInspector] public GameObject[] m_SpawnerList;
     private int m_CurrentZombies = 0;
     [SerializeField] private int m_MaxZombies = 30;
     private int m_ZombiesPerRound;
@@ -74,8 +76,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        m_SpawnerList = new GameObject[6];
         m_State = TState.PLAYINGROUNDS;
         m_ZombiesPerRound = 6;
+        for (int i = 0;i < m_SpawnerList.Length; i++)
+        {
+            
+        }
         //m_PauseUI.gameObject.SetActive(false);
         //m_WinUI.gameObject.SetActive(false);
         //m_GameOverUI.gameObject.SetActive(false);
@@ -266,8 +273,15 @@ public class GameManager : MonoBehaviour
         m_Camera = Camera;
     }
 
+    // SPAWNERS
+
+    public GameObject[] GetSpawners()
+    {
+        return m_SpawnerList;
+    }
 
     //ZOMBIE
+
     public bool CanSpawnZombie()
     {
         return m_CurrentZombies < m_ZombiesPerRound;
@@ -342,8 +356,6 @@ public class GameManager : MonoBehaviour
     {
         m_LastState = state; 
     }
-
-
 
     public float GetBuffedZombieSpeed()
     {

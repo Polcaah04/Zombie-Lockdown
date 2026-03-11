@@ -20,13 +20,12 @@ public class Gambling : MonoBehaviour
     [SerializeField] private float m_NerfSpeed = 1.25f;
     [SerializeField] private float m_RegenDelayRatio = 0.5f;
     [SerializeField] private float m_RegenRateRatio = 0.6f;
-    [SerializeField] private float m_SecondChanceLife = 0.65f;
 
     [Header("Gun Modifiers")]
 
-    [SerializeField] private float m_FireRateReduction = 0.2f;
-    [SerializeField] private float m_InfiniteFireRateValue = 0.1f;
-    [SerializeField] private int m_MiniGunDamage = 20;
+    [SerializeField] private float m_FireRateReduction = 0.1f;
+    [SerializeField] private float m_InfiniteFireRateReduction = 0.2f;
+    [SerializeField] private int m_MiniGunDamageBuff = 15;
     [SerializeField] private int m_NerfAmmo = 2;
 
     [Header("Zombie Modifiers")]
@@ -106,7 +105,7 @@ public class Gambling : MonoBehaviour
             }
             else if (l_RandomValue < 0.76)
             {
-                GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_InfiniteFireRateValue, m_MiniGunDamage);
+                GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_InfiniteFireRateReduction, m_MiniGunDamageBuff);
                 GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(15f, 6));
             }
             else if (l_RandomValue < 0.88)
@@ -116,7 +115,7 @@ public class Gambling : MonoBehaviour
             }
             else if (l_RandomValue < 1)
             {
-                GameManager.GetGameManager().GetPlayer().SecondChance(true, m_SecondChanceLife);
+                GameManager.GetGameManager().GetPlayer().SecondChance(true);
                 GameManager.GetGameManager().m_BuffList.AddRange((System.Collections.Generic.IEnumerable<IEnumerator>)TimeCoroutine(30f, 8));
             }
         }
@@ -173,43 +172,42 @@ public class Gambling : MonoBehaviour
         switch (coroutineValue)
         {
             case 1:
-
+                GameManager.GetGameManager().GetPlayer().BuffHealthRegen(1/m_RegenDelayRatio, 1/m_RegenRateRatio);
                 break;
             case 2:
-
                 break;
             case 3:
-
+                GameManager.GetGameManager().GetPlayer().BuffDamage(-m_DamageAdded);
                 break;
             case 4:
-
+                GameManager.GetGameManager().GetPlayer().BuffFireRate(-m_FireRateReduction);
                 break;
              case 5:
-
+                GameManager.GetGameManager().GetPlayer().BuffSpeed(1 / m_BuffSpeed);    
                 break;
             case 6:
-
+                GameManager.GetGameManager().GetPlayer().InfiniteAmmo(-m_InfiniteFireRateReduction, -m_MiniGunDamageBuff);
                 break;
             case 7:
-
+                GameManager.GetGameManager().GetPlayer().MakeInvincible(false);
                 break;
             case 8:
-
+                GameManager.GetGameManager().GetPlayer().SecondChance(false);
                 break;
             case 9:
-
+                GameManager.GetGameManager().GetPlayer().NerfMaxAmmo(1 / m_NerfAmmo);
                 break;
             case 10:
-
+                GameManager.GetGameManager().GetPlayer().NerfSpeed(1 / m_NerfSpeed);
                 break;
             case 11:
-
+                //GameManager.GetGameManager()
                 break;
             case 12:
-
+                GameManager.GetGameManager().GetCamera().IncreaseFOV();
                 break;
             case 13:
-
+                //GameManager.GetGameManager().
                 break;
         }
 

@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_Speed = 2f;
     private bool m_IsInvincible = false;
     private bool m_HasSecondChance = false;
-    private float m_SecondLifeHp;
+    private float m_SecondLifeHp = 0.65f;
 
     [Header("Life Regen")]
     [SerializeField] private float m_RegenDelay = 5f;
@@ -93,9 +93,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
-        
-
+    {       
         if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
             return;
 
@@ -350,14 +348,14 @@ public class PlayerController : MonoBehaviour
         m_FireRate -= value;
     }
 
-    public void InfiniteAmmo(float fireRateValue, int damageValue)
+    public void InfiniteAmmo(float fireRateValueReduction, int damageValueBuff)
     {
-        m_FireRate = fireRateValue;
+        m_FireRate -= fireRateValueReduction;
         if (m_FireRate <= 0f)
         {
             m_FireRate = 0.1f;
         }
-        m_Damage = damageValue;
+        m_Damage += damageValueBuff;
     }
 
     public void BuffDamage(int value)
@@ -370,10 +368,10 @@ public class PlayerController : MonoBehaviour
         m_IsInvincible = value;
     }
 
-    public void SecondChance(bool value, float lifeSet)
+    public void SecondChance(bool value)
     {
         m_HasSecondChance = value;
-        m_SecondLifeHp = lifeSet;        
+
     }
 
     public void NerfMaxAmmo(int value)
