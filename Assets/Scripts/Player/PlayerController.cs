@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] private AudioClip m_shoot;
     [SerializeField] private AudioClip m_reload;
+    [SerializeField] private AudioClip m_dmg;
 
     void Start()
     {
@@ -228,6 +229,7 @@ public class PlayerController : MonoBehaviour
     {
         if (m_IsInvincible == false)
         {
+            AudioSource.PlayClipAtPoint(m_dmg, transform.position);
             m_CurrentLife -= damage;
             OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
 

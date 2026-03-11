@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CoinItem
   m_MinCoins: 5
   m_MaxCoins: 12
+  m_coins: {fileID: 8300000, guid: 33353887a06e0624a9411cac63eada24, type: 3}
 --- !u!58 &4378172738540660699
 CircleCollider2D:
   m_ObjectHideFlags: 0

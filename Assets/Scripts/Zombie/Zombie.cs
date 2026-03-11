@@ -33,7 +33,13 @@ public class Zombie : MonoBehaviour
     Rigidbody2D rb;
     PlayerController l_Player;
 
-    
+
+    [Header("Sounds")]
+    [SerializeField] private AudioClip m_zombieHit;
+    [SerializeField] private AudioClip m_zombieAtk;
+    [SerializeField] private AudioClip m_zombieDie;
+
+
     private float m_AttackTimer;
     //private float l_RotateTimer = 0;
     private float l_TimeToRotate;
@@ -135,6 +141,7 @@ public class Zombie : MonoBehaviour
 
             if (m_AttackTimer >= m_AttackTime)
             {
+                AudioSource.PlayClipAtPoint(m_zombieAtk, transform.position);
                 l_Player.PlayerTakeDamage(m_Damage);
                 m_AttackTimer = 0f;
             }
@@ -153,6 +160,7 @@ public class Zombie : MonoBehaviour
 
     void UpdateDieState()
     {
+        AudioSource.PlayClipAtPoint(m_zombieDie, transform.position);
         DropLoot();
         GameManager.GetGameManager().RegisterZombieDeath();
         Destroy(gameObject);
@@ -196,6 +204,7 @@ public class Zombie : MonoBehaviour
         }
         else
         {
+            AudioSource.PlayClipAtPoint(m_zombieHit, transform.position);
             //meter anim de daño si se quiere
         }
     }
