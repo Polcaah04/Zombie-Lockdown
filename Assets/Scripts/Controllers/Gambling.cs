@@ -87,7 +87,7 @@ public class Gambling : MonoBehaviour
             m_Cost = Mathf.RoundToInt(m_Cost *1.3f);
             if (m_Cost >= 400)
             {
-                //m_Cost = 400;
+                m_Cost = 400;
             }
 
             if (l_RandomValue < 0.15)
@@ -143,7 +143,7 @@ public class Gambling : MonoBehaviour
             m_Cost = Mathf.RoundToInt(m_Cost * 0.85f);
             if (m_Cost <= 40)
             {
-                //m_Cost = 40;
+                m_Cost = 40;
             }
 
             if (l_RandomValue < 0.2)
