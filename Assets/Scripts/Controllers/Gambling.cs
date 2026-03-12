@@ -1,9 +1,6 @@
 ﻿using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public class Gambling : MonoBehaviour
 {

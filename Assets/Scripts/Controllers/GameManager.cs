@@ -22,9 +22,6 @@ public class GameManager : MonoBehaviour
     PlayerController m_Player;
     CameraController m_Camera;
     UIManager m_UIManager;
-    //[SerializeField] private GameObject m_WinUI;
-    //[SerializeField] private GameObject m_GameOverUI;
-    //[SerializeField] private GameObject m_PauseUI;
 
     //Times
     private float m_RoundsDisplayedTime;
@@ -56,7 +53,6 @@ public class GameManager : MonoBehaviour
     private float m_ZombieSpeedMultiplier = 1;
     private float m_ZombieSpawnRateMultiplier = 1;
 
-
     public event Action<PlayerController> OnPlayerReady;
     public event Action<int> OnCoinsChanged;
     public event Action<int> OnTimeChanged;
@@ -76,11 +72,6 @@ public class GameManager : MonoBehaviour
     {
         m_State = TState.PLAYINGROUNDS;
         m_ZombiesPerRound = 6;
-
-        //m_PauseUI.gameObject.SetActive(false);
-        //m_WinUI.gameObject.SetActive(false);
-        //m_GameOverUI.gameObject.SetActive(false);
-
     }
 
     private void Update()
@@ -95,7 +86,6 @@ public class GameManager : MonoBehaviour
             UpdateRest();
         }
     }
-
     public void WinGame()
     {
         m_State = TState.WIN;
@@ -125,8 +115,7 @@ public class GameManager : MonoBehaviour
     }
 
     void UpdateRest()
-    {
-        
+    {    
         if (m_CurrentZombies > 0)
         {
             m_StateTimer = 0f;
@@ -174,6 +163,7 @@ public class GameManager : MonoBehaviour
     }
 
     // GAME MANAGER
+
     public static GameManager GetGameManager()
     {
         return m_GameManager;
@@ -217,13 +207,10 @@ public class GameManager : MonoBehaviour
     {
         return m_Camera;
     }
-
     public void SetCamera(CameraController Camera)
     {
         m_Camera = Camera;
     }
-
-
 
     // SPAWNERS
 
@@ -289,6 +276,7 @@ public class GameManager : MonoBehaviour
     }
 
     // COINS
+
     public void AddCoins(int coinsCollected)
     {
         m_Coins += coinsCollected;
