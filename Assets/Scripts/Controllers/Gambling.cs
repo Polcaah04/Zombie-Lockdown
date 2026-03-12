@@ -29,7 +29,10 @@ public class Gambling : MonoBehaviour
     [Header("Zombie Modifiers")]
     [SerializeField] private float m_ZombieSpeedMultiplier = 1.1f;
     [SerializeField] private float m_BuffZombieSpawnRate = 0.6f;
-    
+
+    [Header("Zombie Modifiers")]
+    [SerializeField] private Sprite m_DamageIcon;
+
     void Update()
     {   if (GameManager.GetGameManager().GetPlayer() != null)
         {
@@ -89,6 +92,7 @@ public class Gambling : MonoBehaviour
             {
                 GameManager.GetGameManager().GetPlayer().BuffDamage(m_DamageAdded);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 3));
+                GameManager.NotifyBuff(m_DamageIcon, 60f);
 
             }
             else if (l_RandomValue < 2)

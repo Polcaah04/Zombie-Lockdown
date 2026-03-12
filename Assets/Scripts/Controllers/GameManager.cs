@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
 
     //BuffCoroutine
     public List<IEnumerator> m_BuffList = new List<IEnumerator>();
+    public static event Action<Sprite, float> OnBuffObtained;
 
     //Difficulty
     private float m_Difficulty = 0;
@@ -340,5 +341,11 @@ public class GameManager : MonoBehaviour
     public void SetPreviousState(TState state)
     {
         m_LastState = state; 
+    }
+
+    //EVENTS
+    public static void NotifyBuff(Sprite icon, float duration)
+    {
+        OnBuffObtained?.Invoke(icon, duration);
     }
 }

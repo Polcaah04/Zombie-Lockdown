@@ -8792,6 +8792,7 @@ MonoBehaviour:
   m_NerfAmmo: 2
   m_ZombieSpeedMultiplier: 1.1
   m_BuffZombieSpawnRate: 0.6
+  m_DamageIcon: {fileID: 0}
 --- !u!1 &316236548
 GameObject:
   m_ObjectHideFlags: 0
@@ -12205,6 +12206,8 @@ MonoBehaviour:
   t_Coins: {fileID: 743053771}
   t_Ammo: {fileID: 302849507}
   t_Time: {fileID: 1601350004}
+  m_BuffIconPrefab: {fileID: 0}
+  m_BuffPanel: {fileID: 2129064001}
 --- !u!1 &1167998727
 GameObject:
   m_ObjectHideFlags: 0

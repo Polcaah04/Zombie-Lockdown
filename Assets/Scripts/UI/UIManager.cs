@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI t_Time;
     PlayerController l_Player;
 
+    [SerializeField] private GameObject m_BuffIconPrefab;
+    [SerializeField] private Transform m_BuffPanel;
     private void Start()
     {
         GameManager l_GameController = GameManager.GetGameManager();
@@ -62,6 +64,22 @@ public class UIManager : MonoBehaviour
         UpdateAmmo(l_Player.m_CurrentAmmo, l_Player.m_CurrentAmmoOnBack);
         UpdateTime((int)GameManager.GetGameManager().GetRoundTime());
 
+    }
+
+    void OnEnable()
+    {
+        GameManager.OnBuffObtained += AddBuffIcon;
+    }
+    void OnDisable()
+    {
+        GameManager.OnBuffObtained -= AddBuffIcon;
+    }
+
+    void AddBuffIcon(Sprite icon, float duration)
+    {
+        GameObject obj = Instantiate(m_BuffIconPrefab, m_BuffPanel);
+        BuffIcon iconScript = obj.GetComponent<BuffIcon>();
+        iconScript.Init(icon, duration);
     }
 }
 
