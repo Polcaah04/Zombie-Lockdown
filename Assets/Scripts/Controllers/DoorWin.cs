@@ -36,7 +36,7 @@ public class DoorWin : MonoBehaviour
             if (interactText != null)
             {
                 interactText.gameObject.SetActive(true);
-                interactText.text = $"[E] Interactuar - Precio: {m_Price}";
+                interactText.text = $"[{Settings.m_InteractKey}] Interactuar - Precio: {m_Price}";
             }
         }
     }

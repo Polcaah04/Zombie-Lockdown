@@ -112,10 +112,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
   m_Life: 20
-  m_Speed: 1
-  m_Damage: 5
-  m_AttackDistance: 1
-  m_AttackTime: 1
+  m_Speed: 2
+  m_Damage: 20
+  m_AttackDistance: 1.5
+  m_AttackTime: 0.3
   m_PlayerLayer:
     serializedVersion: 2
     m_Bits: 64
