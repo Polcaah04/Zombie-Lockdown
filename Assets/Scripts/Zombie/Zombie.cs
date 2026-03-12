@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Zombie : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class Zombie : MonoBehaviour
     [SerializeField] private AudioClip m_zombieAtk;
     [SerializeField] private AudioClip m_zombieDie;
 
+    [Header("Skins list")]
+    public float mdsrghd = 4;
+    [SerializeField] public List<Sprite> m_SkinList;
+    private SpriteRenderer m_Sprite;
+
 
     private float m_AttackTimer;
     //private float l_RotateTimer = 0;
@@ -59,6 +65,12 @@ public class Zombie : MonoBehaviour
 
     void Start()
     {
+        m_Sprite = GetComponent<SpriteRenderer>();
+        if (m_SkinList != null && m_SkinList.Count > 0)
+        {
+            int randomIndex = Random.Range(0, m_SkinList.Count);
+            m_Sprite.sprite = m_SkinList[randomIndex];
+        }
         GameManager.GetGameManager().RegisterZombie(this);
         m_Life *= GameManager.GetGameManager().GetLifeMuliplier();
         m_CurrentLife = Mathf.RoundToInt(m_Life);

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2928465878623289631}
   - component: {fileID: -892437809551795064}
   - component: {fileID: -6655813470452654748}
-  - component: {fileID: 1607237015720186316}
   m_Layer: 8
   m_Name: Zombie
   m_TagString: Zombie
@@ -131,6 +130,12 @@ MonoBehaviour:
   m_zombieHit: {fileID: 8300000, guid: 43f7226766654f347b21ec33166b0ed2, type: 3}
   m_zombieAtk: {fileID: 8300000, guid: f49fb50cc295fdd45b8fa70504103868, type: 3}
   m_zombieDie: {fileID: 8300000, guid: 2e9c0cc0a9c148d40a3fccd83d33addd, type: 3}
+  mdsrghd: 4
+  m_SkinList:
+  - {fileID: 7142061342198825578, guid: 3fa0cc2851c4a624facd82f66dc497a0, type: 3}
+  - {fileID: 4638499374909295537, guid: 763c359d605a45b4ba14f313949ce3ea, type: 3}
+  - {fileID: -8900466672808593219, guid: 527e2e035baf4e94680e5b00e6871057, type: 3}
+  - {fileID: -547594700542077868, guid: 45ab297762d2b9b46b10833c2bfd3831, type: 3}
 --- !u!212 &-6655813470452654748
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -178,7 +183,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6019453725058403666, guid: ef0f343e60f7124489574080003b08d6, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -186,28 +191,6 @@ SpriteRenderer:
   m_Size: {x: 0.42, y: 0.42}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &1607237015720186316
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8594345147568461736}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1d36a137bb7cc1b4197f778a1e946659, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
