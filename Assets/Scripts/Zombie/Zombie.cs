@@ -35,6 +35,9 @@ public class Zombie : MonoBehaviour
 
 
     [Header("Sounds")]
+    [SerializeField] private AudioClip m_zombie1;
+    [SerializeField] private AudioClip m_zombie2;
+    [SerializeField] private AudioClip m_zombie3;
     [SerializeField] private AudioClip m_zombieHit;
     [SerializeField] private AudioClip m_zombieAtk;
     [SerializeField] private AudioClip m_zombieDie;
@@ -43,6 +46,11 @@ public class Zombie : MonoBehaviour
     private float m_AttackTimer;
     //private float l_RotateTimer = 0;
     private float l_TimeToRotate;
+    private float m_minSoundTime = 4f;
+    private float m_maxSoundTime = 12f;
+    private float m_soundTime;
+    private float m_time;
+    private int m_zombieSound;
 
     enum TState
     {
@@ -70,10 +78,26 @@ public class Zombie : MonoBehaviour
         //m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
         l_TimeToRotate = Random.Range(1, 4);
         SetChaseState();
+        m_soundTime = Random.Range(m_minSoundTime, m_maxSoundTime);
     }
 
     void Update()
     {
+        m_time += Time.deltaTime;
+        if (m_time >= m_soundTime)
+        {
+            m_zombieSound = Random.Range(1, 4);
+            switch (m_zombieSound)
+            {
+                case 1: AudioSource.PlayClipAtPoint(m_zombie1, transform.position); break;
+
+                case 2:  AudioSource.PlayClipAtPoint(m_zombie2, transform.position); break;
+
+                case 3:  AudioSource.PlayClipAtPoint(m_zombie3, transform.position); break;
+            }
+            m_time = 0;
+            m_soundTime = Random.Range(m_minSoundTime, m_maxSoundTime);
+        }
         switch (m_State)
         {
             case TState.CHASE: UpdateChaseState(); break;
