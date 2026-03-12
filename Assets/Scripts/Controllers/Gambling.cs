@@ -85,6 +85,10 @@ public class Gambling : MonoBehaviour
         if (l_RandomBuffOrDebuff < 0.55)
         {
             m_Cost = (int)(m_Cost *1.3f);
+            if (m_Cost >= 400)
+            {
+                m_Cost = 400;
+            }
             Debug.Log("Chose buff.");
             if (l_RandomValue < 0.15)
             {
@@ -137,6 +141,10 @@ public class Gambling : MonoBehaviour
         else if (l_RandomBuffOrDebuff < 1)
         {
             m_Cost = (int)(m_Cost * 0.85f);
+            if (m_Cost <= 40)
+            {
+                m_Cost = 40;
+            }
             Debug.Log("Chose debuff.");
             if (l_RandomValue < 0.2)
             {
