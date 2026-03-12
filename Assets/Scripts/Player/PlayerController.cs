@@ -234,7 +234,8 @@ public class PlayerController : MonoBehaviour
             if (m_HitBloodEffect != null)
             {
                 Vector3 spawnPos = transform.position + transform.up * 0.1f;
-                Instantiate(m_HitBloodEffect, spawnPos, Quaternion.identity);
+                GameObject l_Particles = Instantiate(m_HitBloodEffect, spawnPos, Quaternion.identity);
+                StartCoroutine(DestroyParticles(l_Particles));
             }
                 
             ShowDamageOverlay();
@@ -304,7 +305,14 @@ public class PlayerController : MonoBehaviour
 
     void CreateShootHitParticles(Vector2 position)
     {
-        Instantiate(m_HitEffect, position, Quaternion.identity);
+        GameObject l_Particles = Instantiate(m_HitEffect, position, Quaternion.identity);
+        StartCoroutine(DestroyParticles(l_Particles));
+    }
+
+    IEnumerator DestroyParticles(GameObject particles)
+    {
+        yield return new WaitForSeconds(0.4f);
+        Destroy(particles);
     }
 
     //UI DAMAGE

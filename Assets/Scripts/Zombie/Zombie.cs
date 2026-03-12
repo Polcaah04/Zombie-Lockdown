@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
+using System.Collections;
 
 public class Zombie : MonoBehaviour
 {
@@ -78,7 +78,6 @@ public class Zombie : MonoBehaviour
         {
             case TState.CHASE: UpdateChaseState(); break;
             case TState.ATTACK: UpdateAttackState(); break;
-            case TState.DIE: UpdateDieState(); break;
         }
     }
 
@@ -157,39 +156,20 @@ public class Zombie : MonoBehaviour
     void SetDieState()
     {
         m_State = TState.DIE;
+        StartCoroutine(DieCoroutine());
+
     }
 
-    void UpdateDieState()
+    IEnumerator DieCoroutine()
     {
         AudioSource.PlayClipAtPoint(m_zombieDie, transform.position);
         DropLoot();
         GameManager.GetGameManager().UnregisterZombie(this);
         GameManager.GetGameManager().RegisterZombieDeath();
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 
-    /*bool SeesPlayer()
-    {
-        Vector2 l_Direction = l_Player.transform.position - rb.transform.position;
-        if (l_Direction.magnitude > m_ViewDistance)
-            return false;
-
-        RaycastHit2D l_Hit = Physics2D.Raycast(transform.position, l_Direction.normalized, m_ViewDistance, m_ObstacleLayer | m_PlayerLayer);
-
-        return l_Hit && l_Hit.collider.CompareTag("Player");
-    }
-
-     void Rotation()
-     {
-        l_RotateTimer += Time.deltaTime;
-
-        if (l_RotateTimer >= l_TimeToRotate)
-        {
-            transform.Rotate(0, 0, Random.Range(-60, 60));
-            l_TimeToRotate = Random.Range(1, 3);
-            l_RotateTimer = 0;
-        }
-     }*/
 
     public void ZombieTakeDamage(int damage, Vector2 hitPoint)
     {
@@ -197,7 +177,8 @@ public class Zombie : MonoBehaviour
 
         if (m_HitBloodEffect != null)
         {
-            Instantiate(m_HitBloodEffect, hitPoint, Quaternion.identity);
+            GameObject l_Particles = Instantiate(m_HitBloodEffect, hitPoint, Quaternion.identity);
+            StartCoroutine(DestroyParticles(l_Particles));
         }
 
         if (m_CurrentLife <= 0)
@@ -210,6 +191,12 @@ public class Zombie : MonoBehaviour
             //meter anim de daño si se quiere
         }
     }
+
+    IEnumerator DestroyParticles(GameObject particles)
+    {
+        yield return new WaitForSeconds(0.4f);
+        Destroy(particles);
+    }
     void Move(Vector2 direction)
     {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
@@ -221,10 +208,9 @@ public class Zombie : MonoBehaviour
 
     void DropLoot()
     {
-        //por ahora solo añadira dinero
         Instantiate(m_CoinPrefab, transform.position, Quaternion.identity);
         float rnd = Random.value;
-        if (rnd < 0.3f)
+        if (rnd < 0.4f)
         {
             Instantiate(m_AmmoItemPrefab, transform.position, Quaternion.identity);
         }
