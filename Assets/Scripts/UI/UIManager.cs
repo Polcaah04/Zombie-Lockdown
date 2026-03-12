@@ -94,15 +94,17 @@ public class UIManager : MonoBehaviour
 
         switch (buffName)
         {
-            case "Regen":
-                iconToActivate = m_RegenLifeIcon;
-                break;
-            case "Damage":
-                iconToActivate = m_DamageIcon;
-                break;
-            case "Speed":
-                iconToActivate = m_LowSpeedIcon;
-                break;
+            //case "Regen": iconToActivate = m_RegenIcon; break;
+            case "MaxLife": iconToActivate = m_MaxLifeIcon; break;
+            case "Damage": iconToActivate = m_DamageIcon; break;
+            case "FireRate": iconToActivate = m_FireRateIcon; break;
+            //case "Speed": iconToActivate = m_SpeedIcon; break;
+            case "InfiniteShoot": iconToActivate = m_InfiniteShootIcon; break;
+            //case "Invincible": iconToActivate = m_InvincibleIcon; break;
+            //case "SecondChance": iconToActivate = m_SecondChanceIcon; break;
+            case "LowAmmo": iconToActivate = m_LowAmmoIcon; break;
+            case "LowSpeed": iconToActivate = m_LowSpeedIcon; break;
+            case "LowVision": iconToActivate = m_LowVisionIcon; break;
         }
 
         if (iconToActivate != null)
