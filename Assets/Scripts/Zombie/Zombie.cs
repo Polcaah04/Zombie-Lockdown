@@ -187,6 +187,9 @@ public class Zombie : MonoBehaviour
     IEnumerator DieCoroutine()
     {
         m_Speed = 0;
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+        GetComponent<Collider2D>().enabled = false;
         AudioSource.PlayClipAtPoint(m_zombieDie, transform.position);
         yield return new WaitForSeconds(0.4f);
         DropLoot();
