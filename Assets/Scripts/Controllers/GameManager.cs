@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     private float m_StateTimer = 0f;
 
     //BuffCoroutine
-    public List<IEnumerator> m_BuffList = new List<IEnumerator>();
+    public Dictionary<int, Coroutine> m_ActiveBuffs = new Dictionary<int, Coroutine>();
     public static event Action<string, bool> OnBuffObtained;
 
     //Difficulty
@@ -100,13 +100,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateRound()
     {
-        foreach (IEnumerator l_Coroutine in m_BuffList)
-        {
-            StartCoroutine(l_Coroutine);
-        }
-        m_BuffList.Clear();
-
-        OnTimeChanged?.Invoke((int)m_StateTimer);
+        OnTimeChanged?.Invoke(Mathf.RoundToInt(m_StateTimer));
 
         if (m_StateTimer >= roundDuration)
         {
@@ -122,7 +116,7 @@ public class GameManager : MonoBehaviour
             return;
         }          
 
-        OnTimeChanged?.Invoke((int)m_StateTimer);
+        OnTimeChanged?.Invoke(Mathf.RoundToInt(m_StateTimer));
 
         if (m_StateTimer >= restDuration)
         {
@@ -155,7 +149,7 @@ public class GameManager : MonoBehaviour
 
         if (m_ZombiesPerRound < m_MaxZombies)
         {
-            m_ZombiesPerRound += (int)(m_BaseMultiplier + (m_Difficulty / 2f));
+            m_ZombiesPerRound += Mathf.RoundToInt(m_BaseMultiplier + (m_Difficulty / 2f));
 
             if (m_ZombiesPerRound > m_MaxZombies)
                 m_ZombiesPerRound = m_MaxZombies;
@@ -179,7 +173,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         m_State = TState.PLAYINGROUNDS;
-
+        m_StateTimer = 0;
         m_Coins = 0;
         m_CurrentZombies = 0;
         m_Difficulty = 0;
@@ -338,5 +332,19 @@ public class GameManager : MonoBehaviour
     public static void NotifyBuff(string buffName, bool isActivated)
     {
         OnBuffObtained?.Invoke(buffName, isActivated);
+    }
+
+    // GAMBLING
+
+    public void StartBuff(MonoBehaviour owner, IEnumerator coroutine, int buffID)
+    {
+        if (m_ActiveBuffs.ContainsKey(buffID))
+        {
+            owner.StopCoroutine(m_ActiveBuffs[buffID]);
+            m_ActiveBuffs.Remove(buffID);
+        }
+
+        Coroutine newCoroutine = owner.StartCoroutine(coroutine);
+        m_ActiveBuffs.Add(buffID, newCoroutine);
     }
 }

@@ -79,7 +79,7 @@ public class UIManager : MonoBehaviour
         UpdateLife(l_Player.m_CurrentLife, l_Player.m_Life);
         UpdateCoins(GameManager.GetGameManager().GetCoins());
         UpdateAmmo(l_Player.m_CurrentAmmo, l_Player.m_CurrentAmmoOnBack);
-        UpdateTime((int)GameManager.GetGameManager().GetRoundTime());
+        UpdateTime(Mathf.RoundToInt(GameManager.GetGameManager().GetRoundTime()));
 
     }
 

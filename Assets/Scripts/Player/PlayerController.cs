@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_Speed = 2f;
     private bool m_IsInvincible = false;
     private bool m_HasSecondChance = false;
-    private float m_SecondLifeHp = 0.65f;
+    private float m_SecondLifeHp = 0.66f;
 
     [Header("Life Regen")]
     [SerializeField] private float m_RegenDelay = 5f;
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_ShootMaxDistance = 50.0f;
     [SerializeField] private LayerMask m_ShootLayerMask;
     [SerializeField] private GameObject m_LineTracer;
+    private bool m_InfiniteAmmo = false;
     private float m_NextFire = 0;
     [SerializeField] private int m_Damage = 10;
     [Header ("Weapon")]
@@ -190,7 +191,8 @@ public class PlayerController : MonoBehaviour
             GameObject tracer = Instantiate(m_LineTracer);
             tracer.GetComponent<BulletTracer>().Init(origin, endPos);
         }    
-        SetAmmo(m_CurrentAmmo - 1, m_CurrentAmmoOnBack);
+        if (!m_InfiniteAmmo)
+            SetAmmo(m_CurrentAmmo - 1, m_CurrentAmmoOnBack);
         m_NextFire = Time.time + m_FireRate;
     }
 
@@ -218,7 +220,7 @@ public class PlayerController : MonoBehaviour
     void SetAmmo(int onLoad, int back)
     {
         m_CurrentAmmo = Mathf.Clamp(onLoad, 0, m_MaxAmmo);
-        m_CurrentAmmoOnBack = Mathf.Max(back, 0);
+        m_CurrentAmmoOnBack = Mathf.Clamp(back, 0, m_MaxAmmoOnBack);
         OnAmmoChanged?.Invoke(m_CurrentAmmo, m_CurrentAmmoOnBack);
     }
 
@@ -259,7 +261,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (m_HasSecondChance == true)
             {
-                m_CurrentLife = (int)(m_Life * m_SecondLifeHp);
+                m_CurrentLife = Mathf.RoundToInt(m_Life * m_SecondLifeHp);
                 OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
                 m_HasSecondChance = false;
             }
@@ -299,6 +301,7 @@ public class PlayerController : MonoBehaviour
     {
 
         //meter animacion de muerte
+        m_CurrentLife = 0;
         Destroy(this.gameObject);
         GameManager.GetGameManager().GameOver();
         
@@ -353,7 +356,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddMaxLife(float multiplier)
     {
-        m_Life = (int)(m_Life * multiplier);
+        m_Life = Mathf.RoundToInt(m_Life * multiplier);
         StartLifeRegen();
     }
 
@@ -364,10 +367,10 @@ public class PlayerController : MonoBehaviour
 
     public void BuffFireRate(float value)
     {
-        m_FireRate -= value;
+        m_FireRate = Mathf.Max(0.05f, m_FireRate - value);
     }
 
-    public void InfiniteAmmo(float fireRateValueReduction, int damageValueBuff)
+    public void InfiniteAmmo(float fireRateValueReduction, int damageValueBuff, bool isInfinite)
     {
         m_FireRate -= fireRateValueReduction;
         if (m_FireRate <= 0f)
@@ -375,6 +378,7 @@ public class PlayerController : MonoBehaviour
             m_FireRate = 0.1f;
         }
         m_Damage += damageValueBuff;
+        m_InfiniteAmmo = isInfinite;
     }
 
     public void BuffDamage(int value)
@@ -393,18 +397,21 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void NerfMaxAmmo(int value)
+    public void NerfMaxAmmo(float value)
     {
-        m_MaxAmmo /= value;
-        m_MaxAmmoOnBack /= value;
-        if (m_CurrentAmmo > m_MaxAmmo)
-        {
-            m_CurrentAmmo = m_MaxAmmo;
-        }
-        if (m_CurrentAmmoOnBack > m_MaxAmmoOnBack)
-        {
-            m_CurrentAmmoOnBack = m_MaxAmmoOnBack;
-        }
+        Debug.Log(value);
+        Debug.Log(m_MaxAmmo / value);
+        Debug.Log(m_MaxAmmoOnBack / value);
+        m_MaxAmmo = Mathf.Max(1, Mathf.RoundToInt(m_MaxAmmo / value));
+        m_MaxAmmoOnBack = Mathf.Max(0, Mathf.RoundToInt(m_MaxAmmoOnBack / value));
+        Debug.Log(m_MaxAmmo);
+        Debug.Log(m_MaxAmmoOnBack);
+
+        m_CurrentAmmo = Mathf.Clamp(m_CurrentAmmo, 0, m_MaxAmmo);
+        m_CurrentAmmoOnBack = Mathf.Clamp(m_CurrentAmmoOnBack, 0, m_MaxAmmoOnBack);
+        Debug.Log(m_CurrentAmmo);
+        Debug.Log(m_CurrentAmmoOnBack);
+
         OnAmmoChanged?.Invoke(m_CurrentAmmo, m_CurrentAmmoOnBack);
     }
 

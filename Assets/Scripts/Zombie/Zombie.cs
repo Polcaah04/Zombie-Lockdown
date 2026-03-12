@@ -9,10 +9,6 @@ public class Zombie : MonoBehaviour
 
     [SerializeField] private float m_Speed = 2f;
 
-    /*[Header ("Sight")]
-    [SerializeField] private float m_ViewDistance = 4f;
-    [SerializeField] private int m_MaxViewDistance = 6;*/
-
     [Header("Attack")]
     [SerializeField] private int m_Damage = 5;
     [SerializeField] private float m_AttackDistance = 1f;
@@ -20,8 +16,6 @@ public class Zombie : MonoBehaviour
 
     [SerializeField] private LayerMask m_PlayerLayer;
     [SerializeField] private LayerMask m_ObstacleLayer;
-    //[SerializeField] private GameObject[] m_PatrolPoints;
-    //private int m_RandomPoint;
 
     [Header("Particles")]
     [SerializeField] private GameObject m_HitBloodEffect;
@@ -67,15 +61,13 @@ public class Zombie : MonoBehaviour
     {
         GameManager.GetGameManager().RegisterZombie(this);
         m_Life *= GameManager.GetGameManager().GetLifeMuliplier();
-        m_CurrentLife = (int)m_Life;
+        m_CurrentLife = Mathf.RoundToInt(m_Life);
         m_Speed *= GameManager.GetGameManager().GetSpeedMultiplier() * GameManager.GetGameManager().GetZombieSpeedBuff();
         rb = GetComponent<Rigidbody2D>();
         l_Player = GameManager.GetGameManager().GetPlayer();
         if (l_Player == null)
             l_Player = GameManager.GetGameManager().GetPlayer();
 
-        //m_PatrolPoints = GameObject.FindGameObjectsWithTag("Point");
-        //m_RandomPoint = Random.Range(0, m_PatrolPoints.Length);
         l_TimeToRotate = Random.Range(1, 4);
         SetChaseState();
         m_soundTime = Random.Range(m_minSoundTime, m_maxSoundTime);
@@ -122,7 +114,6 @@ public class Zombie : MonoBehaviour
             Move(l_DirectionChase);
         else
         {
-            // probar izquierda
             Vector2 left = Quaternion.Euler(0, 0, 90) * l_DirectionChase;
             RaycastHit2D leftHit = Physics2D.Raycast(transform.position, left, 0.7f, m_ObstacleLayer);
 
@@ -132,7 +123,6 @@ public class Zombie : MonoBehaviour
             }
             else
             {
-                // probar derecha
                 Vector2 right = Quaternion.Euler(0, 0, -90) * l_DirectionChase;
                 Move(right);
             }
