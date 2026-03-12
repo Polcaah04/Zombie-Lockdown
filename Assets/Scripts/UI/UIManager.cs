@@ -12,10 +12,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI t_Time;
     PlayerController l_Player;
 
-    [SerializeField] private GameObject m_BuffIconPrefab;
-    [SerializeField] private Transform m_BuffPanel;
 
     [Header("Icons")]
+    [SerializeField] private Transform m_BuffPanel;
     [SerializeField] private GameObject m_DamageIcon;
     [SerializeField] private GameObject m_FireRateIcon;
     [SerializeField] private GameObject m_InfiniteShootIcon;

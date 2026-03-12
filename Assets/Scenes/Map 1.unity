@@ -178,12 +178,12 @@ GameObject:
   - component: {fileID: 49492255}
   - component: {fileID: 49492254}
   m_Layer: 5
-  m_Name: Buffs (2)
+  m_Name: InfiniteShoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &49492253
 RectTransform:
   m_ObjectHideFlags: 0
@@ -198,9 +198,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 489.59314, y: -104.722534}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &49492254
@@ -11033,12 +11033,12 @@ GameObject:
   - component: {fileID: 884550544}
   - component: {fileID: 884550543}
   m_Layer: 5
-  m_Name: Buffs
+  m_Name: Damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &884550542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11053,9 +11053,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 45.918625, y: -104.722534}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &884550543
@@ -11244,12 +11244,12 @@ GameObject:
   - component: {fileID: 914104699}
   - component: {fileID: 914104698}
   m_Layer: 5
-  m_Name: Buffs (6)
+  m_Name: LowSpeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &914104697
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11264,9 +11264,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1476.9421, y: -104.722534}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &914104698
@@ -11990,12 +11990,12 @@ GameObject:
   - component: {fileID: 1129471655}
   - component: {fileID: 1129471654}
   m_Layer: 5
-  m_Name: Buffs (5)
+  m_Name: LowAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1129471653
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12010,9 +12010,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1230.1049, y: -104.722534}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1129471654
@@ -12349,6 +12349,14 @@ MonoBehaviour:
   t_Time: {fileID: 1601350004}
   m_BuffIconPrefab: {fileID: 0}
   m_BuffPanel: {fileID: 2129064001}
+  m_DamageIcon: {fileID: 884550541}
+  m_FireRateIcon: {fileID: 1862444880}
+  m_InfiniteShootIcon: {fileID: 49492252}
+  m_MaxLifeIcon: {fileID: 2131060436}
+  m_RegenLifeIcon: {fileID: 1468150052}
+  m_LowAmmoIcon: {fileID: 1129471652}
+  m_LowSpeedIcon: {fileID: 914104696}
+  m_LowVisionIcon: {fileID: 1267110740}
 --- !u!1 &1167998727
 GameObject:
   m_ObjectHideFlags: 0
@@ -12680,12 +12688,12 @@ GameObject:
   - component: {fileID: 1267110743}
   - component: {fileID: 1267110742}
   m_Layer: 5
-  m_Name: Buffs (7)
+  m_Name: LowVision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1267110741
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12700,9 +12708,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1723.7794, y: -104.722534}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1267110742
@@ -14104,12 +14112,12 @@ GameObject:
   - component: {fileID: 1468150055}
   - component: {fileID: 1468150054}
   m_Layer: 5
-  m_Name: Buffs (4)
+  m_Name: RegenLife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1468150053
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14124,9 +14132,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 983.26764, y: -104.722534}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1468150054
@@ -22451,12 +22459,12 @@ GameObject:
   - component: {fileID: 1862444883}
   - component: {fileID: 1862444882}
   m_Layer: 5
-  m_Name: Buffs (1)
+  m_Name: FireRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1862444881
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22471,9 +22479,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 242.75587, y: -104.722534}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1862444882
@@ -23397,12 +23405,12 @@ GameObject:
   - component: {fileID: 2131060439}
   - component: {fileID: 2131060438}
   m_Layer: 5
-  m_Name: Buffs (3)
+  m_Name: MaxLife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2131060437
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23417,9 +23425,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2129064001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 736.43036, y: -104.722534}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &2131060438
