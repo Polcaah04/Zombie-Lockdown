@@ -177,12 +177,25 @@ public class GameManager : MonoBehaviour
         m_Coins = 0;
         m_CurrentZombies = 0;
         m_Difficulty = 0;
+        
 
         m_RestDisplayedTime = 0;
         m_ZombiesPerRound = 6;
         m_ZombieLifeMultiplier = 1;
         m_ZombieSpeedMultiplier = 1;
         m_ZombieSpawnRateMultiplier = 1;
+    }
+
+    // UI MANAGER
+
+    public UIManager GetUIManager()
+    {
+        return m_UIManager;
+    }
+
+    public void SetUIManager(UIManager manager)
+    {
+        m_UIManager = manager;
     }
 
     // PLAYER

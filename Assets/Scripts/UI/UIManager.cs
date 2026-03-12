@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject m_BuffSpeedIcon;
     [SerializeField] private GameObject m_InfiniteShootIcon;
     [SerializeField] private GameObject m_InvincibleIcon;
-    [SerializeField] private GameObject m_SecondChanceIcon;
+    public GameObject m_SecondChanceIcon;
     [SerializeField] private GameObject m_LowAmmoIcon;
     [SerializeField] private GameObject m_LowSpeedIcon;
     [SerializeField] private GameObject m_BuffZombieSpeedIcon;
@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         GameManager l_GameController = GameManager.GetGameManager();
+        l_GameController.SetUIManager(this);
         l_GameController.OnPlayerReady += OnPlayerReady;
         if (l_GameController.GetPlayer() != null)
         {

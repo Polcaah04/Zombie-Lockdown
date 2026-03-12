@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_Speed = 2f;
     private bool m_IsInvincible = false;
     private bool m_HasSecondChance = false;
-    private float m_SecondLifeHp = 0.66f;
+    private float m_SecondLifeHp = 0.65f;
 
     [Header("Life Regen")]
     [SerializeField] private float m_RegenDelay = 5f;
@@ -263,6 +263,7 @@ public class PlayerController : MonoBehaviour
             {
                 m_CurrentLife = Mathf.RoundToInt(m_Life * m_SecondLifeHp);
                 OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
+                GameManager.GetGameManager().GetUIManager().m_SecondChanceIcon.SetActive(false);
                 m_HasSecondChance = false;
             }
             
