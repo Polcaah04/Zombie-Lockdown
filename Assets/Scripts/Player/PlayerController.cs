@@ -260,6 +260,8 @@ public class PlayerController : MonoBehaviour
             else if (m_HasSecondChance == true)
             {
                 m_CurrentLife = (int)(m_Life * m_SecondLifeHp);
+                OnLifeChanged?.Invoke(m_CurrentLife, m_Life);
+                m_HasSecondChance = false;
             }
             
         }
