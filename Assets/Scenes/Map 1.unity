@@ -12347,7 +12347,6 @@ MonoBehaviour:
   t_Coins: {fileID: 743053771}
   t_Ammo: {fileID: 302849507}
   t_Time: {fileID: 1601350004}
-  m_BuffIconPrefab: {fileID: 0}
   m_BuffPanel: {fileID: 2129064001}
   m_DamageIcon: {fileID: 884550541}
   m_FireRateIcon: {fileID: 1862444880}
@@ -12765,11 +12764,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.6736352
+      value: 1.41
       objectReference: {fileID: 0}
     - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5308251
+      value: -9.95
       objectReference: {fileID: 0}
     - target: {fileID: 8584498028744590351, guid: c7b1dcf9c0d7d10489d2d4834ef5a575, type: 3}
       propertyPath: m_LocalPosition.z
