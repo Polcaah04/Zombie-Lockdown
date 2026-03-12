@@ -125,6 +125,9 @@ MonoBehaviour:
   m_HitBloodEffect: {fileID: 8006062907716545557, guid: 974d3b9569d18a94abd57c0e5dc2b4e1, type: 3}
   m_CoinPrefab: {fileID: 5138766526655102918, guid: 15e66da02263e17468842f906cb502af, type: 3}
   m_AmmoItemPrefab: {fileID: 7720497664166880994, guid: be5595df44d33644f9fbef928334bb9b, type: 3}
+  m_zombie1: {fileID: 8300000, guid: b79d1b0c7c6acbe4bb85228b30722d04, type: 3}
+  m_zombie2: {fileID: 8300000, guid: c5440a4185bab11419d0065fd9ca852f, type: 3}
+  m_zombie3: {fileID: 8300000, guid: 512373f004f161d45ade6066da9cd123, type: 3}
   m_zombieHit: {fileID: 8300000, guid: 43f7226766654f347b21ec33166b0ed2, type: 3}
   m_zombieAtk: {fileID: 8300000, guid: f49fb50cc295fdd45b8fa70504103868, type: 3}
   m_zombieDie: {fileID: 8300000, guid: 2e9c0cc0a9c148d40a3fccd83d33addd, type: 3}
