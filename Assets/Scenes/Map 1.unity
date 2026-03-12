@@ -8706,12 +8706,12 @@ MonoBehaviour:
   m_NerfSpeed: 1.25
   m_RegenDelayRatio: 0.5
   m_RegenRateRatio: 0.6
-  m_SecondChanceLife: 0.65
   m_FireRateReduction: 0.2
-  m_InfiniteFireRateValue: 0.1
-  m_MiniGunDamage: 20
+  m_InfiniteFireRateReduction: 0.2
+  m_MiniGunDamageBuff: 15
   m_NerfAmmo: 2
   m_ZombieSpeedMultiplier: 1.1
+  m_BuffZombieSpawnRate: 0.6
 --- !u!1 &316236548
 GameObject:
   m_ObjectHideFlags: 0

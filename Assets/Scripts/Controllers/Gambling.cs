@@ -31,11 +31,13 @@ public class Gambling : MonoBehaviour
     [SerializeField] private float m_BuffZombieSpawnRate = 0.6f;
     
     void Update()
-    {       
-        if (OnRange() &&Input.GetKeyDown(Settings.m_InteractKey))
+    {   if (GameManager.GetGameManager().GetPlayer() != null)
         {
-            Pay();
-        }
+            if (OnRange() && Input.GetKeyDown(Settings.m_InteractKey))
+            {
+                Pay();
+            }
+        }       
     }
 
     void Pay()
