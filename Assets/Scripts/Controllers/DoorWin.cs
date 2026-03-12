@@ -1,14 +1,16 @@
 using UnityEngine;
+using TMPro;
 
 public class DoorWin : MonoBehaviour
 {
     [SerializeField] private int m_Price = 500;
 
     private bool m_PlayerInside = false;
+    [SerializeField] private TextMeshProUGUI interactText;
 
     private void Update()
     {
-        if (m_PlayerInside && Input.GetKeyDown(KeyCode.E))
+        if (m_PlayerInside && Input.GetKeyDown(Settings.m_InteractKey))
         {
             TryBuyDoor();
         }
@@ -31,7 +33,11 @@ public class DoorWin : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             m_PlayerInside = true;
-            Debug.Log("Pulsa E para abrir la puerta");
+            if (interactText != null)
+            {
+                interactText.gameObject.SetActive(true);
+                interactText.text = $"[E] Interactuar - Precio: {m_Price}";
+            }
         }
     }
 
@@ -40,6 +46,8 @@ public class DoorWin : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             m_PlayerInside = false;
+            if (interactText != null)
+                interactText.gameObject.SetActive(false);
         }
     }
 }

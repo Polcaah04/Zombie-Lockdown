@@ -1,6 +1,8 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Gambling : MonoBehaviour
 {
@@ -8,7 +10,7 @@ public class Gambling : MonoBehaviour
     [SerializeField] private int m_Cost = 300;
     private float m_DistanceToInteract = 2.5f;
     [SerializeField] private AudioClip m_audio;
-
+    [SerializeField] private TextMeshProUGUI interactText;
 
     [Header("Player Basic Modifiers")]
 
@@ -36,6 +38,15 @@ public class Gambling : MonoBehaviour
     void Update()
     {   if (GameManager.GetGameManager().GetPlayer() != null)
         {
+            bool inRange = OnRange();
+
+            if (interactText != null)
+            {
+                interactText.gameObject.SetActive(inRange);
+                if (inRange)    
+                    interactText.text = $"[{Settings.m_InteractKey}] Interact - Price: {m_Cost}";
+            }
+
             if (OnRange() && Input.GetKeyDown(Settings.m_InteractKey))
             {
                 Pay();
