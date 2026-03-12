@@ -75,7 +75,6 @@ public class PlayerController : MonoBehaviour
         m_CurrentAmmoOnBack = m_MaxAmmoOnBack / 2;
         m_CurrentLife = m_Life;
         m_RigidBody = GetComponent<Rigidbody2D>();
-        m_Animator = GetComponent<Animator>();
 
         PlayerController l_Player = GameManager.GetGameManager().GetPlayer();
         if (l_Player != null)
@@ -131,7 +130,8 @@ public class PlayerController : MonoBehaviour
 
         // ANIMATION RUNNING
         bool isRunning = inputDir != Vector2.zero;
-        m_Animator.SetBool("isRunning", isRunning);
+        if (m_Animator != null)
+            m_Animator.SetBool("isRunning", isRunning);
 
         //ROTATION
         transform.rotation = Quaternion.Euler(0, 0, angle);

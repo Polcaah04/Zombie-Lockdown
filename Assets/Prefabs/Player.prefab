@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7362734147470399754}
   - component: {fileID: 9097333420742211568}
   - component: {fileID: 7636842907295548629}
-  - component: {fileID: 8623091184184080428}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -106,6 +105,7 @@ MonoBehaviour:
   m_FireRate: 0.3
   m_HitBloodEffect: {fileID: 8006062907716545557, guid: 974d3b9569d18a94abd57c0e5dc2b4e1, type: 3}
   m_WeaponAnimator: {fileID: 3928155480578527781}
+  m_Animator: {fileID: 1064312664601536961}
   m_Weapon: {fileID: 7578417859262515014}
   m_SprintMultiplier: 1.5
   m_DamageOverlay: {fileID: 0}
@@ -140,28 +140,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!95 &8623091184184080428
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856512957146476043}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3ba127635e3ec8948a869bfdaf9e1c5a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6110554799514670908
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3565797387373793915}
   - component: {fileID: 7743474553563249649}
-  - component: {fileID: 7490419226792484605}
+  - component: {fileID: 1064312664601536961}
   m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
@@ -253,7 +231,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &7490419226792484605
+--- !u!95 &1064312664601536961
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -263,7 +241,7 @@ Animator:
   m_GameObject: {fileID: 6110554799514670908}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3ba127635e3ec8948a869bfdaf9e1c5a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 97e3a5dc03f1d314d99e11fb3c5d8c92, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
