@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public class Gambling : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Gambling : MonoBehaviour
     [SerializeField] private float m_LifeMultiplier = 1.2f;
     [SerializeField] private int m_DamageAdded = 5;
     [SerializeField] private float m_BuffSpeed = 1.15f;
-    [SerializeField] private float m_NerfSpeed = 1.25f;
+    [SerializeField] private float m_NerfSpeed = 1.15f;
     [SerializeField] private float m_RegenDelayRatio = 0.5f;
     [SerializeField] private float m_RegenRateRatio = 0.6f;
 
@@ -86,79 +87,83 @@ public class Gambling : MonoBehaviour
 
         if (l_RandomBuffOrDebuff < 1)
         {
+            m_Cost = (int)(m_Cost *1.3f);
             Debug.Log("Chose buff.");
-            if (l_RandomValue < 1)
+            if (l_RandomValue < 0.1)
             {
-                Debug.Log("Healing factor");
                 GameManager.GetGameManager().GetPlayer().BuffHealthRegen(m_RegenDelayRatio, m_RegenRateRatio);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(30f, 1));
-                //GameManager.NotifyBuff("Regen", 30f); 
+                GameManager.NotifyBuff("Regen", true); 
             }
-            else if (l_RandomValue < 2)
+            else if (l_RandomValue < 1)
             {
                 GameManager.GetGameManager().GetPlayer().AddMaxLife(m_LifeMultiplier);
-                GameManager.NotifyBuff("MaxLife", 0f);
+                GameManager.NotifyBuff("MaxLife", true);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().BuffDamage(m_DamageAdded);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 3));
-                GameManager.NotifyBuff("Damage", 60f);
-
+                GameManager.NotifyBuff("Damage", true);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().BuffFireRate(m_FireRateReduction);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 4));
-                GameManager.NotifyBuff("FireRate", 60f);
+                GameManager.NotifyBuff("FireRate", true);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().BuffSpeed(m_BuffSpeed);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 5));
+                GameManager.NotifyBuff("Speed", true);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_InfiniteFireRateReduction, m_MiniGunDamageBuff);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(15f, 6));
-                GameManager.NotifyBuff("InfiniteShoot", 15f);
+                GameManager.NotifyBuff("InfiniteShoot", true);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().MakeInvincible(true);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(20f, 7));
+                GameManager.NotifyBuff("Invincible", true);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().SecondChance(true);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(30f, 8));
+                GameManager.NotifyBuff("SecondChance", true);
             }
         }
         else if (l_RandomBuffOrDebuff < 2)
         {
+            m_Cost = (int)(m_Cost * 0.85f);
             Debug.Log("Chose debuff.");
             if (l_RandomValue < 0.2)
             {
                 GameManager.GetGameManager().GetPlayer().NerfMaxAmmo(m_NerfAmmo);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 9));
-                GameManager.NotifyBuff("LowAmmo", 60f);
+                GameManager.NotifyBuff("LowAmmo", true);
             }
             else if (l_RandomValue < 0.4)
             {
                 GameManager.GetGameManager().GetPlayer().NerfSpeed(m_NerfSpeed);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 10));
-                GameManager.NotifyBuff("LowSpeed", 60f);
+                GameManager.NotifyBuff("LowSpeed", true);
             }
             else if (l_RandomValue < 0.6)
             {
                 GameManager.GetGameManager().BuffAllZombieSpeed(m_ZombieSpeedMultiplier);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 11));
+                GameManager.NotifyBuff("ZombieSpeed", true);
             }
             else if (l_RandomValue < 0.8)
             {
                 GameManager.GetGameManager().GetCamera().ReduceFOV();
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 12));
-                GameManager.NotifyBuff("LowVision", 60f);
+                GameManager.NotifyBuff("LowVision", true);
             }
             else if (l_RandomValue < 1)
             {
@@ -167,6 +172,7 @@ public class Gambling : MonoBehaviour
                     spawner.IncreaseSpawnRate(m_BuffZombieSpawnRate);
                 }
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 13));
+                GameManager.NotifyBuff("ZombieSpawnRate", true);
             }
         }          
     }
@@ -188,44 +194,54 @@ public class Gambling : MonoBehaviour
             case 1:
                 Debug.Log("Normal health regen");
                 GameManager.GetGameManager().GetPlayer().BuffHealthRegen(1/m_RegenDelayRatio, 1/m_RegenRateRatio);
-                break;
-            case 2:
+                GameManager.NotifyBuff("Regen", false);
                 break;
             case 3:
                 GameManager.GetGameManager().GetPlayer().BuffDamage(-m_DamageAdded);
+                GameManager.NotifyBuff("Damage", false);
                 break;
             case 4:
                 GameManager.GetGameManager().GetPlayer().BuffFireRate(-m_FireRateReduction);
+                GameManager.NotifyBuff("FireRate", false);
                 break;
              case 5:
-                GameManager.GetGameManager().GetPlayer().BuffSpeed(1 / m_BuffSpeed);    
+                GameManager.GetGameManager().GetPlayer().BuffSpeed(1 / m_BuffSpeed);
+                GameManager.NotifyBuff("Speed", false);
                 break;
             case 6:
                 GameManager.GetGameManager().GetPlayer().InfiniteAmmo(-m_InfiniteFireRateReduction, -m_MiniGunDamageBuff);
+                GameManager.NotifyBuff("InfiniteShoot", false);
                 break;
             case 7:
                 GameManager.GetGameManager().GetPlayer().MakeInvincible(false);
+                GameManager.NotifyBuff("Invincible", false);
                 break;
             case 8:
                 GameManager.GetGameManager().GetPlayer().SecondChance(false);
+                GameManager.NotifyBuff("SecondChance", false);
                 break;
             case 9:
                 GameManager.GetGameManager().GetPlayer().NerfMaxAmmo(1 / m_NerfAmmo);
+                GameManager.NotifyBuff("LowAmmo", false);
                 break;
             case 10:
                 GameManager.GetGameManager().GetPlayer().NerfSpeed(1 / m_NerfSpeed);
+                GameManager.NotifyBuff("LowSpeed", false);
                 break;
             case 11:
                 GameManager.GetGameManager().BuffAllZombieSpeed(1 / m_ZombieSpeedMultiplier);
+                GameManager.NotifyBuff("ZombieSpeed", false);
                 break;
             case 12:
                 GameManager.GetGameManager().GetCamera().IncreaseFOV();
+                GameManager.NotifyBuff("LowVision", false);
                 break;
             case 13:
                 foreach (ZombieSpawner spawner in GameManager.GetGameManager().GetSpawners())
                 {
                     spawner.IncreaseSpawnRate(1/m_BuffZombieSpawnRate);
                 }
+                GameManager.NotifyBuff("ZombieSpawnRate", false);
                 break;
         }
     }

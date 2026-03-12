@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     static GameManager m_GameManager;
     PlayerController m_Player;
     CameraController m_Camera;
+    UIManager m_UIManager;
     //[SerializeField] private GameObject m_WinUI;
     //[SerializeField] private GameObject m_GameOverUI;
     //[SerializeField] private GameObject m_PauseUI;
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     //BuffCoroutine
     public List<IEnumerator> m_BuffList = new List<IEnumerator>();
-    public static event Action<string, float> OnBuffObtained;
+    public static event Action<string, bool> OnBuffObtained;
 
     //Difficulty
     private float m_Difficulty = 0;
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
     private List<Zombie> m_Zombies = new List<Zombie>(); //Only for buffs
     private List<ZombieSpawner> m_Spawners = new List<ZombieSpawner>(); //Only for buffs
 
-    [HideInInspector] public int m_Coins { get; private set; } = 10;
+    [HideInInspector] public int m_Coins { get; private set; } = 0;
 
     private float m_ZombieLifeMultiplier = 1;
     private float m_ZombieSpeedMultiplier = 1;
@@ -222,6 +223,8 @@ public class GameManager : MonoBehaviour
         m_Camera = Camera;
     }
 
+
+
     // SPAWNERS
 
     public void RegisterSpawner(ZombieSpawner spawner)
@@ -344,8 +347,8 @@ public class GameManager : MonoBehaviour
     }
 
     //EVENTS
-    public static void NotifyBuff(string buffName, float duration)
+    public static void NotifyBuff(string buffName, bool isActivated)
     {
-        OnBuffObtained?.Invoke(buffName, duration);
+        OnBuffObtained?.Invoke(buffName, isActivated);
     }
 }

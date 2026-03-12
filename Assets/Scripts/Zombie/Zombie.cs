@@ -186,11 +186,12 @@ public class Zombie : MonoBehaviour
 
     IEnumerator DieCoroutine()
     {
+        m_Speed = 0;
         AudioSource.PlayClipAtPoint(m_zombieDie, transform.position);
+        yield return new WaitForSeconds(0.4f);
         DropLoot();
         GameManager.GetGameManager().UnregisterZombie(this);
         GameManager.GetGameManager().RegisterZombieDeath();
-        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 
@@ -218,7 +219,7 @@ public class Zombie : MonoBehaviour
 
     IEnumerator DestroyParticles(GameObject particles)
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.35f);
         Destroy(particles);
     }
     void Move(Vector2 direction)

@@ -321,7 +321,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator DestroyParticles(GameObject particles)
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.35f);
         Destroy(particles);
     }
 
@@ -396,6 +396,15 @@ public class PlayerController : MonoBehaviour
     {
         m_MaxAmmo /= value;
         m_MaxAmmoOnBack /= value;
+        if (m_CurrentAmmo > m_MaxAmmo)
+        {
+            m_CurrentAmmo = m_MaxAmmo;
+        }
+        if (m_CurrentAmmoOnBack > m_MaxAmmoOnBack)
+        {
+            m_CurrentAmmoOnBack = m_MaxAmmoOnBack;
+        }
+        OnAmmoChanged?.Invoke(m_CurrentAmmo, m_CurrentAmmoOnBack);
     }
 
     public void NerfSpeed(float value)

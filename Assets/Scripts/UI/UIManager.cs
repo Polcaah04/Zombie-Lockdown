@@ -15,14 +15,19 @@ public class UIManager : MonoBehaviour
 
     [Header("Icons")]
     [SerializeField] private Transform m_BuffPanel;
-    [SerializeField] private GameObject m_DamageIcon;
-    [SerializeField] private GameObject m_FireRateIcon;
-    [SerializeField] private GameObject m_InfiniteShootIcon;
+    [SerializeField] private GameObject m_HealingFactorIcon;
     [SerializeField] private GameObject m_MaxLifeIcon;
-    [SerializeField] private GameObject m_RegenLifeIcon;
+    [SerializeField] private GameObject m_BuffDamageIcon;
+    [SerializeField] private GameObject m_BuffFireRateIcon;
+    [SerializeField] private GameObject m_BuffSpeedIcon;
+    [SerializeField] private GameObject m_InfiniteShootIcon;
+    [SerializeField] private GameObject m_InvincibleIcon;
+    [SerializeField] private GameObject m_SecondChanceIcon;
     [SerializeField] private GameObject m_LowAmmoIcon;
     [SerializeField] private GameObject m_LowSpeedIcon;
+    [SerializeField] private GameObject m_BuffZombieSpeedIcon;
     [SerializeField] private GameObject m_LowVisionIcon;
+    [SerializeField] private GameObject m_BuffZombieSpawnRateIcon;
 
 
     private void Start()
@@ -88,37 +93,42 @@ public class UIManager : MonoBehaviour
         GameManager.OnBuffObtained -= ActivateBuff;
     }
 
-    public void ActivateBuff(string buffName, float duration)
+    public void ActivateBuff(string buffName, bool isActivated)
     {
         GameObject iconToActivate = null;
 
         switch (buffName)
         {
-            //case "Regen": iconToActivate = m_RegenIcon; break;
-            case "MaxLife": iconToActivate = m_MaxLifeIcon; break;
-            case "Damage": iconToActivate = m_DamageIcon; break;
-            case "FireRate": iconToActivate = m_FireRateIcon; break;
-            //case "Speed": iconToActivate = m_SpeedIcon; break;
+            case "Regen": iconToActivate = m_HealingFactorIcon; break;
+            case "MaxLife": iconToActivate = m_MaxLifeIcon; StartCoroutine(LifeIconCoroutine(iconToActivate)); break;
+            case "Damage": iconToActivate = m_BuffDamageIcon; break;
+            case "FireRate": iconToActivate = m_BuffFireRateIcon; break;
+            case "Speed": iconToActivate = m_BuffSpeedIcon; break;
             case "InfiniteShoot": iconToActivate = m_InfiniteShootIcon; break;
-            //case "Invincible": iconToActivate = m_InvincibleIcon; break;
-            //case "SecondChance": iconToActivate = m_SecondChanceIcon; break;
+            case "Invincible": iconToActivate = m_InvincibleIcon; break;
+            case "SecondChance": iconToActivate = m_SecondChanceIcon; break;
             case "LowAmmo": iconToActivate = m_LowAmmoIcon; break;
             case "LowSpeed": iconToActivate = m_LowSpeedIcon; break;
+            case "ZombieSpeed": iconToActivate = m_BuffZombieSpeedIcon; break;
             case "LowVision": iconToActivate = m_LowVisionIcon; break;
+            case "ZombieSpawnRate": iconToActivate = m_BuffZombieSpawnRateIcon; break;
         }
 
         if (iconToActivate != null)
         {
-            iconToActivate.SetActive(true);
-            if (duration > 0)
-                StartCoroutine(DeactivateAfter(iconToActivate, duration));
+            iconToActivate.SetActive(isActivated);
+            
         }
     }
 
-    private IEnumerator DeactivateAfter(GameObject icon, float time)
+    IEnumerator LifeIconCoroutine(GameObject icon)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(2f);
         icon.SetActive(false);
+
     }
+
+
+
 }
 
