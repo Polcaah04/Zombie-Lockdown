@@ -69,6 +69,9 @@ public class Gambling : MonoBehaviour
     {
         float l_RandomBuffOrDebuff = Random.value;
         float l_RandomValue = Random.value;
+        //if (l_RandomValue < 0.2)
+        //else if (l_RandomValue < 0.4)
+        //else if (l_RandomValue < 0.6)
         if (l_RandomBuffOrDebuff < 1)
         {
             Debug.Log("Chose buff.");
