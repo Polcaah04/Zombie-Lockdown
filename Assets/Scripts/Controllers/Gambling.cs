@@ -85,59 +85,59 @@ public class Gambling : MonoBehaviour
         float l_RandomBuffOrDebuff = Random.value;
         float l_RandomValue = Random.value;
 
-        if (l_RandomBuffOrDebuff < 1)
+        if (l_RandomBuffOrDebuff < 0.55)
         {
             m_Cost = (int)(m_Cost *1.3f);
             Debug.Log("Chose buff.");
-            if (l_RandomValue < 0.1)
+            if (l_RandomValue < 0.15)
             {
                 GameManager.GetGameManager().GetPlayer().BuffHealthRegen(m_RegenDelayRatio, m_RegenRateRatio);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(30f, 1));
                 GameManager.NotifyBuff("Regen", true); 
             }
-            else if (l_RandomValue < 1)
+            else if (l_RandomValue < 0.22)
             {
                 GameManager.GetGameManager().GetPlayer().AddMaxLife(m_LifeMultiplier);
                 GameManager.NotifyBuff("MaxLife", true);
             }
-            else if (l_RandomValue < 2)
+            else if (l_RandomValue < 0.4)
             {
                 GameManager.GetGameManager().GetPlayer().BuffDamage(m_DamageAdded);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 3));
                 GameManager.NotifyBuff("Damage", true);
             }
-            else if (l_RandomValue < 2)
+            else if (l_RandomValue < 0.56)
             {
                 GameManager.GetGameManager().GetPlayer().BuffFireRate(m_FireRateReduction);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 4));
                 GameManager.NotifyBuff("FireRate", true);
             }
-            else if (l_RandomValue < 2)
+            else if (l_RandomValue < 0.7)
             {
                 GameManager.GetGameManager().GetPlayer().BuffSpeed(m_BuffSpeed);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 5));
                 GameManager.NotifyBuff("Speed", true);
             }
-            else if (l_RandomValue < 2)
+            else if (l_RandomValue < 0.82)
             {
                 GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_InfiniteFireRateReduction, m_MiniGunDamageBuff);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(15f, 6));
                 GameManager.NotifyBuff("InfiniteShoot", true);
             }
-            else if (l_RandomValue < 2)
+            else if (l_RandomValue < 0.92)
             {
                 GameManager.GetGameManager().GetPlayer().MakeInvincible(true);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(20f, 7));
                 GameManager.NotifyBuff("Invincible", true);
             }
-            else if (l_RandomValue < 2)
+            else if (l_RandomValue < 1)
             {
                 GameManager.GetGameManager().GetPlayer().SecondChance(true);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(30f, 8));
                 GameManager.NotifyBuff("SecondChance", true);
             }
         }
-        else if (l_RandomBuffOrDebuff < 2)
+        else if (l_RandomBuffOrDebuff < 1)
         {
             m_Cost = (int)(m_Cost * 0.85f);
             Debug.Log("Chose debuff.");
