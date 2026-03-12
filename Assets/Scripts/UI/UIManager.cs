@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,6 +14,18 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject m_BuffIconPrefab;
     [SerializeField] private Transform m_BuffPanel;
+
+    [Header("Icons")]
+    [SerializeField] private GameObject m_DamageIcon;
+    [SerializeField] private GameObject m_FireRateIcon;
+    [SerializeField] private GameObject m_InfiniteShootIcon;
+    [SerializeField] private GameObject m_MaxLifeIcon;
+    [SerializeField] private GameObject m_RegenLifeIcon;
+    [SerializeField] private GameObject m_LowAmmoIcon;
+    [SerializeField] private GameObject m_LowSpeedIcon;
+    [SerializeField] private GameObject m_LowVisionIcon;
+
+
     private void Start()
     {
         GameManager l_GameController = GameManager.GetGameManager();
@@ -68,18 +81,43 @@ public class UIManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnBuffObtained += AddBuffIcon;
-    }
-    void OnDisable()
-    {
-        GameManager.OnBuffObtained -= AddBuffIcon;
+        GameManager.OnBuffObtained += ActivateBuff;
     }
 
-    void AddBuffIcon(Sprite icon, float duration)
+    void OnDisable()
     {
-        GameObject obj = Instantiate(m_BuffIconPrefab, m_BuffPanel);
-        BuffIcon iconScript = obj.GetComponent<BuffIcon>();
-        iconScript.Init(icon, duration);
+        GameManager.OnBuffObtained -= ActivateBuff;
+    }
+
+    public void ActivateBuff(string buffName, float duration)
+    {
+        GameObject iconToActivate = null;
+
+        switch (buffName)
+        {
+            case "Regen":
+                iconToActivate = m_RegenLifeIcon;
+                break;
+            case "Damage":
+                iconToActivate = m_DamageIcon;
+                break;
+            case "Speed":
+                iconToActivate = m_LowSpeedIcon;
+                break;
+        }
+
+        if (iconToActivate != null)
+        {
+            iconToActivate.SetActive(true);
+            if (duration > 0)
+                StartCoroutine(DeactivateAfter(iconToActivate, duration));
+        }
+    }
+
+    private IEnumerator DeactivateAfter(GameObject icon, float time)
+    {
+        yield return new WaitForSeconds(time);
+        icon.SetActive(false);
     }
 }
 

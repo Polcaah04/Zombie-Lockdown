@@ -94,22 +94,25 @@ public class Gambling : MonoBehaviour
                 Debug.Log("Healing factor");
                 GameManager.GetGameManager().GetPlayer().BuffHealthRegen(m_RegenDelayRatio, m_RegenRateRatio);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(30f, 1));
+                GameManager.NotifyBuff("m_RegenLifeIcon", 30f);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().AddMaxLife(m_LifeMultiplier);
+                GameManager.NotifyBuff("m_MaxLifeIcon", 0f);
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().BuffDamage(m_DamageAdded);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 3));
-                GameManager.NotifyBuff(m_DamageIcon, 60f);
+                GameManager.NotifyBuff("m_DamageIcon", 60f);
 
             }
             else if (l_RandomValue < 2)
             {
                 GameManager.GetGameManager().GetPlayer().BuffFireRate(m_FireRateReduction);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 4));
+                GameManager.NotifyBuff("m_FireRateIcon", 60f);
             }
             else if (l_RandomValue < 2)
             {
@@ -120,6 +123,7 @@ public class Gambling : MonoBehaviour
             {
                 GameManager.GetGameManager().GetPlayer().InfiniteAmmo(m_InfiniteFireRateReduction, m_MiniGunDamageBuff);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(15f, 6));
+                GameManager.NotifyBuff("m_InfiniteShootIcon", 15f);
             }
             else if (l_RandomValue < 2)
             {
@@ -139,11 +143,13 @@ public class Gambling : MonoBehaviour
             {
                 GameManager.GetGameManager().GetPlayer().NerfMaxAmmo(m_NerfAmmo);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 9));
+                GameManager.NotifyBuff("m_LowAmmoIcon", 15f);
             }
             else if (l_RandomValue < 0.4)
             {
                 GameManager.GetGameManager().GetPlayer().NerfSpeed(m_NerfSpeed);
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 10));
+                GameManager.NotifyBuff("m_LowSpeedIcon", 15f);
             }
             else if (l_RandomValue < 0.6)
             {
@@ -154,6 +160,7 @@ public class Gambling : MonoBehaviour
             {
                 GameManager.GetGameManager().GetCamera().ReduceFOV();
                 GameManager.GetGameManager().m_BuffList.Add(TimeCoroutine(60f, 12));
+                GameManager.NotifyBuff("m_LowVisionIcon", 15f);
             }
             else if (l_RandomValue < 1)
             {
