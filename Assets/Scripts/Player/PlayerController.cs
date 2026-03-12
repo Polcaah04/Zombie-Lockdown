@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_HitBloodEffect;
 
     [Header("Animations")]
-    public Animator m_WeaponAnimator;
-    private Animator m_Animator;
+    [SerializeField] private Animator m_WeaponAnimator;
+    [SerializeField] private Animator m_Animator;
 
 
     [Header("Objects")]
@@ -97,14 +97,18 @@ public class PlayerController : MonoBehaviour
         if (GameManager.GetGameManager().GetState() == GameManager.TState.PAUSED)
             return;
 
+        //MOUSE LOOK
         Cursor.lockState = CursorLockMode.Confined;
         Vector3 l_MousePosition = Input.mousePosition;
         l_MousePosition.z = -Camera.main.transform.position.z;
         Vector3 l_WorldPos = Camera.main.ScreenToWorldPoint(l_MousePosition);
         Vector2 l_LookDirection = l_WorldPos - transform.position;
         float angle = Mathf.Atan2(l_LookDirection.y, l_LookDirection.x) * Mathf.Rad2Deg;
+
+        //RESET MOVEMENT
         m_Movement = Vector2.zero;
 
+        //INPUTS
         if (Input.GetKey(Settings.m_ForwardKey))
             m_Movement.y += m_Speed;
         if (Input.GetKey(Settings.m_BackwardKey))
@@ -124,15 +128,21 @@ public class PlayerController : MonoBehaviour
             speed *= m_SprintMultiplier;
 
         m_Movement = inputDir * speed;
-        m_Animator.SetFloat("speed", m_Movement.magnitude);
 
+        // ANIMATION RUNNING
+        bool isRunning = inputDir != Vector2.zero;
+        m_Animator.SetBool("isRunning", isRunning);
+
+        //ROTATION
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //SHOOT
         if (CanShoot() && Input.GetMouseButtonDown(0) && Time.time >= m_NextFire)
         {
             Shoot();
         }
 
-
+        //RELOAD
         if (CanReload() && Input.GetKeyDown(Settings.m_ReloadKey))
         {
             Reload();

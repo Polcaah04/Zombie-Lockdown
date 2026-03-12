@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7362734147470399754}
   - component: {fileID: 9097333420742211568}
   - component: {fileID: 7636842907295548629}
-  - component: {fileID: 5800291350460603221}
+  - component: {fileID: 8623091184184080428}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -98,8 +98,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   m_LineTracer: {fileID: 6797339335776976767}
-  m_NextFire: 0
-  m_ReloadTime: 2
   m_Damage: 10
   m_MaxAmmo: 8
   m_CurrentAmmo: 8
@@ -107,11 +105,14 @@ MonoBehaviour:
   m_CurrentAmmoOnBack: 40
   m_FireRate: 0.3
   m_HitBloodEffect: {fileID: 8006062907716545557, guid: 974d3b9569d18a94abd57c0e5dc2b4e1, type: 3}
-  m_Animation: {fileID: 3928155480578527781}
+  m_WeaponAnimator: {fileID: 3928155480578527781}
   m_Weapon: {fileID: 7578417859262515014}
   m_SprintMultiplier: 1.5
   m_DamageOverlay: {fileID: 0}
   m_DamageFlashTime: 0.2
+  m_shoot: {fileID: 8300000, guid: cbb4928fbf4f7f24a9ab78a0cfd7c41e, type: 3}
+  m_reload: {fileID: 8300000, guid: 1fd961dea127d3649a6e06af612a6eab, type: 3}
+  m_dmg: {fileID: 8300000, guid: 78e35d22d11782946bae4d4b6d0650fe, type: 3}
 --- !u!50 &7636842907295548629
 Rigidbody2D:
   serializedVersion: 5
@@ -139,7 +140,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!95 &5800291350460603221
+--- !u!95 &8623091184184080428
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -171,7 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3565797387373793915}
   - component: {fileID: 7743474553563249649}
-  - component: {fileID: 3418700497398520174}
+  - component: {fileID: 7490419226792484605}
   m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
@@ -240,7 +241,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2311659948842064771, guid: ee4aad1c3ae7b004296ca6bd5e3c44d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -252,7 +253,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &3418700497398520174
+--- !u!95 &7490419226792484605
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -510,7 +511,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -8781582721970812450, guid: 23a52449de3d4754c9b2e15cc8863329, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -535,7 +536,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: bd5eac39bba946641b5cbd2018274fd8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
